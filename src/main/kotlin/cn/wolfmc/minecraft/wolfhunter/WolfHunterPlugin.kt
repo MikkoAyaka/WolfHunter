@@ -2,10 +2,14 @@ package cn.wolfmc.minecraft.wolfhunter
 
 import cn.wolfmc.minecraft.wolfhunter.application.config.WolfHunterConfig
 import cn.wolfmc.minecraft.wolfhunter.application.service.GameService
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.legacy
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.logT
 import cn.wolfmc.minecraft.wolfhunter.presentation.command.WolfHunterCommand
+import cn.wolfmc.minecraft.wolfhunter.presentation.i18n.I18n
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.logging.Level
 
-class WolfHunterPlugin : JavaPlugin() {
+object WolfHunterPlugin : JavaPlugin() {
     private lateinit var config: WolfHunterConfig
     private lateinit var gameService: GameService
     
@@ -23,8 +27,8 @@ class WolfHunterPlugin : JavaPlugin() {
             command.setExecutor(executor)
             command.tabCompleter = executor
         }
-        
-        logger.info("狼猎人插件已启用")
+
+        logger.logT(Level.INFO,"plugin.enable")
     }
     
     private fun initializeServices() {
@@ -37,6 +41,6 @@ class WolfHunterPlugin : JavaPlugin() {
     
     override fun onDisable() {
         gameService.shutdown()
-        logger.info("狼猎人插件已禁用")
+        logger.logT(Level.INFO,"plugin.disable")
     }
 } 
