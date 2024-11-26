@@ -19,6 +19,10 @@ repositories {
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
+    implementation("org.jetbrains.exposed:exposed-core:0.56.0")
+    implementation("org.jetbrains.exposed:exposed-dao:0.56.0")
+    implementation("org.jetbrains.exposed:exposed-jdbc:0.56.0")
+    implementation("org.xerial:sqlite-jdbc:3.47.0.0")
 }
 
 val targetJavaVersion = 17

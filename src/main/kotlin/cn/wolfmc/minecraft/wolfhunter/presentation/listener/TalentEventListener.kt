@@ -13,9 +13,5 @@ class TalentEventListener(private val plugin: JavaPlugin) : Listener {
     fun onTalentActivated(event: WolfHunterEvent.TalentActivated) {
         plugin.logger.info("玩家 ${event.player.name} 激活了天赋 ${event.talent}")
     }
-    
-    @EventHandler
-    fun onSkillExecuted(event: WolfHunterEvent.SkillExecuted) {
-        plugin.logger.info("玩家 ${event.player.name} 使用了技能 ${event.skill}")
-    }
+
 } 

@@ -1,6 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.command
 
-import cn.wolfmc.minecraft.wolfhunter.application.service.GameService
+import cn.wolfmc.minecraft.wolfhunter.domain.service.GameService
 import org.bukkit.command.Command
 import org.bukkit.command.CommandExecutor
 import org.bukkit.command.CommandSender

@@ -1,14 +1,10 @@
-package cn.wolfmc.minecraft.wolfhunter.application.service
+package cn.wolfmc.minecraft.wolfhunter.domain.service
 
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ApplicationService
 import cn.wolfmc.minecraft.wolfhunter.domain.model.game.Game
 import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameState
-import cn.wolfmc.minecraft.wolfhunter.domain.service.TalentService
-import cn.wolfmc.minecraft.wolfhunter.domain.service.SkillService
 
-class GameService(
+abstract class GameService(
     private val talentService: TalentService,
-    private val skillService: SkillService
 ) : ApplicationService {
     private var currentGame: Game? = null
     
