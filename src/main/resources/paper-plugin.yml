@@ -1,4 +1,4 @@
 name: WolfHunter
 version: '1.0'
-main: cn.wolfmc.minecraft.wolfhunter.wolfHunter.WolfHunter
+main: cn.wolfmc.minecraft.wolfhunter.WolfHunterPlugin
 api-version: '1.18'
