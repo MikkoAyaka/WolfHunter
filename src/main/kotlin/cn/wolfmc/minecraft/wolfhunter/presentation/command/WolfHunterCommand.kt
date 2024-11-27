@@ -1,42 +1,21 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.command
 
-import cn.wolfmc.minecraft.wolfhunter.domain.service.GameService
-import org.bukkit.command.Command
-import org.bukkit.command.CommandExecutor
-import org.bukkit.command.CommandSender
-import org.bukkit.command.TabCompleter
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.command
+import org.bukkit.plugin.java.JavaPlugin
 
-class WolfHunterCommand(
-    private val gameService: GameService
-) : CommandExecutor, TabCompleter {
-    override fun onCommand(
-        sender: CommandSender,
-        command: Command,
-        label: String,
-        args: Array<String>
-    ): Boolean {
-        if (args.isEmpty()) {
-            return false
+fun registerCommands(plugin: JavaPlugin) {
+    plugin.command("wolfhunter") {
+        literal("test1") {
+            runs { sendMessage("test1") }
         }
-        
-        when (args[0].lowercase()) {
-            "start" -> gameService.startGame()
-            "end" -> gameService.endGame()
-            else -> return false
+        literal("test2") {
+            runs { sendMessage("test2") }
+            literal("test3") {
+                runs { sendMessage("test3") }
+            }
         }
-        
-        return true
+        argument<String>("test4") { arg ->
+            runs { sendMessage("test4 arg: $arg") }
+        }
     }
-    
-    override fun onTabComplete(
-        sender: CommandSender,
-        command: Command,
-        label: String,
-        args: Array<String>
-    ): List<String> {
-        if (args.size == 1) {
-            return listOf("start", "end")
-        }
-        return emptyList()
-    }
-} 
+}
