@@ -1,5 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.domain.service
 
+import cn.wolfmc.minecraft.wolfhunter.domain.component.ListenerGroup
 import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameState
 import cn.wolfmc.minecraft.wolfhunter.domain.model.player.GamePlayer
@@ -8,6 +9,7 @@ import java.util.*
 
 abstract class GameService: ApplicationService {
 
+    val listenerGroup = ListenerGroup()
     private var currentGame: GameInstance = GameInstance
     val gameTeams: MutableMap<UUID, GameTeam> = mutableMapOf()
     val gamePlayers: MutableMap<UUID, GamePlayer> = mutableMapOf()
