@@ -1,5 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.listener
 
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.updateGameMode
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.PlayerJoinEvent
@@ -11,11 +12,10 @@ class PlayerEventListener(
 ) : Listener {
     @EventHandler
     fun onPlayerJoin(event: PlayerJoinEvent) {
-        // 处理玩家加入事件
+        event.player.updateGameMode()
     }
     
     @EventHandler
     fun onPlayerQuit(event: PlayerQuitEvent) {
-        // 处理玩家退出事件
     }
 } 

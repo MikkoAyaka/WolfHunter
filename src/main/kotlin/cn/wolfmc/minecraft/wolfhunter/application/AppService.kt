@@ -1,16 +1,16 @@
-package cn.wolfmc.minecraft.wolfhunter.application.service
+package cn.wolfmc.minecraft.wolfhunter.application
 
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.application.config.Config
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.MenuListener
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ApplicationService
+import cn.wolfmc.minecraft.wolfhunter.application.uhc.UHCGameService
+import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.domain.component.ListenerGroup
 import cn.wolfmc.minecraft.wolfhunter.presentation.command.registerCommands
 import cn.wolfmc.minecraft.wolfhunter.presentation.i18n.I18n
 
-object GlobalService: ApplicationService {
+object AppService: ScopeService {
 
-    private val listenerGroup = ListenerGroup(MenuListener)
+    private val listenerGroup = ListenerGroup()
 
     override fun init() {
         Contexts.logger = Contexts.plugin.logger

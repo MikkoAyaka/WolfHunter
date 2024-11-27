@@ -1,15 +1,15 @@
-package cn.wolfmc.minecraft.wolfhunter.infrastructure.event
+package cn.wolfmc.minecraft.wolfhunter.domain.event
 
 import cn.wolfmc.minecraft.wolfhunter.domain.model.talent.Talent
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList
 import org.bukkit.entity.Player
 
-sealed class WolfHunterEvent : Event() {
+sealed class ApplicationEvent : Event() {
     data class TalentActivated(
         val player: Player,
         val talent: Talent
-    ) : WolfHunterEvent() {
+    ) : ApplicationEvent() {
         companion object {
             private val HANDLERS = HandlerList()
             

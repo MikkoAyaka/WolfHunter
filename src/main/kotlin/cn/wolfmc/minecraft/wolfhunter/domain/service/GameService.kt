@@ -7,7 +7,7 @@ import cn.wolfmc.minecraft.wolfhunter.domain.model.player.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.domain.model.team.GameTeam
 import java.util.*
 
-abstract class GameService: ApplicationService {
+abstract class GameService: ScopeService {
 
     val listenerGroup = ListenerGroup()
     private var currentGame: GameInstance = GameInstance

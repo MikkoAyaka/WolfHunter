@@ -1,8 +1,8 @@
-package cn.wolfmc.minecraft.wolfhunter.application.service
+package cn.wolfmc.minecraft.wolfhunter.application.uhc
 
-import cn.wolfmc.minecraft.wolfhunter.domain.service.GameService
+import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 
-object HunterGameService: GameService() {
+object UHCStartingService: ScopeService {
     override fun init() {
         TODO("Not yet implemented")
     }

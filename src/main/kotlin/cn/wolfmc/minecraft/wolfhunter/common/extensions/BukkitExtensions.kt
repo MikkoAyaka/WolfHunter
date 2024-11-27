@@ -5,6 +5,8 @@ import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
+import org.bukkit.event.Event
+import org.bukkit.event.EventHandler
 import org.bukkit.event.HandlerList
 import org.bukkit.event.Listener
 import org.bukkit.inventory.Inventory
@@ -43,3 +45,12 @@ fun Listener.register() {
 fun Listener.unregister() {
     HandlerList.unregisterAll(this)
 }
+fun <T: Event> subscribe(block: (T) -> Unit): Listener {
+    return object : Listener {
+        @EventHandler
+        fun on(event: T) {
+            block.invoke(event)
+        }
+    }
+}
+fun onlinePlayers() = Bukkit.getOnlinePlayers()
