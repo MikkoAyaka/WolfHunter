@@ -17,15 +17,14 @@ fun registerCommands(plugin: JavaPlugin) {
                 runs { sendMessage("test3") }
             }
         }
-        argument<String>("test4") { arg ->
-            runs { sendMessage("test4 arg: $arg") }
+        argument("test4") { arg ->
+            sendMessage("test4 arg: $arg")
         }
-        argument<String>("menu") { arg ->
-            runs {
-                when(arg) {
-                    "main" -> openMenu(mainMenu)
-                    "test" -> openMenu(testMenu)
-                }
+        argument("menu") { arg ->
+            println("into menu")
+            when(arg) {
+                "main" -> openMenu(mainMenu)
+                "test" -> openMenu(testMenu)
             }
         }
     }

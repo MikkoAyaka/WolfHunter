@@ -100,10 +100,14 @@ object MenuListener : Listener {
         if (event.clickedInventory?.holder != VirtualInventoryHolder) return
         event.isCancelled = true
         event.clickedInventory?.findMenu()?.findItem(event.slot)?.run {
-            if (event.isLeftClick) leftClick(player)
-            if (event.isRightClick) rightClick(player)
-            if (event.isLeftClick && event.isShiftClick) leftShiftClick(player)
-            if (event.isRightClick && event.isShiftClick) rightShiftClick(player)
+            event.apply {
+                if (isLeftClick) {
+                    if (isShiftClick) leftShiftClick(player) else leftClick(player)
+                }
+                if (isRightClick) {
+                    if (isShiftClick) rightShiftClick(player) else rightClick(player)
+                }
+            }
         }
     }
 }
