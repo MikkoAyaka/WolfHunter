@@ -6,6 +6,8 @@ import org.bukkit.entity.Player
 
 interface TalentService {
     fun activateTalent(player: Player, talentType: TalentType): Result<Unit>
+
     fun deactivateTalent(player: Player, talentType: TalentType): Result<Unit>
+
     fun getActiveTalents(player: Player): List<Talent>
-} 
+}

@@ -12,11 +12,11 @@ import org.bukkit.event.player.PlayerJoinEvent
 
 val gameModeUpdater =
     subscribe<PlayerJoinEvent> { it.player.updateGameMode() } +
-            subscribe<StateChanged> { onlinePlayers().forEach { it.updateGameMode() } }
+        subscribe<StateChanged> { onlinePlayers().forEach { it.updateGameMode() } }
 
 val protectionUpdater =
     subscribe<PlayerJoinEvent> { it.player.updateInvulnerable() } +
-            subscribe<StateChanged> { onlinePlayers().forEach { it.updateInvulnerable() } }
+        subscribe<StateChanged> { onlinePlayers().forEach { it.updateInvulnerable() } }
 
 val inventoryUpdater =
     subscribe<PlayerJoinEvent> { if (shouldResetPlayerOnJoin(it.player)) it.player.reset() }

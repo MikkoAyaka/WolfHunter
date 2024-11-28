@@ -3,12 +3,12 @@ package cn.wolfmc.minecraft.wolfhunter.application
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.application.config.Config
 import cn.wolfmc.minecraft.wolfhunter.application.uhc.UHCGameService
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.domain.component.ListenerGroup
+import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.presentation.command.registerCommands
 import cn.wolfmc.minecraft.wolfhunter.presentation.i18n.I18n
 
-object AppService: ScopeService {
+object AppService : ScopeService {
 
     private val listenerGroup = ListenerGroup()
 
@@ -34,5 +34,4 @@ object AppService: ScopeService {
         listenerGroup.unregisterAll()
         Contexts.gameService.disable()
     }
-
 }

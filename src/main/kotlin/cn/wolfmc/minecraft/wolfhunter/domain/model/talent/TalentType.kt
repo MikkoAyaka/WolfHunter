@@ -5,9 +5,9 @@ enum class TalentType {
     WOLF_INSTINCT,
     STEALTH_MASTER,
     TRACKING_EXPERT;
-    
+
     companion object {
         fun fromString(value: String): TalentType? =
             entries.find { it.name.equals(value, ignoreCase = true) }
     }
-} 
+}

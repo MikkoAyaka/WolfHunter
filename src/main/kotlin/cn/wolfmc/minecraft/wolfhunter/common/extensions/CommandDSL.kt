@@ -6,7 +6,9 @@ import org.bukkit.command.PluginCommand
 import org.bukkit.plugin.java.JavaPlugin
 
 typealias CommandSenderRunnable = CommandSender.() -> Unit
+
 typealias CommandSenderConsumer = CommandSender.(arg: String) -> Unit
+
 typealias CommandBuilderApplier = CommandBuilder.() -> Unit
 
 fun JavaPlugin.command(name: String, builder: CommandBuilderApplier) {
@@ -64,4 +66,3 @@ class CommandBuilder(private val name: String) {
         false
     }
 }
-
