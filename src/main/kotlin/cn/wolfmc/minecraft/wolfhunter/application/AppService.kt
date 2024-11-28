@@ -21,13 +21,13 @@ object AppService: ScopeService {
         I18n.loadLanguage("zh")
         // 初始化服务(通过配置文件调整模式)
         Contexts.gameService = UHCGameService
-        Contexts.gameService.init()
     }
 
     override fun enable() {
         registerCommands(Contexts.plugin)
         Contexts.gameService.enable()
         listenerGroup.registerAll()
+        Contexts.gameService.init()
     }
 
     override fun disable() {

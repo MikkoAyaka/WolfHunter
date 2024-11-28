@@ -2,7 +2,7 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.game
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
-import cn.wolfmc.minecraft.wolfhunter.domain.event.GameEvent
+import cn.wolfmc.minecraft.wolfhunter.domain.event.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.domain.model.game.TimeCounter
 import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 import kotlinx.coroutines.Job
@@ -26,7 +26,7 @@ object AutomaticGameStarter: ScopeService, TimeCounter {
                 if (playerAmount >= 16 && counter > 60) counter = 60
                 if (counter <= 0) break
             }
-            GameEvent.CountdownFinished(this@AutomaticGameStarter).callEvent()
+            CountdownFinished(this@AutomaticGameStarter).callEvent()
         }
     }
 

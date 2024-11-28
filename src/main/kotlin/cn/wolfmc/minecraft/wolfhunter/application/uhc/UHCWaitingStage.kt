@@ -1,8 +1,9 @@
 package cn.wolfmc.minecraft.wolfhunter.application.uhc
 
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.register
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
-import cn.wolfmc.minecraft.wolfhunter.domain.event.GameEvent
+import cn.wolfmc.minecraft.wolfhunter.domain.event.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setBorder
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setRespawnRadius
@@ -15,7 +16,6 @@ object UHCWaitingStage: ScopeService {
 
     override fun init() {
         gameStarter.init()
-        subscribe<GameEvent.CountdownFinished> { if (it.counter is AutomaticGameStarter) gameStarter.disable() }
     }
 
     override fun enable() {
@@ -24,7 +24,10 @@ object UHCWaitingStage: ScopeService {
             it.setBorder(50.0)
             it.difficulty = Difficulty.PEACEFUL
         }
+        // 计时开始
         gameStarter.enable()
+        // 监听计时结束
+        subscribe<CountdownFinished> { if (it.counter is AutomaticGameStarter) gameStarter.disable() }
     }
 
     override fun disable() {

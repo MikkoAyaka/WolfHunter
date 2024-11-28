@@ -2,7 +2,7 @@ package cn.wolfmc.minecraft.wolfhunter.application.uhc
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.domain.component.plusAssign
-import cn.wolfmc.minecraft.wolfhunter.domain.event.GameEvent
+import cn.wolfmc.minecraft.wolfhunter.domain.event.StateChanged
 import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameState
 import cn.wolfmc.minecraft.wolfhunter.domain.service.GameService
 
@@ -17,7 +17,7 @@ object UHCGameService: GameService() {
         ).forEach { it.init() }
 
         // 阶段变更
-        listenerGroup += subscribe<GameEvent.StateChanged> { e ->
+        listenerGroup += subscribe<StateChanged> { e ->
             currentStateService?.disable()
             currentStateService = when(e.to) {
                 GameState.WAITING -> UHCWaitingStage
@@ -31,7 +31,7 @@ object UHCGameService: GameService() {
 
     override fun enable() {
         listenerGroup.registerAll()
-        wait()
+        gameWait()
     }
 
     override fun disable() {

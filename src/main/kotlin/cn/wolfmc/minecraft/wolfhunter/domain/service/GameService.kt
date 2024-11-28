@@ -15,11 +15,11 @@ abstract class GameService: ScopeService {
     val gameTeams: MutableMap<UUID, GameTeam> = mutableMapOf()
     val gamePlayers: MutableMap<UUID, GamePlayer> = mutableMapOf()
 
-    fun wait() {
+    fun gameWait() {
         currentGame.state = GameState.WAITING
     }
 
-    fun start(): Result<Unit> {
+    fun gameStart(): Result<Unit> {
         if (currentGame.state != GameState.WAITING) {
             return Result.failure(IllegalStateException("Game is not in waiting state"))
         }
@@ -29,7 +29,7 @@ abstract class GameService: ScopeService {
         return Result.success(Unit)
     }
 
-    fun end() {
+    fun gameEnd() {
         currentGame.state = GameState.ENDING
         disable()
     }
