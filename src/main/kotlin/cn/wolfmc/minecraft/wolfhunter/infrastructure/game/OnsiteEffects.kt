@@ -52,3 +52,9 @@ fun Player.updateGameMode() {
     }
 }
 
+fun Player.updateInvulnerable() {
+    isInvulnerable = when (GameInstance.state) {
+        GameState.WAITING,GameState.STARTING -> true
+        GameState.RUNNING,GameState.ENDING -> false
+    }
+}

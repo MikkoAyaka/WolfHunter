@@ -2,7 +2,7 @@ package cn.wolfmc.minecraft.wolfhunter.application.uhc
 
 import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 
-object UHCEndingService: ScopeService {
+object UHCRunningStage: ScopeService {
     override fun init() {
         TODO("Not yet implemented")
     }

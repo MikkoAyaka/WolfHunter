@@ -6,8 +6,9 @@ import org.bukkit.World
 import java.util.*
 
 object GameInstance {
-    var state: GameState = GameState.WAITING
+    var state: GameState = GameState.ENDING
         set(value) {
+            if (field == value) return
             GameEvent.StateChanged(this, field, value).callEvent()
             field = value
         }

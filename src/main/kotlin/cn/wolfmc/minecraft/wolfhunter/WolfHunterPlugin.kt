@@ -8,6 +8,7 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.logT
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.register
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.gameModeUpdater
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.inventoryUpdater
+import cn.wolfmc.minecraft.wolfhunter.presentation.listener.protectionUpdater
 import org.bukkit.plugin.java.JavaPlugin
 import java.util.logging.Level
 
@@ -36,6 +37,7 @@ class WolfHunterPlugin : JavaPlugin() {
     private fun initGlobalListener() {
         MenuDSL.init(this)
         gameModeUpdater.registerAll()
+        protectionUpdater.registerAll()
         inventoryUpdater.register()
     }
 } 
