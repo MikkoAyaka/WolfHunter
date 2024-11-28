@@ -22,9 +22,7 @@ fun World.setRespawnRadius(radius: Int) {
 }
 
 fun initGameRules() {
-    Bukkit.getWorlds().forEach { world ->
-        world.setGameRule(GameRule.KEEP_INVENTORY, true)
-    }
+    Bukkit.getWorlds().forEach { world -> world.setGameRule(GameRule.KEEP_INVENTORY, true) }
 }
 
 fun resetPlayer(player: Player) {
@@ -32,29 +30,37 @@ fun resetPlayer(player: Player) {
     player.level = 0
     player.inventory.clear()
 }
+
 fun Player.reset() = resetPlayer(this)
 
 fun shouldResetPlayerOnJoin(player: Player): Boolean {
     return when (GameInstance.state) {
-        GameState.WAITING,GameState.STARTING -> true
+        GameState.WAITING,
+        GameState.STARTING -> true
         GameState.RUNNING -> !player.isGamePlayer()
         GameState.ENDING -> true
     }
 }
 
 fun Player.updateGameMode() {
-    gameMode = when (GameInstance.state) {
-        GameState.WAITING,GameState.STARTING -> GameMode.ADVENTURE
-        GameState.RUNNING -> {
-            if (isGamePlayer()) GameMode.SURVIVAL else GameMode.SPECTATOR
+    gameMode =
+        when (GameInstance.state) {
+            GameState.WAITING,
+            GameState.STARTING -> GameMode.ADVENTURE
+            GameState.RUNNING -> {
+                if (isGamePlayer()) GameMode.SURVIVAL else GameMode.SPECTATOR
+            }
+
+            GameState.ENDING -> GameMode.CREATIVE
         }
-        GameState.ENDING -> GameMode.CREATIVE
-    }
 }
 
 fun Player.updateInvulnerable() {
-    isInvulnerable = when (GameInstance.state) {
-        GameState.WAITING,GameState.STARTING -> true
-        GameState.RUNNING,GameState.ENDING -> false
-    }
+    isInvulnerable =
+        when (GameInstance.state) {
+            GameState.WAITING,
+            GameState.STARTING -> true
+            GameState.RUNNING,
+            GameState.ENDING -> false
+        }
 }

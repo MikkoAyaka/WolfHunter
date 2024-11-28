@@ -1,8 +1,10 @@
 package cn.wolfmc.minecraft.wolfhunter.common.extensions
 
-import kotlinx.coroutines.CoroutineScope
 import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.*
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
 
 object PluginScope : CoroutineScope {
     private var job: Job? = null
@@ -21,5 +23,6 @@ object PluginScope : CoroutineScope {
         job?.cancel() // 在禁用时取消协程
     }
 
-    fun launch(block: suspend CoroutineScope.() -> Unit): Job = CoroutineScope(coroutineContext).launch(block = block)
+    fun launch(block: suspend CoroutineScope.() -> Unit): Job =
+        CoroutineScope(coroutineContext).launch(block = block)
 }

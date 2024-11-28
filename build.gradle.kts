@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "2.1.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("com.ncorti.ktfmt.gradle") version "0.21.0"
 }
 
 group = "cn.wolfmc.minecraft.wolfhunter"
@@ -31,6 +32,10 @@ dependencies {
 val targetJavaVersion = 17
 kotlin {
     jvmToolchain(targetJavaVersion)
+}
+
+ktfmt{
+    kotlinLangStyle()
 }
 
 tasks.build {

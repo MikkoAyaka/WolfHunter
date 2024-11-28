@@ -7,7 +7,7 @@ import cn.wolfmc.minecraft.wolfhunter.domain.model.player.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.domain.model.team.GameTeam
 import java.util.*
 
-abstract class GameService: ScopeService {
+abstract class GameService : ScopeService {
 
     val listenerGroup = ListenerGroup()
     private var currentGame: GameInstance = GameInstance
@@ -33,6 +33,7 @@ abstract class GameService: ScopeService {
         currentGame.state = GameState.ENDING
         disable()
     }
+
     // 准备开始逻辑
     open fun prepare() {}
 }

@@ -2,7 +2,6 @@ package cn.wolfmc.minecraft.wolfhunter
 
 import be.seeseemelk.mockbukkit.MockBukkit
 import be.seeseemelk.mockbukkit.ServerMock
-import cn.wolfmc.minecraft.wolfhunter.WolfHunterPlugin
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
