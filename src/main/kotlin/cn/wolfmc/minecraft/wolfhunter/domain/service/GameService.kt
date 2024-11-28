@@ -12,6 +12,7 @@ abstract class GameService : ScopeService {
     val listenerGroup = ListenerGroup()
     private var currentGame: GameInstance = GameInstance
     protected var currentStateService: ScopeService? = null
+    protected val mechanism: MutableSet<ScopeService> = mutableSetOf()
     val gameTeams: MutableMap<UUID, GameTeam> = mutableMapOf()
     val gamePlayers: MutableMap<UUID, GamePlayer> = mutableMapOf()
 

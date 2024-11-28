@@ -5,6 +5,10 @@ import cn.wolfmc.minecraft.wolfhunter.domain.component.plusAssign
 import cn.wolfmc.minecraft.wolfhunter.domain.event.StateChanged
 import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameState
 import cn.wolfmc.minecraft.wolfhunter.domain.service.GameService
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.BowAiming
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.FastFurnace
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.ForeverNightVision
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.RangeMining
 
 object UHCGameService : GameService() {
 
@@ -12,6 +16,8 @@ object UHCGameService : GameService() {
         listOf(UHCWaitingStage, UHCStartingStage, UHCRunningStage, UHCEndingStage).forEach {
             it.init()
         }
+        mechanism.addAll(mutableSetOf(BowAiming, FastFurnace, ForeverNightVision, RangeMining))
+        mechanism.forEach { it.init() }
 
         // 阶段变更
         listenerGroup +=
@@ -30,10 +36,12 @@ object UHCGameService : GameService() {
 
     override fun enable() {
         listenerGroup.registerAll()
+        mechanism.forEach { it.enable() }
         gameWait()
     }
 
     override fun disable() {
         listenerGroup.unregisterAll()
+        mechanism.forEach { it.disable() }
     }
 }

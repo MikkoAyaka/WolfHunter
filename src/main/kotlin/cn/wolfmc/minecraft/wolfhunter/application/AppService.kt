@@ -25,9 +25,9 @@ object AppService : ScopeService {
 
     override fun enable() {
         registerCommands(Contexts.plugin)
-        Contexts.gameService.enable()
         listenerGroup.registerAll()
         Contexts.gameService.init()
+        Contexts.gameService.enable()
     }
 
     override fun disable() {

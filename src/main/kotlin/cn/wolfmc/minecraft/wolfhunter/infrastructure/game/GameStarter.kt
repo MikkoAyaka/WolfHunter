@@ -18,7 +18,7 @@ object AutomaticGameStarter : ScopeService, TimeCounter {
     override fun enable() {
         if (job != null) return
         job =
-            PluginScope.launch {
+            PluginScope.async {
                 while (true) {
                     delay(1000)
                     val playerAmount = onlinePlayers().size

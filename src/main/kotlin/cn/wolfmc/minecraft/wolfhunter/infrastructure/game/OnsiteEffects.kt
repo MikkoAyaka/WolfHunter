@@ -7,6 +7,7 @@ import org.bukkit.GameMode
 import org.bukkit.GameRule
 import org.bukkit.World
 import org.bukkit.entity.Player
+import org.bukkit.scoreboard.ScoreboardManager
 
 fun Player.isGamePlayer() = GameInstance.gamePlayers.containsKey(this.uniqueId)
 
@@ -63,4 +64,9 @@ fun Player.updateInvulnerable() {
             GameState.RUNNING,
             GameState.ENDING -> false
         }
+}
+
+fun Player.isEnemy(another: Player): Boolean {
+    // TODO
+    return true
 }

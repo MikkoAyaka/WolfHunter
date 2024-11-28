@@ -9,6 +9,8 @@ class ListenerGroup(val listeners: MutableSet<Listener>) {
 
     constructor(vararg listeners: Listener) : this(listeners.toMutableSet())
 
+    fun clear() = listeners.clear()
+
     fun registerAll() {
         listeners.forEach { it.register() }
     }

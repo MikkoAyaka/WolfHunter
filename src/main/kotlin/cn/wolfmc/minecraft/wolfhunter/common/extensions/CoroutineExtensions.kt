@@ -1,10 +1,10 @@
 package cn.wolfmc.minecraft.wolfhunter.common.extensions
 
+import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts.plugin
+import kotlinx.coroutines.*
+import org.bukkit.Bukkit
+import java.util.concurrent.Executor
 import kotlin.coroutines.CoroutineContext
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.launch
 
 object PluginScope : CoroutineScope {
     private var job: Job? = null
@@ -23,6 +23,19 @@ object PluginScope : CoroutineScope {
         job?.cancel() // 在禁用时取消协程
     }
 
-    fun launch(block: suspend CoroutineScope.() -> Unit): Job =
+    fun main(block: suspend CoroutineScope.() -> Unit): Job =
+        CoroutineScope(BukkitMainThreadDispatcher).launch(block = block)
+
+    fun async(block: suspend CoroutineScope.() -> Unit): Job =
         CoroutineScope(coroutineContext).launch(block = block)
+}
+
+object BukkitMainThreadDispatcher : CoroutineDispatcher() {
+    private val executor = Executor { command ->
+        Bukkit.getScheduler().runTask(plugin, Runnable { command.run() })
+    }
+
+    override fun dispatch(context: CoroutineContext, block: Runnable) {
+        executor.execute(block)
+    }
 }

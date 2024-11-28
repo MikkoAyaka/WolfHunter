@@ -26,7 +26,7 @@ class NumberBossBar(
                 else it.player.hideBossBar(bar)
             }
             .register()
-        PluginScope.launch {
+        PluginScope.async {
             while (true) {
                 delay(1000)
                 updateProgress()
