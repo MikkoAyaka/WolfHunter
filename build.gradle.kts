@@ -1,5 +1,5 @@
 plugins {
-    kotlin("jvm") version "2.1.0-RC2"
+    kotlin("jvm") version "2.1.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
@@ -23,6 +23,9 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:0.56.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.56.0")
     implementation("org.xerial:sqlite-jdbc:3.47.0.0")
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")  // JUnit 5 API
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.2")  // JUnit 5 引擎
+    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2")
 }
 
 val targetJavaVersion = 17
@@ -38,7 +41,14 @@ tasks.processResources {
     val props = mapOf("version" to version)
     inputs.properties(props)
     filteringCharset = "UTF-8"
-    filesMatching("paper-plugin.yml") {
+    filesMatching("plugin.yml") {
         expand(props)
+    }
+}
+
+tasks.test {
+    useJUnitPlatform()
+    testLogging {
+        events("passed", "skipped", "failed")
     }
 }
