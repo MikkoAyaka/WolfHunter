@@ -42,14 +42,13 @@ fun shouldResetPlayerOnJoin(player: Player): Boolean {
     }
 }
 
-fun updateGameMode(player: Player) {
-    player.gameMode = when (GameInstance.state) {
+fun Player.updateGameMode() {
+    gameMode = when (GameInstance.state) {
         GameState.WAITING,GameState.STARTING -> GameMode.ADVENTURE
         GameState.RUNNING -> {
-            if (player.isGamePlayer()) GameMode.SURVIVAL else GameMode.SPECTATOR
+            if (isGamePlayer()) GameMode.SURVIVAL else GameMode.SPECTATOR
         }
         GameState.ENDING -> GameMode.CREATIVE
     }
 }
-fun Player.updateGameMode() = updateGameMode(this)
 
