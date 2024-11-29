@@ -17,7 +17,9 @@ object AppService : ScopeService {
         Config.init(Contexts.plugin)
         Config.load()
         I18n.initFiles()
-        I18n.loadLanguage("zh")
+        I18n.loadLanguages()
+        val currentLanguage = Contexts.plugin.config.getString("current_language") ?: "zh"
+        I18n.setLanguage(currentLanguage)
         // 初始化服务(通过配置文件调整模式)
         Contexts.gameService = UHCGameService
     }
