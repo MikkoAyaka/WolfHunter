@@ -21,6 +21,8 @@ object RangeMining : ScopeService {
     override fun enable() {
         listener =
             subscribe<BlockBreakEvent> {
+                if (it.player.isSneaking) return@subscribe
+                if (it.block is Container) return@subscribe
                 rangeMining(it.player, it.player.inventory.itemInMainHand, it.block)
             }
     }
@@ -34,11 +36,11 @@ object RangeMining : ScopeService {
         tool: ItemStack,
         block: Block,
     ) {
-        if (block is Container) return
         val direction = player.location.direction.normalize()
         val centerMaterial = block.type
         val centerHardness = centerMaterial.hardness
-        block.nearbyBlocks(2)
+        block
+            .nearbyBlocks(2)
             // 偏移
             .map { it.getRelative(direction.x.roundToInt(), direction.y.roundToInt(), direction.z.roundToInt()) }
             // 条件判断

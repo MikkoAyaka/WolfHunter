@@ -48,7 +48,11 @@ object BowAiming : ScopeService {
                 .firstOrNull { player.hasLineOfSight(it) }
                 ?: return
 
-        val direction = nearestVisibleEnemy.location.subtract(player.location).toVector().normalize()
+        val direction =
+            nearestVisibleEnemy.location
+                .subtract(player.location)
+                .toVector()
+                .normalize()
         val cosTheta = direction.z / sqrt(direction.x * direction.x + direction.z * direction.z)
         var angle: Float = Math.toDegrees(acos(cosTheta)).toFloat()
         if (direction.x > 0) {
@@ -58,7 +62,7 @@ object BowAiming : ScopeService {
         var deltaYaw = angle - playerYaw
         if (deltaYaw < -180) deltaYaw += 360
         if (deltaYaw > 180) deltaYaw -= 360
-        if (deltaYaw in -5.0..5.0) return
+        if (deltaYaw in -1.5..1.5) return
         val repeats = 20
         repeat(repeats) {
             delay(800L / repeats)

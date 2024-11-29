@@ -2,8 +2,8 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.game
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
+import cn.wolfmc.minecraft.wolfhunter.domain.component.TimeCounter
 import cn.wolfmc.minecraft.wolfhunter.domain.event.CountdownFinished
-import cn.wolfmc.minecraft.wolfhunter.domain.model.game.TimeCounter
 import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay

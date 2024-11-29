@@ -62,7 +62,8 @@ fun Listener.unregister() {
 inline fun <reified T : Event> subscribe(noinline block: (T) -> Unit): Listener {
     val listener = object : Listener {}
     val executor = { _: Listener, e: T -> block(e) }
-    Bukkit.getPluginManager()
+    Bukkit
+        .getPluginManager()
         .registerEvent(
             T::class.java,
             listener,
@@ -86,3 +87,6 @@ fun PotionEffectType.create(
     duration: Int,
     amplifier: Int,
 ): PotionEffect = PotionEffect(this, duration, amplifier)
+
+// 获取玩家手持物品栏（快捷键1~9 和 副手）
+fun Inventory.playerHandheldInventory() = (0..8).plus(40).mapNotNull { getItem(it) }

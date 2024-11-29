@@ -4,21 +4,31 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.command
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.openMenu
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.mainMenu
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.testMenu
+import org.bukkit.entity.Player
 import org.bukkit.plugin.java.JavaPlugin
 
 fun registerCommands(plugin: JavaPlugin) {
     plugin.command("wolfhunter") {
-        literal("test1") { runs { sendMessage("test1") } }
-        literal("test2") {
-            runs { sendMessage("test2") }
-            literal("test3") { runs { sendMessage("test3") } }
-        }
-        argument("test4") { arg -> sendMessage("test4 arg: $arg") }
         argument("menu") { arg ->
-            println("into menu")
             when (arg) {
                 "main" -> openMenu(mainMenu)
                 "test" -> openMenu(testMenu)
+            }
+        }
+        literal("debug") {
+            literal("toggle") {
+                literal("invulnerable") {
+                    runs {
+                        if (this !is Player) return@runs
+                        this.isInvulnerable = !this.isInvulnerable
+                    }
+                }
+                literal("inv") {
+                    runs {
+                        if (this !is Player) return@runs
+                        this.inventory.forEachIndexed { index, itemStack -> println("$index: $itemStack") }
+                    }
+                }
             }
         }
     }

@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.domain.model.game
+package cn.wolfmc.minecraft.wolfhunter.domain.component
 
 import kotlinx.coroutines.Job
 

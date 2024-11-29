@@ -20,7 +20,11 @@ object ForeverNightVision : ScopeService {
                     delay(5000)
                     onlinePlayers().forEach {
                         PluginScope.main {
-                            PotionEffectType.NIGHT_VISION.create(20 * 10, 0).apply(it)
+                            PotionEffectType.NIGHT_VISION
+                                .create(20 * 30, 0)
+                                .withIcon(false)
+                                .withParticles(false)
+                                .apply(it)
                         }
                     }
                 }

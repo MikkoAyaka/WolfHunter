@@ -4,7 +4,7 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.register
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
-import cn.wolfmc.minecraft.wolfhunter.domain.model.game.TimeCounter
+import cn.wolfmc.minecraft.wolfhunter.domain.component.TimeCounter
 import kotlinx.coroutines.delay
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.bossbar.BossBar.Color
@@ -27,8 +27,7 @@ class NumberBossBar(
             } else {
                 it.player.hideBossBar(bar)
             }
-        }
-            .register()
+        }.register()
         PluginScope.async {
             while (true) {
                 delay(1000)
