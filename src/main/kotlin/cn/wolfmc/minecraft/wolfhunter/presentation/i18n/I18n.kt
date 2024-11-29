@@ -5,7 +5,6 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
 import net.kyori.adventure.text.Component
 import org.yaml.snakeyaml.Yaml
 import java.io.File
-import java.io.FileInputStream
 import java.io.InputStream
 import java.util.concurrent.ConcurrentHashMap
 
@@ -14,45 +13,51 @@ object I18n {
     private var currentLanguage = "zh"
 
     fun initFiles() {
-        Contexts.plugin.apply { saveResource("messages_zh.yml", false) }
+        val languages = Contexts.plugin.config.getStringList("languages")
+        languages.forEach { lang ->
+            runCatching {
+                Contexts.plugin.saveResource("messages_$lang.yml", false)
+            }.onFailure { e ->
+                System.err.println("Error saving resource for language: $lang, ${e.message}")
+            }
+        }
     }
 
-    fun loadLanguage(lang: String) {
-        loadLanguage(lang, FileInputStream(File(Contexts.plugin.dataFolder, "messages_$lang.yml")))
+    fun loadLanguages() {
+        val languages = Contexts.plugin.config.getStringList("languages")
+        languages.forEach { lang ->
+            val file = File(Contexts.plugin.dataFolder, "messages_$lang.yml")
+            if (file.exists()) {
+                runCatching {
+                    loadLanguage(lang, file.inputStream())
+                }.onFailure { e ->
+                    System.err.println("Error loading language file: $lang, ${e.message}")
+                }
+            } else {
+                System.err.println("Language file not found: $lang")
+            }
+        }
     }
 
-    // 加载语言文件
-    private fun loadLanguage(
-        lang: String,
-        inputStream: InputStream?,
-    ) {
-        val yaml = Yaml()
-        val messages = yaml.load<Map<String, String>>(inputStream)
+    private fun loadLanguage(lang: String, inputStream: InputStream) {
+        val messages: Map<String, String> = Yaml().load(inputStream) ?: emptyMap()
         LANGUAGES[lang] = messages
     }
 
-    // 设置当前语言
     fun setLanguage(lang: String) {
         if (LANGUAGES.containsKey(lang)) {
             currentLanguage = lang
         } else {
-            System.err.println("Language not loaded: $lang")
+            System.err.println("Error loading language: $lang")
         }
     }
 
     /** 获取翻译，支持 {0} {1} 等动态参数替换 */
-    fun t(
-        key: String,
-        vararg args: Any,
-    ): Component {
+    fun t(key: String, vararg args: Any): Component {
         val messages = LANGUAGES[currentLanguage]
-        if (messages == null || !messages.containsKey(key)) {
-            return Component.text("Missing translation for key: $key")
-        }
-        var template = messages[key]
-        for (i in args.indices) {
-            template = template!!.replace("{$i}", args[i].toString())
-        }
-        return template!!.miniMsg()
+        val template = messages?.get(key) ?: return Component.text("Missing translation for key: $key")
+
+        val formattedTemplate = args.fold(template) { acc, arg -> acc.replaceFirst(Regex("{${args.indexOf(arg)}}"), arg.toString()) }
+        return formattedTemplate.miniMsg()
     }
 }

@@ -1,4 +1,3 @@
-plugin:
-  prefix: "<blue>猎枪与獠牙</blue>"
-  enable: "插件已加载"
-  disable: "插件已卸载"
+plugin.prefix: <blue>猎枪与獠牙</blue>
+plugin.enable: 已启用插件
+plugin.disable: 已禁用插件
