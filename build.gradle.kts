@@ -1,7 +1,10 @@
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
     kotlin("jvm") version "2.1.0"
     id("com.github.johnrengelman.shadow") version "8.1.1"
-    id("com.ncorti.ktfmt.gradle") version "0.21.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
 }
 
 group = "cn.wolfmc.minecraft.wolfhunter"
@@ -24,18 +27,14 @@ dependencies {
     implementation("org.jetbrains.exposed:exposed-dao:0.56.0")
     implementation("org.jetbrains.exposed:exposed-jdbc:0.56.0")
     implementation("org.xerial:sqlite-jdbc:3.47.0.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2")  // JUnit 5 API
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.2")  // JUnit 5 引擎
+    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2") // JUnit 5 API
+    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.2") // JUnit 5 引擎
     testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2")
 }
 
 val targetJavaVersion = 17
 kotlin {
     jvmToolchain(targetJavaVersion)
-}
-
-ktfmt{
-    kotlinLangStyle()
 }
 
 tasks.build {
@@ -55,5 +54,13 @@ tasks.test {
     useJUnitPlatform()
     testLogging {
         events("passed", "skipped", "failed")
+    }
+}
+
+configure<KtlintExtension> {
+    disabledRules.set(setOf("no-wildcard-imports"))
+    reporters {
+        reporter(ReporterType.CHECKSTYLE)
+        reporter(ReporterType.JSON)
     }
 }
