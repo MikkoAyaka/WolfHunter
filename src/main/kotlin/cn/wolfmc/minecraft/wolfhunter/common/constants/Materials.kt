@@ -115,7 +115,7 @@ val HARVESTABLE_CROP_MATERIAL =
         Material.PUMPKIN,
         Material.SWEET_BERRY_BUSH,
     )
-val WOOD_MATERIAL =
+val LOG_MATERIAL =
     setOf(
         // 原木
         Material.OAK_LOG,
@@ -135,6 +135,10 @@ val WOOD_MATERIAL =
 //    Material.STRIPPED_CHERRY_LOG,
         Material.STRIPPED_DARK_OAK_LOG,
 //    Material.STRIPPED_MANGROVE_LOG,
+        Material.CRIMSON_STEM,
+        Material.WARPED_STEM,
+        Material.STRIPPED_CRIMSON_STEM,
+        Material.STRIPPED_WARPED_STEM,
     )
 private val VIRTUAL_RESOURCE_MATERIAL =
     setOf(
@@ -168,7 +172,7 @@ private val VIRTUAL_RESOURCE_MATERIAL =
 //    Material.STRIPPED_MANGROVE_LOG,
     )
 
-fun Material.isWood() = this in WOOD_MATERIAL
+fun Material.isLog() = this in LOG_MATERIAL
 
 fun Material.isVirtualResource() = this in VIRTUAL_RESOURCE_MATERIAL
 

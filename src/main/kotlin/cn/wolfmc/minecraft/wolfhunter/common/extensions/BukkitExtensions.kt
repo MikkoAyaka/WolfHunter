@@ -61,7 +61,12 @@ fun Listener.unregister() {
 @Suppress("UNCHECKED_CAST")
 inline fun <reified T : Event> subscribe(noinline block: (T) -> Unit): Listener {
     val listener = object : Listener {}
-    val executor = { _: Listener, e: T -> block(e) }
+    val executor = { _: Listener, e: T ->
+        // 疑似是 Bukkit 的锅，单独写监听器，只要用 registerEvent 注册，也会存在这个问题
+        if (e is T) {
+            block(e)
+        }
+    }
     Bukkit
         .getPluginManager()
         .registerEvent(

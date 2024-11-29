@@ -2,10 +2,12 @@ package cn.wolfmc.minecraft.wolfhunter.presentation.command
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.command
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.openMenu
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.ItemSpawnHandler
 import cn.wolfmc.minecraft.wolfhunter.presentation.item.ScaffoldBlock
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.mainMenu
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.testMenu
 import org.bukkit.entity.Player
+import org.bukkit.event.entity.CreatureSpawnEvent
 import org.bukkit.plugin.java.JavaPlugin
 
 fun registerCommands(plugin: JavaPlugin) {
@@ -35,6 +37,14 @@ fun registerCommands(plugin: JavaPlugin) {
                 runs {
                     if (this !is Player) return@runs
                     ScaffoldBlock.giveItem(this)
+                }
+            }
+            literal("listener") {
+                runs {
+                    CreatureSpawnEvent.getHandlerList().registeredListeners.forEach { println(it.javaClass.simpleName) }
+                    ItemSpawnHandler.disable()
+                    println("---")
+                    CreatureSpawnEvent.getHandlerList().registeredListeners.forEach { println(it.javaClass.simpleName) }
                 }
             }
         }
