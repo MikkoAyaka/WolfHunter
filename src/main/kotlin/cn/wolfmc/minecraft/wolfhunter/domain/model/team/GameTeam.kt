@@ -1,15 +1,14 @@
 package cn.wolfmc.minecraft.wolfhunter.domain.model.team
 
-import java.util.*
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
+import java.util.*
 
 class GameTeam(
     val uuid: UUID = UUID.randomUUID(),
     private val memberUuids: MutableSet<UUID> = mutableSetOf(),
 ) : MutableSet<UUID> by memberUuids {
-
     fun getOfflinePlayer(name: String): OfflinePlayer? {
         for (offlinePlayer in getOfflinePlayers()) {
             if (offlinePlayer.name == null) continue

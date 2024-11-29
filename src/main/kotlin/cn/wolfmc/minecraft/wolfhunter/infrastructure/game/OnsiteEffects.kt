@@ -7,7 +7,6 @@ import org.bukkit.GameMode
 import org.bukkit.GameRule
 import org.bukkit.World
 import org.bukkit.entity.Player
-import org.bukkit.scoreboard.ScoreboardManager
 
 fun Player.isGamePlayer() = GameInstance.gamePlayers.containsKey(this.uniqueId)
 
@@ -37,7 +36,8 @@ fun Player.reset() = resetPlayer(this)
 fun shouldResetPlayerOnJoin(player: Player): Boolean {
     return when (GameInstance.state) {
         GameState.WAITING,
-        GameState.STARTING -> true
+        GameState.STARTING,
+        -> true
         GameState.RUNNING -> !player.isGamePlayer()
         GameState.ENDING -> true
     }
@@ -47,7 +47,8 @@ fun Player.updateGameMode() {
     gameMode =
         when (GameInstance.state) {
             GameState.WAITING,
-            GameState.STARTING -> GameMode.ADVENTURE
+            GameState.STARTING,
+            -> GameMode.ADVENTURE
             GameState.RUNNING -> {
                 if (isGamePlayer()) GameMode.SURVIVAL else GameMode.SPECTATOR
             }
@@ -60,9 +61,11 @@ fun Player.updateInvulnerable() {
     isInvulnerable =
         when (GameInstance.state) {
             GameState.WAITING,
-            GameState.STARTING -> true
+            GameState.STARTING,
+            -> true
             GameState.RUNNING,
-            GameState.ENDING -> false
+            GameState.ENDING,
+            -> false
         }
 }
 

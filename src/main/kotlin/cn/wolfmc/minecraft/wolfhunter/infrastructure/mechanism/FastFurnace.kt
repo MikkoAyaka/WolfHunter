@@ -8,7 +8,6 @@ import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.event.inventory.FurnaceStartSmeltEvent
 
 object FastFurnace : ScopeService {
-
     private var listenerGroup = ListenerGroup()
     private var speedMultiple = 4.0
 

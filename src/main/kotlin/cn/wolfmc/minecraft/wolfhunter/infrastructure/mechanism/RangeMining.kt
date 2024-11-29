@@ -12,23 +12,28 @@ import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
 import kotlin.math.roundToInt
 
-object RangeMining: ScopeService {
+object RangeMining : ScopeService {
     override fun init() {
-
     }
 
     private var listener: Listener? = null
+
     override fun enable() {
-        listener = subscribe<BlockBreakEvent> {
-            rangeMining(it.player,it.player.inventory.itemInMainHand, it.block)
-        }
+        listener =
+            subscribe<BlockBreakEvent> {
+                rangeMining(it.player, it.player.inventory.itemInMainHand, it.block)
+            }
     }
 
     override fun disable() {
         listener?.unregister()
     }
 
-    private fun rangeMining(player: Player, tool: ItemStack, block: Block) {
+    private fun rangeMining(
+        player: Player,
+        tool: ItemStack,
+        block: Block,
+    ) {
         if (block is Container) return
         val direction = player.location.direction.normalize()
         val centerMaterial = block.type

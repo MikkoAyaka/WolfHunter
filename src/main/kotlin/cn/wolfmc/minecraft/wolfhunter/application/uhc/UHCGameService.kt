@@ -11,7 +11,6 @@ import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.ForeverNightVisio
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.RangeMining
 
 object UHCGameService : GameService() {
-
     override fun init() {
         listOf(UHCWaitingStage, UHCStartingStage, UHCRunningStage, UHCEndingStage).forEach {
             it.init()

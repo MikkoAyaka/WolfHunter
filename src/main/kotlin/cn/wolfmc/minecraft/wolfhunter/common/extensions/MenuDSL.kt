@@ -1,6 +1,5 @@
 package cn.wolfmc.minecraft.wolfhunter.common.extensions
 
-import java.util.*
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -12,6 +11,7 @@ import org.bukkit.inventory.InventoryHolder
 import org.bukkit.inventory.ItemStack
 import org.bukkit.inventory.meta.ItemMeta
 import org.bukkit.plugin.java.JavaPlugin
+import java.util.*
 
 object VirtualInventoryHolder : InventoryHolder {
     override fun getInventory(): Inventory {
@@ -24,7 +24,10 @@ private val menuWithItems: MutableMap<MenuBuilder, MutableMap<Int, MenuItemBuild
     mutableMapOf()
 private val itemWithMenus: MutableMap<MenuItemBuilder, MutableSet<MenuBuilder>> = mutableMapOf()
 
-fun indexMenuAndItem(menu: MenuBuilder, item: MenuItemBuilder) {
+fun indexMenuAndItem(
+    menu: MenuBuilder,
+    item: MenuItemBuilder,
+) {
     inventoryWithMenu[menu.inventory] = menu
     menuWithItems.getOrPut(menu) { mutableMapOf() }[item.slot] = item
     itemWithMenus.getOrPut(item) { mutableSetOf() }.add(menu)
@@ -38,13 +41,20 @@ fun MenuBuilder.findItems() = menuWithItems[this]?.values ?: setOf()
 
 fun MenuItemBuilder.findMenus() = itemWithMenus.getOrPut(this) { mutableSetOf() }
 
-fun menu(name: String, size: Int, builder: MenuBuilder.() -> Unit): Inventory {
+fun menu(
+    name: String,
+    size: Int,
+    builder: MenuBuilder.() -> Unit,
+): Inventory {
     val menuBuilder = MenuBuilder(name, size).apply(builder)
     menuBuilder.setup()
     return menuBuilder.inventory
 }
 
-fun MenuBuilder.item(slot: Int, builder: MenuItemBuilder.() -> Unit) {
+fun MenuBuilder.item(
+    slot: Int,
+    builder: MenuItemBuilder.() -> Unit,
+) {
     val menuItemBuilder = MenuItemBuilder(slot).apply(builder)
     indexMenuAndItem(this, menuItemBuilder)
 }
@@ -61,9 +71,9 @@ class MenuBuilder(val name: String, val size: Int, val ownerUuid: UUID? = null) 
             // 如果该物品需要定时刷新
             itemBuilder.refreshPeriod?.apply {
                 Runnable {
-                        val newItem = itemBuilder.build() // 更新物品
-                        inventory.setItem(itemBuilder.slot, newItem)
-                    }
+                    val newItem = itemBuilder.build() // 更新物品
+                    inventory.setItem(itemBuilder.slot, newItem)
+                }
                     .runTaskTimerAsync(0, this)
             }
         }
@@ -72,7 +82,6 @@ class MenuBuilder(val name: String, val size: Int, val ownerUuid: UUID? = null) 
 
 // GUI 物品构建器
 class MenuItemBuilder(val slot: Int) {
-
     var material: Material = Material.STONE
     var displayName: String = ""
     var lore: List<String> = listOf()
@@ -94,7 +103,6 @@ class MenuItemBuilder(val slot: Int) {
 }
 
 object MenuDSL : Listener {
-
     fun init(plugin: JavaPlugin) {
         Bukkit.getPluginManager().registerEvents(this, plugin)
     }

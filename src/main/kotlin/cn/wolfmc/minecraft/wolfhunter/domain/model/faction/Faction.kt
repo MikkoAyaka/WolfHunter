@@ -13,7 +13,6 @@ enum class Wings {
 }
 
 sealed class Faction(force: Force, wings: Wings) {
-
     data object Shadowblade : Faction(Force.Human, Wings.Aggressive)
 
     data object VoidsJudgement : Faction(Force.Human, Wings.Neutral)

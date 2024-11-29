@@ -22,9 +22,12 @@ class NumberBossBar(
 ) {
     init {
         subscribe<PlayerJoinEvent> {
-                if (it.player.visibleCondition()) it.player.showBossBar(bar)
-                else it.player.hideBossBar(bar)
+            if (it.player.visibleCondition()) {
+                it.player.showBossBar(bar)
+            } else {
+                it.player.hideBossBar(bar)
             }
+        }
             .register()
         PluginScope.async {
             while (true) {
@@ -40,20 +43,30 @@ class NumberBossBar(
 
     private fun updateProgress() {
         val now = current()
-        if (now > max) bar.progress(1f)
-        else if (now < min) bar.progress(0f) else bar.progress(now / max.toFloat())
+        if (now > max) {
+            bar.progress(1f)
+        } else if (now < min) {
+            bar.progress(0f)
+        } else {
+            bar.progress(now / max.toFloat())
+        }
     }
 }
 
-fun bossBar(progress: Float, color: Color, overlay: Overlay) =
-    BossBar.bossBar("".miniMsg(), progress, color, overlay)
+fun bossBar(
+    progress: Float,
+    color: Color,
+    overlay: Overlay,
+) = BossBar.bossBar("".miniMsg(), progress, color, overlay)
 
-fun gameStarterBossBar(timeCounter: TimeCounter, max: Int) =
-    NumberBossBar(
-        bossBar(1f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_12),
-        { "<white>游戏即将在 <green>${timeCounter.counter}</green> 秒后开始 ...</white>" },
-        0,
-        max,
-    ) {
-        timeCounter.counter
-    }
+fun gameStarterBossBar(
+    timeCounter: TimeCounter,
+    max: Int,
+) = NumberBossBar(
+    bossBar(1f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_12),
+    { "<white>游戏即将在 <green>${timeCounter.counter}</green> 秒后开始 ...</white>" },
+    0,
+    max,
+) {
+    timeCounter.counter
+}

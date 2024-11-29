@@ -14,22 +14,24 @@ import org.bukkit.entity.Player
 import kotlin.math.acos
 import kotlin.math.sqrt
 
-object BowAiming: ScopeService {
+object BowAiming : ScopeService {
     override fun init() {
     }
 
     private var job: Job? = null
+
     override fun enable() {
-        job = PluginScope.launch {
-            while (true) {
-                delay(1000)
-                survivalPlayers().forEach {
-                    if (it.itemInUse?.type?.isRemoteWeapon() != true) return@forEach
-                    if (it.handRaisedTime < 20 * 3) return@forEach
-                    PluginScope.launch { autoAiming(it) }
+        job =
+            PluginScope.launch {
+                while (true) {
+                    delay(1000)
+                    survivalPlayers().forEach {
+                        if (it.itemInUse?.type?.isRemoteWeapon() != true) return@forEach
+                        if (it.handRaisedTime < 20 * 3) return@forEach
+                        PluginScope.launch { autoAiming(it) }
+                    }
                 }
             }
-        }
     }
 
     override fun disable() {
@@ -38,12 +40,13 @@ object BowAiming: ScopeService {
 
     private suspend fun autoAiming(player: Player) {
         // 最近可以看到的敌人
-        val nearestVisibleEnemy = player
-            .nearbyPlayers(50)
-            .filter { it.gameMode == GameMode.SURVIVAL && it.isEnemy(player) }
-            .sortedBy { it.location.distance(player.location) }
-            .firstOrNull { player.hasLineOfSight(it) }
-            ?: return
+        val nearestVisibleEnemy =
+            player
+                .nearbyPlayers(50)
+                .filter { it.gameMode == GameMode.SURVIVAL && it.isEnemy(player) }
+                .sortedBy { it.location.distance(player.location) }
+                .firstOrNull { player.hasLineOfSight(it) }
+                ?: return
 
         val direction = nearestVisibleEnemy.location.subtract(player.location).toVector().normalize()
         val cosTheta = direction.z / sqrt(direction.x * direction.x + direction.z * direction.z)
@@ -59,9 +62,7 @@ object BowAiming: ScopeService {
         val repeats = 20
         repeat(repeats) {
             delay(800L / repeats)
-            PluginScope.main { player.teleport(player.location.apply { yaw += deltaYaw / repeats.toFloat() } ) }
+            PluginScope.main { player.teleport(player.location.apply { yaw += deltaYaw / repeats.toFloat() }) }
         }
-
     }
-
 }

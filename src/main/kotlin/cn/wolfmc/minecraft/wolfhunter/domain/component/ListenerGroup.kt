@@ -6,7 +6,6 @@ import org.bukkit.event.Listener
 
 /** 统一管理多个监听器 */
 class ListenerGroup(val listeners: MutableSet<Listener>) {
-
     constructor(vararg listeners: Listener) : this(listeners.toMutableSet())
 
     fun clear() = listeners.clear()

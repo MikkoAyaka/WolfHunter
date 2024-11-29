@@ -9,7 +9,6 @@ import cn.wolfmc.minecraft.wolfhunter.presentation.command.registerCommands
 import cn.wolfmc.minecraft.wolfhunter.presentation.i18n.I18n
 
 object AppService : ScopeService {
-
     private val listenerGroup = ListenerGroup()
 
     override fun init() {

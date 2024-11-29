@@ -10,7 +10,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Difficulty
 
 object UHCWaitingStage : ScopeService {
-
     private val gameStarter: ScopeService = AutomaticGameStarter
 
     override fun init() {

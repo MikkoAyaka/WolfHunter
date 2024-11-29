@@ -21,11 +21,17 @@ fun Player.giveItemSafely(item: ItemStack) {
     }
 }
 
-fun Runnable.runTaskTimer(delay: Long, period: Long) {
+fun Runnable.runTaskTimer(
+    delay: Long,
+    period: Long,
+) {
     Bukkit.getScheduler().runTaskTimer(plugin, this, delay, period)
 }
 
-fun Runnable.runTaskTimerAsync(delay: Long, period: Long) {
+fun Runnable.runTaskTimerAsync(
+    delay: Long,
+    period: Long,
+) {
     Bukkit.getScheduler().runTaskTimerAsynchronously(plugin, this, delay, period)
 }
 
@@ -69,9 +75,14 @@ inline fun <reified T : Event> subscribe(noinline block: (T) -> Unit): Listener 
 }
 
 fun onlinePlayers() = Bukkit.getOnlinePlayers()
-fun survivalPlayers() = Bukkit.getOnlinePlayers().filter { it.gameMode == GameMode.SURVIVAL }
-fun Player.nearbyPlayers(distance: Int) = onlinePlayers()
-    .filter { it.world == this.world && it.location.distance(this.location) <= distance && it != this }
 
-fun PotionEffectType.create(duration: Int, amplifier: Int): PotionEffect =
-    PotionEffect(this, duration, amplifier)
+fun survivalPlayers() = Bukkit.getOnlinePlayers().filter { it.gameMode == GameMode.SURVIVAL }
+
+fun Player.nearbyPlayers(distance: Int) =
+    onlinePlayers()
+        .filter { it.world == this.world && it.location.distance(this.location) <= distance && it != this }
+
+fun PotionEffectType.create(
+    duration: Int,
+    amplifier: Int,
+): PotionEffect = PotionEffect(this, duration, amplifier)

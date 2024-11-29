@@ -9,7 +9,6 @@ import kotlinx.coroutines.delay
 import org.bukkit.potion.PotionEffectType
 
 object ForeverNightVision : ScopeService {
-
     private var job: Job? = null
 
     override fun init() {}

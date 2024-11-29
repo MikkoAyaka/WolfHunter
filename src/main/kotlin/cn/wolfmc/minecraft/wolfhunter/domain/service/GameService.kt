@@ -8,7 +8,6 @@ import cn.wolfmc.minecraft.wolfhunter.domain.model.team.GameTeam
 import java.util.*
 
 abstract class GameService : ScopeService {
-
     val listenerGroup = ListenerGroup()
     private var currentGame: GameInstance = GameInstance
     protected var currentStateService: ScopeService? = null

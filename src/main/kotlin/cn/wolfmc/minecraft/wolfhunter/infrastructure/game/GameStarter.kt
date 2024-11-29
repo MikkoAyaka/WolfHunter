@@ -9,7 +9,6 @@ import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 
 object AutomaticGameStarter : ScopeService, TimeCounter {
-
     override var counter = 600
     override var job: Job? = null
 

@@ -4,7 +4,6 @@ import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.plugin.java.JavaPlugin
 
 object Config {
-
     private lateinit var plugin: JavaPlugin
     private val config: FileConfiguration
         get() = plugin.config

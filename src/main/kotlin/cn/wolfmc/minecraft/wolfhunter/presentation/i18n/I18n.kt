@@ -2,12 +2,12 @@ package cn.wolfmc.minecraft.wolfhunter.presentation.i18n
 
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
+import net.kyori.adventure.text.Component
+import org.yaml.snakeyaml.Yaml
 import java.io.File
 import java.io.FileInputStream
 import java.io.InputStream
 import java.util.concurrent.ConcurrentHashMap
-import net.kyori.adventure.text.Component
-import org.yaml.snakeyaml.Yaml
 
 object I18n {
     private val LANGUAGES: MutableMap<String, Map<String, String>> = ConcurrentHashMap()
@@ -22,7 +22,10 @@ object I18n {
     }
 
     // 加载语言文件
-    private fun loadLanguage(lang: String, inputStream: InputStream?) {
+    private fun loadLanguage(
+        lang: String,
+        inputStream: InputStream?,
+    ) {
         val yaml = Yaml()
         val messages = yaml.load<Map<String, String>>(inputStream)
         LANGUAGES[lang] = messages
@@ -38,7 +41,10 @@ object I18n {
     }
 
     /** 获取翻译，支持 {0} {1} 等动态参数替换 */
-    fun t(key: String, vararg args: Any): Component {
+    fun t(
+        key: String,
+        vararg args: Any,
+    ): Component {
         val messages = LANGUAGES[currentLanguage]
         if (messages == null || !messages.containsKey(key)) {
             return Component.text("Missing translation for key: $key")
