@@ -2,6 +2,7 @@ package cn.wolfmc.minecraft.wolfhunter.presentation.command
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.command
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.openMenu
+import cn.wolfmc.minecraft.wolfhunter.presentation.item.ScaffoldBlock
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.mainMenu
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.testMenu
 import org.bukkit.entity.Player
@@ -23,11 +24,17 @@ fun registerCommands(plugin: JavaPlugin) {
                         this.isInvulnerable = !this.isInvulnerable
                     }
                 }
-                literal("inv") {
-                    runs {
-                        if (this !is Player) return@runs
-                        this.inventory.forEachIndexed { index, itemStack -> println("$index: $itemStack") }
-                    }
+            }
+            literal("inv") {
+                runs {
+                    if (this !is Player) return@runs
+                    this.inventory.forEachIndexed { index, itemStack -> println("$index: $itemStack") }
+                }
+            }
+            literal("scaffold") {
+                runs {
+                    if (this !is Player) return@runs
+                    ScaffoldBlock.giveItem(this)
                 }
             }
         }
