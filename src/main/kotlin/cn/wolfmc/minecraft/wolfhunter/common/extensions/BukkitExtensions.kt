@@ -5,10 +5,7 @@ import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
-import org.bukkit.event.Event
-import org.bukkit.event.EventPriority
-import org.bukkit.event.HandlerList
-import org.bukkit.event.Listener
+import org.bukkit.event.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
@@ -58,14 +55,10 @@ fun Listener.unregister() {
     HandlerList.unregisterAll(this)
 }
 
-@Suppress("UNCHECKED_CAST")
 inline fun <reified T : Event> subscribe(noinline block: (T) -> Unit): Listener {
     val listener = object : Listener {}
-    val executor = { _: Listener, e: T ->
-        // 疑似是 Bukkit 的锅，单独写监听器，只要用 registerEvent 注册，也会存在这个问题
-        if (e is T) {
-            block(e)
-        }
+    val executor = { _: Listener, e: Event ->
+        if (e is T) block(e)
     }
     Bukkit
         .getPluginManager()
@@ -73,7 +66,7 @@ inline fun <reified T : Event> subscribe(noinline block: (T) -> Unit): Listener 
             T::class.java,
             listener,
             EventPriority.NORMAL,
-            executor as (Listener, Event) -> Unit,
+            executor,
             plugin,
             false,
         )

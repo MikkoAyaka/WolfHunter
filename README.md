@@ -7,6 +7,9 @@
 
 https://docs.qq.com/aio/DV2ZwVUVJd3Zqc3R2
 
+## 协作规范
+Gitmoji 管理 commmit 信息  
+Ktlint 格式化代码
 ## TODO
 
 ### 通用

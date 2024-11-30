@@ -2,10 +2,7 @@ package cn.wolfmc.minecraft.wolfhunter
 
 import cn.wolfmc.minecraft.wolfhunter.application.AppService
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.MenuDSL
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.logT
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.register
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.gameModeUpdater
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.inventoryUpdater
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.protectionUpdater
