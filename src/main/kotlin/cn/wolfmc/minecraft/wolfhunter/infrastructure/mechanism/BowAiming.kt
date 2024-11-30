@@ -1,16 +1,14 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
 import cn.wolfmc.minecraft.wolfhunter.common.constants.isRemoteWeapon
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.nearbyPlayers
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.survivalPlayers
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.isEnemy
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.bukkit.GameMode
 import org.bukkit.entity.Player
+import taboolib.common.platform.function.runTask
+import taboolib.expansion.chain
 import kotlin.math.acos
 import kotlin.math.sqrt
 
@@ -18,17 +16,17 @@ object BowAiming : ScopeService {
     override fun init() {
     }
 
-    private var job: Job? = null
+    private var job: TBJob? = null
 
     override fun enable() {
         job =
-            PluginScope.launch {
+            chain {
                 while (true) {
                     delay(1000)
                     survivalPlayers().forEach {
                         if (it.itemInUse?.type?.isRemoteWeapon() != true) return@forEach
                         if (it.handRaisedTime < 20 * 3) return@forEach
-                        PluginScope.launch { autoAiming(it) }
+                        launch { autoAiming(it) }
                     }
                 }
             }
@@ -66,7 +64,7 @@ object BowAiming : ScopeService {
         val repeats = 20
         repeat(repeats) {
             delay(800L / repeats)
-            PluginScope.main { player.teleport(player.location.apply { yaw += deltaYaw / repeats.toFloat() }) }
+            runTask { player.teleport(player.location.apply { yaw += deltaYaw / repeats.toFloat() }) }
         }
     }
 }

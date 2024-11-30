@@ -1,16 +1,16 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.bossbar
 
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.register
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
 import cn.wolfmc.minecraft.wolfhunter.domain.component.TimeCounter
-import kotlinx.coroutines.delay
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.bossbar.BossBar.Color
 import net.kyori.adventure.bossbar.BossBar.Overlay
 import org.bukkit.entity.Player
 import org.bukkit.event.player.PlayerJoinEvent
+import taboolib.expansion.chain
 
 class NumberBossBar(
     private val bar: BossBar,
@@ -28,9 +28,9 @@ class NumberBossBar(
                 it.player.hideBossBar(bar)
             }
         }.register()
-        PluginScope.async {
+        chain {
             while (true) {
-                delay(1000)
+                wait(20)
                 updateProgress()
             }
         }

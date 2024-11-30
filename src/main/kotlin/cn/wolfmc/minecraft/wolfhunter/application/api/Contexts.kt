@@ -1,11 +1,10 @@
 package cn.wolfmc.minecraft.wolfhunter.application.api
 
-import cn.wolfmc.minecraft.wolfhunter.WolfHunterPlugin
 import cn.wolfmc.minecraft.wolfhunter.domain.service.GameService
-import java.util.logging.Logger
+import taboolib.platform.BukkitPlugin
 
 object Contexts {
-    lateinit var plugin: WolfHunterPlugin
+    val plugin by lazy { BukkitPlugin.getInstance() }
     lateinit var gameService: GameService
-    lateinit var logger: Logger
+    val logger by lazy { plugin.logger }
 }

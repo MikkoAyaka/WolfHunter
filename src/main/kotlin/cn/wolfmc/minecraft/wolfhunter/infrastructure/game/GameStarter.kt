@@ -1,25 +1,25 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.game
 
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
 import cn.wolfmc.minecraft.wolfhunter.domain.component.TimeCounter
 import cn.wolfmc.minecraft.wolfhunter.domain.event.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
+import taboolib.expansion.chain
+import java.util.concurrent.CompletableFuture
 
 object AutomaticGameStarter : ScopeService, TimeCounter {
     override var counter = 600
-    override var job: Job? = null
+    override var future: CompletableFuture<*>? = null
 
     override fun init() {}
 
     override fun enable() {
-        if (job != null) return
-        job =
-            PluginScope.async {
+        if (future != null) return
+        future =
+            chain {
                 while (true) {
-                    delay(1000)
+                    wait(20)
                     val playerAmount = onlinePlayers().size
                     if (playerAmount < 4) counter = 600 else counter--
                     if (playerAmount >= 8 && counter > 300) counter = 300
@@ -47,5 +47,5 @@ object ReadyGameStarter : ScopeService, TimeCounter {
     }
 
     override var counter: Int = 600
-    override var job: Job? = null
+    override var future: CompletableFuture<*>? = null
 }

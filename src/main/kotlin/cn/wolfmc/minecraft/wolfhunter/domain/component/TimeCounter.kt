@@ -1,8 +1,8 @@
 package cn.wolfmc.minecraft.wolfhunter.domain.component
 
-import kotlinx.coroutines.Job
+import java.util.concurrent.CompletableFuture
 
 interface TimeCounter {
     var counter: Int
-    var job: Job?
+    var future: CompletableFuture<*>?
 }

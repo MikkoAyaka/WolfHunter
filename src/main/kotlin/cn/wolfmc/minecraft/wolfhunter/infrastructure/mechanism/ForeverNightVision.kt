@@ -1,25 +1,23 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.create
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
-import kotlinx.coroutines.Job
-import kotlinx.coroutines.delay
 import org.bukkit.potion.PotionEffectType
+import taboolib.common.platform.function.runTask
+import taboolib.expansion.chain
 
 object ForeverNightVision : ScopeService {
-    private var job: Job? = null
+    private var job: TBJob? = null
 
     override fun init() {}
 
     override fun enable() {
         job =
-            PluginScope.async {
+            chain {
                 while (true) {
-                    delay(5000)
+                    wait(20 * 5)
                     onlinePlayers().forEach {
-                        PluginScope.main {
+                        runTask {
                             PotionEffectType.NIGHT_VISION
                                 .create(20 * 30, 0)
                                 .withIcon(false)

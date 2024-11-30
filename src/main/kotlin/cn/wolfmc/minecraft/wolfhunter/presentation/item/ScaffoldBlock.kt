@@ -3,17 +3,18 @@ package cn.wolfmc.minecraft.wolfhunter.presentation.item
 import cn.wolfmc.minecraft.wolfhunter.common.constants.surfaceVectors
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.launch
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
+import taboolib.common.platform.function.runTask
+import taboolib.expansion.chain
 
 object ScaffoldBlock {
     // 激活自动效果的玩家
     private val activatedPlayers = mutableSetOf<Player>()
 
     init {
-        PluginScope.launch {
+        chain {
             val surfaces = surfaceVectors()
             // 不要上面
             surfaces.removeAt(0)
@@ -28,7 +29,7 @@ object ScaffoldBlock {
                     // 没有可放置的接触面
                     if (surfaces.map { placeLoc.clone().add(it).block }.none { it.isSolid }) return@forEach
                     // TODO
-                    PluginScope.main {
+                    runTask {
                         block.type = Material.WHITE_WOOL
                         block.world.playSound(
                             block.location,

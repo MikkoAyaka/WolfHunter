@@ -38,7 +38,7 @@ taboolib {
 }
 
 group = "cn.wolfmc.minecraft.wolfhunter"
-version = "1.0"
+version = "1.1"
 
 repositories {
     mavenCentral()
@@ -51,11 +51,11 @@ repositories {
 }
 
 dependencies {
+    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
     compileOnly(kotlin("stdlib"))
     compileOnly(fileTree("libs"))
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
-    compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
     compileOnly("org.jetbrains.exposed:exposed-core:0.56.0")
     compileOnly("org.jetbrains.exposed:exposed-dao:0.56.0")
     compileOnly("org.jetbrains.exposed:exposed-jdbc:0.56.0")
@@ -75,10 +75,11 @@ kotlin {
 
 tasks {
     runServer {
+        dependsOn("clean")
         minecraftVersion("1.18.2")
     }
     build {
-        dependsOn("clean", "jar")
+        dependsOn("jar")
     }
     processResources {
         val props = mapOf("version" to version)

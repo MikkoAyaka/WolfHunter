@@ -1,17 +1,17 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.playerHandheldInventory
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
 import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
-import kotlinx.coroutines.delay
 import org.bukkit.Material
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.inventory.ItemStack
+import taboolib.expansion.chain
 import kotlin.random.Random
 
 object AutoWaterBucket : ScopeService {
@@ -72,8 +72,8 @@ object AutoWaterBucket : ScopeService {
         val loc = player.location.clone()
         loc.block.type = Material.WATER
         if (recycle) {
-            PluginScope.main {
-                delay(200)
+            chain {
+                wait(4)
                 loc.block.type = Material.AIR
             }
         } else {
