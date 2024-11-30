@@ -6,28 +6,13 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.gameModeUpdater
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.inventoryUpdater
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.protectionUpdater
-import org.bukkit.plugin.PluginDescriptionFile
-import org.bukkit.plugin.java.JavaPlugin
-import org.bukkit.plugin.java.JavaPluginLoader
-import java.io.File
+import taboolib.platform.BukkitPlugin
 import java.util.logging.Level
 
-class WolfHunterPlugin : JavaPlugin {
-    constructor() : super()
-
-    constructor(
-        loader: JavaPluginLoader,
-        description: PluginDescriptionFile,
-        dataFolder: File,
-        file: File,
-    ) : super(loader, description, dataFolder, file)
-
-    init {
+object WolfHunterPlugin : BukkitPlugin() {
+    override fun onLoad() {
         Contexts.plugin = this
         PluginScope.start()
-    }
-
-    override fun onLoad() {
         AppService.init()
     }
 
