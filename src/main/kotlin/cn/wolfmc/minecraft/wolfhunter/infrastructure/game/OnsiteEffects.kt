@@ -1,7 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.game
 
-import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameInstance
-import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameState
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.GameRule

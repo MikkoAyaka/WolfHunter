@@ -2,8 +2,8 @@ package cn.wolfmc.minecraft.wolfhunter.application.uhc
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.*
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import cn.wolfmc.minecraft.wolfhunter.model.component.plusAssign
-import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameState
 import cn.wolfmc.minecraft.wolfhunter.model.event.StateChanged
 import cn.wolfmc.minecraft.wolfhunter.model.service.GameService
 

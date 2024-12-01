@@ -1,7 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.model.event
 
-import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameInstance
-import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameState
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.event.Event
 import org.bukkit.event.HandlerList

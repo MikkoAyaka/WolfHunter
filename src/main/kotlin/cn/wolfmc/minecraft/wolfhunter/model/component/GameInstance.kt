@@ -1,20 +1,22 @@
-package cn.wolfmc.minecraft.wolfhunter.model.data.game
+package cn.wolfmc.minecraft.wolfhunter.model.component
 
 import cn.wolfmc.minecraft.wolfhunter.model.data.player.GamePlayer
+import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
 import cn.wolfmc.minecraft.wolfhunter.model.event.StateChanged
-import org.bukkit.World
+import taboolib.common.platform.function.runTask
 import java.util.*
 
 object GameInstance {
     var state: GameState = GameState.ENDING
         set(value) {
             if (field == value) return
-            StateChanged(this, field, value).callEvent()
+            runTask {
+                StateChanged(this, field, value).callEvent()
+            }
             field = value
         }
-
-    var world: World? = null
     val gamePlayers = mutableMapOf<UUID, GamePlayer>()
+    val teams = mutableMapOf<UUID, GameTeam>()
 }
 
 enum class GameState {

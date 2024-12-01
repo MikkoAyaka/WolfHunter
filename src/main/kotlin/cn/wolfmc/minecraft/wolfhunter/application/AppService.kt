@@ -1,31 +1,34 @@
 package cn.wolfmc.minecraft.wolfhunter.application
 
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
+import cn.wolfmc.minecraft.wolfhunter.application.config.Config
 import cn.wolfmc.minecraft.wolfhunter.application.uhc.UHCGameService
-import cn.wolfmc.minecraft.wolfhunter.model.component.ListenerGroup
+import cn.wolfmc.minecraft.wolfhunter.common.constants.InitializeType
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 
+/**
+ * 游戏主流程管理服务
+ */
 object AppService : ScopeService {
-    private val listenerGroup = ListenerGroup()
-
-    @Awake(LifeCycle.CONST)
+    @Awake(LifeCycle.ENABLE)
     override fun init() {
-        // 初始化服务(通过配置文件调整模式)
-        Contexts.gameService = UHCGameService
+        when (Config.initializeType) {
+            InitializeType.ONLY_UHC -> Contexts.gameService = UHCGameService
+            // TODO
+            else -> Contexts.gameService = UHCGameService
+        }
     }
 
-    @Awake(LifeCycle.ENABLE)
+    @Awake(LifeCycle.ACTIVE)
     override fun enable() {
-        listenerGroup.registerAll()
         Contexts.gameService.init()
         Contexts.gameService.enable()
     }
 
     @Awake(LifeCycle.DISABLE)
     override fun disable() {
-        listenerGroup.unregisterAll()
         Contexts.gameService.disable()
     }
 }

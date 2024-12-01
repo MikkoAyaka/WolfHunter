@@ -1,8 +1,8 @@
 package cn.wolfmc.minecraft.wolfhunter.model.service
 
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import cn.wolfmc.minecraft.wolfhunter.model.component.ListenerGroup
-import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameInstance
-import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameState
 import cn.wolfmc.minecraft.wolfhunter.model.data.player.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
 import java.util.*
