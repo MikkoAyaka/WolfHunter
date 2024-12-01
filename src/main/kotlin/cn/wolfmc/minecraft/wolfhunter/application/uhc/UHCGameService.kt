@@ -3,7 +3,7 @@ package cn.wolfmc.minecraft.wolfhunter.application.uhc
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.EventHandler
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.*
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
-import cn.wolfmc.minecraft.wolfhunter.model.event.StateChanged
+import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent
 import cn.wolfmc.minecraft.wolfhunter.model.service.GameService
 
 object UHCGameService : GameService() {
@@ -27,7 +27,7 @@ object UHCGameService : GameService() {
 
         // 阶段变更
         eventHandlerSet +=
-            EventHandler(StateChanged::class) { e ->
+            EventHandler(GameEvent.StateChanged::class) { e ->
                 currentStateService?.disable()
                 currentStateService =
                     when (e.to) {

@@ -4,6 +4,7 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.EventHandler
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
 import cn.wolfmc.minecraft.wolfhunter.model.component.EventHandlerSet
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
+import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.presentation.sound.Sounds
 import org.bukkit.event.entity.PlayerDeathEvent
@@ -12,7 +13,7 @@ import org.bukkit.event.entity.PlayerDeathEvent
  * UHC 裁判
  * 宣布玩家出局、宣布游戏结果...
  */
-class UHCGameJudge : ScopeService {
+object UHCGameJudge : ScopeService {
     private val eventHandlerSet = EventHandlerSet()
 
     override fun init() {
@@ -24,6 +25,11 @@ class UHCGameJudge : ScopeService {
                     it.playSound(Sounds.THUNDER)
                     it.sendMessage("<red>玩家 ${e.player.name} 从本场游戏中淘汰了！")
                 }
+            }
+        eventHandlerSet +=
+            EventHandler(GameEvent.GamePlayerOut::class) {
+                // 只剩下一支队伍，游戏结束
+                if (GameInstance.allGameTeams().filter { it.size() > 0 }.size <= 1) GameInstance.nextState()
             }
     }
 

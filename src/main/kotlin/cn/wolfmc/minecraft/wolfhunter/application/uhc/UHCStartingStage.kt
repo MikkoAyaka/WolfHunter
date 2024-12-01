@@ -7,7 +7,7 @@ import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.ReadyCounter
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
-import cn.wolfmc.minecraft.wolfhunter.model.event.CountdownFinished
+import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.presentation.bossbar.gameStarterBossBar
 import net.kyori.adventure.text.format.NamedTextColor

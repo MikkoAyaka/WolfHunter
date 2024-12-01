@@ -3,6 +3,7 @@ package cn.wolfmc.minecraft.wolfhunter.application.uhc
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts.worldMain
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.UHCGameJudge
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.WorldDevourer
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setBorder
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.NoPortal
@@ -21,6 +22,7 @@ object UHCRunningStage : ScopeService {
     override fun init() {
         stageMechanism.forEach { it.init() }
         worldDevourer.init()
+        UHCGameJudge.init()
     }
 
     override fun enable() {
@@ -36,9 +38,11 @@ object UHCRunningStage : ScopeService {
             worldTheEnd.setBorder(1.0)
         }
         stageMechanism.forEach { it.enable() }
+        UHCGameJudge.enable()
     }
 
     override fun disable() {
+        UHCGameJudge.disable()
         borderTask?.cancel()
         stageMechanism.forEach { it.disable() }
         worldDevourer.disable()

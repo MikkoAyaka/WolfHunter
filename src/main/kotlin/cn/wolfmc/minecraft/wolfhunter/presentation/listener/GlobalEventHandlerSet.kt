@@ -7,7 +7,7 @@ import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.shouldResetPlayerOnJoi
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.updateGameMode
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.updateInvulnerable
 import cn.wolfmc.minecraft.wolfhunter.model.component.EventHandlerSet
-import cn.wolfmc.minecraft.wolfhunter.model.event.StateChanged
+import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.StateChanged
 import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake

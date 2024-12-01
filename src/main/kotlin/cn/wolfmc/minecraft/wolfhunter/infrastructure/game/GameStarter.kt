@@ -5,7 +5,7 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.cancel
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
 import cn.wolfmc.minecraft.wolfhunter.model.component.TimeCounter
-import cn.wolfmc.minecraft.wolfhunter.model.event.CountdownFinished
+import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import taboolib.expansion.chain
 

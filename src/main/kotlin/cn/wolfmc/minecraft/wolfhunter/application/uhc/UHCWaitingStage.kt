@@ -6,7 +6,7 @@ import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setBorder
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setRespawnRadius
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
-import cn.wolfmc.minecraft.wolfhunter.model.event.CountdownFinished
+import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.Bukkit
 import org.bukkit.Difficulty

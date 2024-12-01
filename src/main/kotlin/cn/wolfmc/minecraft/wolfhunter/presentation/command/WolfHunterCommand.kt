@@ -3,7 +3,7 @@ package cn.wolfmc.minecraft.wolfhunter.presentation.command
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
-import cn.wolfmc.minecraft.wolfhunter.model.event.CountdownFinished
+import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.presentation.item.ScaffoldBlock
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.MainMenu
 import org.bukkit.entity.Player

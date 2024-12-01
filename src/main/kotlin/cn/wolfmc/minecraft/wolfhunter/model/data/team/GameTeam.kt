@@ -13,6 +13,8 @@ class GameTeam(
     val virtualRepository = VirtualRepository()
     val scoreboardTeam = defaultScoreboardTeam(uuid.toString())
 
+    fun size() = members.size
+
     fun get(name: String): OfflinePlayer? {
         for (offlinePlayer in members) {
             if (offlinePlayer.name == null) continue

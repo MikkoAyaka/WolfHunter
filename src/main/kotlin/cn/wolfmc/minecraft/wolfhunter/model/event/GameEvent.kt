@@ -2,33 +2,22 @@ package cn.wolfmc.minecraft.wolfhunter.model.event
 
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
+import cn.wolfmc.minecraft.wolfhunter.model.data.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
-import org.bukkit.event.Event
-import org.bukkit.event.HandlerList
+import taboolib.platform.type.BukkitProxyEvent
 
-class CountdownFinished(
-    val counter: ScopeService,
-) : Event() {
-    companion object {
-        private val HANDLERS = HandlerList()
+sealed class GameEvent : BukkitProxyEvent() {
+    data class CountdownFinished(
+        val counter: ScopeService,
+    ) : GameEvent()
 
-        @JvmStatic
-        fun getHandlerList(): HandlerList = HANDLERS
-    }
+    data class StateChanged(
+        val game: GameInstance,
+        val from: GameState,
+        val to: GameState,
+    ) : GameEvent()
 
-    override fun getHandlers() = HANDLERS
-}
-
-class StateChanged(
-    val game: GameInstance,
-    val from: GameState,
-    val to: GameState,
-) : Event() {
-    override fun getHandlers() = handlerList
-
-    companion object {
-        private val handlerList = HandlerList()
-
-        @JvmStatic fun getHandlerList() = handlerList
-    }
+    data class GamePlayerOut(
+        val gamePlayer: GamePlayer,
+    ) : GameEvent()
 }
