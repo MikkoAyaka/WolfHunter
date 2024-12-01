@@ -10,6 +10,7 @@ import cn.wolfmc.minecraft.wolfhunter.model.event.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.Bukkit
 import org.bukkit.Difficulty
+import org.bukkit.GameRule
 
 object UHCWaitingStage : ScopeService {
     private val gameStarter = AutomaticGameStarter
@@ -23,6 +24,7 @@ object UHCWaitingStage : ScopeService {
             it.setRespawnRadius(24)
             it.setBorder(50.0)
             it.difficulty = Difficulty.PEACEFUL
+            it.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false)
         }
         // 计时开始
         gameStarter.enable()

@@ -2,11 +2,13 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.game
 
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.GameRule
 import org.bukkit.World
 import org.bukkit.entity.Player
+import org.bukkit.scoreboard.Team
 
 fun Player.isGamePlayer() = GameInstance.gamePlayers.containsKey(this.uniqueId)
 
@@ -72,3 +74,11 @@ fun Player.isEnemy(another: Player): Boolean {
     // TODO
     return true
 }
+
+fun defaultScoreboardTeam(name: String) =
+    Bukkit.getScoreboardManager().mainScoreboard.registerNewTeam(name).apply {
+        this.color(NamedTextColor.WHITE) // 默认颜色
+        this.setAllowFriendlyFire(false) // 禁止友伤
+        this.setCanSeeFriendlyInvisibles(true) // 可以看到队友隐身
+        this.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM) // 可以看到队友名牌
+    }
