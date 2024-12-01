@@ -1,7 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
+import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.potion.PotionEffectType
 import taboolib.common.platform.function.runTask
 import taboolib.expansion.chain

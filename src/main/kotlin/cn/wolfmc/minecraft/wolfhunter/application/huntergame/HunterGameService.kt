@@ -1,6 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.application.huntergame
 
-import cn.wolfmc.minecraft.wolfhunter.domain.service.GameService
+import cn.wolfmc.minecraft.wolfhunter.model.service.GameService
 
 object HunterGameService : GameService() {
     override fun init() {

@@ -3,7 +3,7 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.nearbyBlocks
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
+import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.block.Block
 import org.bukkit.block.Container
 import org.bukkit.entity.Player

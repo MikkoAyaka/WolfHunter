@@ -4,7 +4,7 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.register
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
-import cn.wolfmc.minecraft.wolfhunter.domain.component.TimeCounter
+import cn.wolfmc.minecraft.wolfhunter.model.component.TimeCounter
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.bossbar.BossBar.Color
 import net.kyori.adventure.bossbar.BossBar.Overlay

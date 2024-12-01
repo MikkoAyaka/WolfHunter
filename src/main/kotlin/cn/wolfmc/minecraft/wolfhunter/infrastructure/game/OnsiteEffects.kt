@@ -1,7 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.game
 
-import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameInstance
-import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameState
+import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameInstance
+import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameState
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.GameRule
@@ -33,15 +33,14 @@ fun resetPlayer(player: Player) {
 
 fun Player.reset() = resetPlayer(this)
 
-fun shouldResetPlayerOnJoin(player: Player): Boolean {
-    return when (GameInstance.state) {
+fun shouldResetPlayerOnJoin(player: Player): Boolean =
+    when (GameInstance.state) {
         GameState.WAITING,
         GameState.STARTING,
         -> true
         GameState.RUNNING -> !player.isGamePlayer()
         GameState.ENDING -> true
     }
-}
 
 fun Player.updateGameMode() {
     gameMode =

@@ -2,8 +2,8 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
 import cn.wolfmc.minecraft.wolfhunter.common.constants.isRemoteWeapon
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.isEnemy
+import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import kotlinx.coroutines.delay
 import org.bukkit.GameMode
 import org.bukkit.entity.Player

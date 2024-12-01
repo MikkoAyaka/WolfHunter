@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.domain.component
+package cn.wolfmc.minecraft.wolfhunter.model.component
 
 import java.util.concurrent.CompletableFuture
 

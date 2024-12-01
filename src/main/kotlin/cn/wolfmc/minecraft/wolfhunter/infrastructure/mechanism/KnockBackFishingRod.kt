@@ -2,7 +2,7 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
+import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.entity.Damageable
 import org.bukkit.entity.EntityType
 import org.bukkit.entity.FishHook

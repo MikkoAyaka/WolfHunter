@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.domain.model.talent
+package cn.wolfmc.minecraft.wolfhunter.model.data.talent
 
 enum class TalentType {
     HUNTER_SENSE,

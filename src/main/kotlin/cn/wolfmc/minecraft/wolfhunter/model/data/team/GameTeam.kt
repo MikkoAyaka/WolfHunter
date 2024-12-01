@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.domain.model.team
+package cn.wolfmc.minecraft.wolfhunter.model.data.team
 
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
@@ -17,16 +17,13 @@ class GameTeam(
         return null
     }
 
-    fun getPlayers(): List<Player> {
-        return memberUuids
+    fun getPlayers(): List<Player> =
+        memberUuids
             .mapNotNull { id: UUID -> Bukkit.getPlayer(id) }
             .filter { p: Player -> p.isOnline }
             .toList()
-    }
 
-    fun getOfflinePlayers(): List<OfflinePlayer> {
-        return memberUuids.map { id: UUID -> Bukkit.getOfflinePlayer(id) }.toList()
-    }
+    fun getOfflinePlayers(): List<OfflinePlayer> = memberUuids.map { id: UUID -> Bukkit.getOfflinePlayer(id) }.toList()
 
     fun add(player: Player) {
         add(player.uniqueId)
@@ -40,7 +37,5 @@ class GameTeam(
         remove(player.uniqueId)
     }
 
-    fun contains(player: Player): Boolean {
-        return contains(player.uniqueId)
-    }
+    fun contains(player: Player): Boolean = contains(player.uniqueId)
 }

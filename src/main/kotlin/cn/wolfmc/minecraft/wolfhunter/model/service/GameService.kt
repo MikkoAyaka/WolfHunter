@@ -1,10 +1,10 @@
-package cn.wolfmc.minecraft.wolfhunter.domain.service
+package cn.wolfmc.minecraft.wolfhunter.model.service
 
-import cn.wolfmc.minecraft.wolfhunter.domain.component.ListenerGroup
-import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameInstance
-import cn.wolfmc.minecraft.wolfhunter.domain.model.game.GameState
-import cn.wolfmc.minecraft.wolfhunter.domain.model.player.GamePlayer
-import cn.wolfmc.minecraft.wolfhunter.domain.model.team.GameTeam
+import cn.wolfmc.minecraft.wolfhunter.model.component.ListenerGroup
+import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameInstance
+import cn.wolfmc.minecraft.wolfhunter.model.data.game.GameState
+import cn.wolfmc.minecraft.wolfhunter.model.data.player.GamePlayer
+import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
 import java.util.*
 
 abstract class GameService : ScopeService {

@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.domain.model.faction
+package cn.wolfmc.minecraft.wolfhunter.model.data.faction
 
 enum class Force {
     Human,
@@ -12,7 +12,10 @@ enum class Wings {
     Defensive,
 }
 
-sealed class Faction(force: Force, wings: Wings) {
+sealed class Faction(
+    force: Force,
+    wings: Wings,
+) {
     data object Shadowblade : Faction(Force.Human, Wings.Aggressive)
 
     data object VoidsJudgement : Faction(Force.Human, Wings.Neutral)

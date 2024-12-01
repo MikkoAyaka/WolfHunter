@@ -1,6 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.application.api
 
-import cn.wolfmc.minecraft.wolfhunter.domain.service.GameService
+import cn.wolfmc.minecraft.wolfhunter.model.service.GameService
 import taboolib.platform.BukkitPlugin
 
 object Contexts {

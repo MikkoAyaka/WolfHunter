@@ -1,7 +1,7 @@
-package cn.wolfmc.minecraft.wolfhunter.domain.service
+package cn.wolfmc.minecraft.wolfhunter.model.service
 
-import cn.wolfmc.minecraft.wolfhunter.domain.model.talent.Talent
-import cn.wolfmc.minecraft.wolfhunter.domain.model.talent.TalentType
+import cn.wolfmc.minecraft.wolfhunter.model.data.talent.Talent
+import cn.wolfmc.minecraft.wolfhunter.model.data.talent.TalentType
 import org.bukkit.entity.Player
 
 interface TalentService {

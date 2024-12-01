@@ -1,9 +1,9 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
-import cn.wolfmc.minecraft.wolfhunter.domain.component.ListenerGroup
-import cn.wolfmc.minecraft.wolfhunter.domain.component.plusAssign
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
+import cn.wolfmc.minecraft.wolfhunter.model.component.ListenerGroup
+import cn.wolfmc.minecraft.wolfhunter.model.component.plusAssign
+import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.presentation.item.ScaffoldBlock
 import org.bukkit.event.block.BlockPlaceEvent
 import org.bukkit.event.player.PlayerDropItemEvent

@@ -2,8 +2,8 @@ package cn.wolfmc.minecraft.wolfhunter.application
 
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.application.uhc.UHCGameService
-import cn.wolfmc.minecraft.wolfhunter.domain.component.ListenerGroup
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
+import cn.wolfmc.minecraft.wolfhunter.model.component.ListenerGroup
+import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 

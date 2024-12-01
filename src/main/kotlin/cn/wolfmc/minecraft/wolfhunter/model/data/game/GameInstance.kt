@@ -1,7 +1,7 @@
-package cn.wolfmc.minecraft.wolfhunter.domain.model.game
+package cn.wolfmc.minecraft.wolfhunter.model.data.game
 
-import cn.wolfmc.minecraft.wolfhunter.domain.event.StateChanged
-import cn.wolfmc.minecraft.wolfhunter.domain.model.player.GamePlayer
+import cn.wolfmc.minecraft.wolfhunter.model.data.player.GamePlayer
+import cn.wolfmc.minecraft.wolfhunter.model.event.StateChanged
 import org.bukkit.World
 import java.util.*
 
