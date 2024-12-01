@@ -1,6 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.application.uhc
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setBorder
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setRespawnRadius
@@ -26,7 +27,10 @@ object UHCWaitingStage : ScopeService {
         gameStarter.enable()
         // 监听计时结束
         subscribe<CountdownFinished> {
-            if (it.counter is AutomaticGameStarter) gameStarter.disable()
+            if (it.counter is AutomaticGameStarter) {
+                gameStarter.disable()
+                unregister()
+            }
         }
     }
 

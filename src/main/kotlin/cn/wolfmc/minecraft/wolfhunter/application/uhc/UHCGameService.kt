@@ -22,6 +22,7 @@ object UHCGameService : GameService() {
                 KnockBackFishingRod,
                 Scaffold,
                 ItemSpawnHandler,
+                TeamSharedResource,
             ),
         )
         mechanism.forEach { it.init() }

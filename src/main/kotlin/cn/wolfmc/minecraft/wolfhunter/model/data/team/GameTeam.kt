@@ -1,5 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.model.data.team
 
+import cn.wolfmc.minecraft.wolfhunter.model.component.VirtualRepository
 import org.bukkit.Bukkit
 import org.bukkit.OfflinePlayer
 import org.bukkit.entity.Player
@@ -9,6 +10,8 @@ class GameTeam(
     val uuid: UUID = UUID.randomUUID(),
     private val memberUuids: MutableSet<UUID> = mutableSetOf(),
 ) : MutableSet<UUID> by memberUuids {
+    val virtualRepository = VirtualRepository()
+
     fun getOfflinePlayer(name: String): OfflinePlayer? {
         for (offlinePlayer in getOfflinePlayers()) {
             if (offlinePlayer.name == null) continue

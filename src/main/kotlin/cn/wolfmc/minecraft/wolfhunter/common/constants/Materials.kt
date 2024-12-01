@@ -140,41 +140,29 @@ val LOG_MATERIAL =
         Material.STRIPPED_CRIMSON_STEM,
         Material.STRIPPED_WARPED_STEM,
     )
-private val VIRTUAL_RESOURCE_MATERIAL =
+
+private val METAL_MATERIAL =
     setOf(
-        // 金属
         Material.COPPER_INGOT,
         Material.IRON_INGOT,
         Material.GOLD_INGOT,
         Material.DIAMOND,
-        // 石材
+        Material.NETHERITE_INGOT,
+    )
+
+private val STONE_MATERIAL =
+    setOf(
         Material.STONE,
         Material.COBBLESTONE,
         Material.DEEPSLATE,
         Material.COBBLED_DEEPSLATE,
-        // 原木
-        Material.OAK_LOG,
-        Material.SPRUCE_LOG,
-        Material.BIRCH_LOG,
-        Material.JUNGLE_LOG,
-        Material.ACACIA_LOG,
-//    Material.CHERRY_LOG,
-        Material.DARK_OAK_LOG,
-//    Material.MANGROVE_LOG,
-        // 去皮原木
-        Material.STRIPPED_OAK_LOG,
-        Material.STRIPPED_SPRUCE_LOG,
-        Material.STRIPPED_BIRCH_LOG,
-        Material.STRIPPED_JUNGLE_LOG,
-        Material.STRIPPED_ACACIA_LOG,
-//    Material.STRIPPED_CHERRY_LOG,
-        Material.STRIPPED_DARK_OAK_LOG,
-//    Material.STRIPPED_MANGROVE_LOG,
     )
 
 fun Material.isLog() = this in LOG_MATERIAL
 
-fun Material.isVirtualResource() = this in VIRTUAL_RESOURCE_MATERIAL
+fun Material.isStone() = this in STONE_MATERIAL
+
+fun Material.isMetal() = this in METAL_MATERIAL
 
 fun Material.isRemoteWeapon() = this in REMOTE_WEAPON_MATERIAL
 
