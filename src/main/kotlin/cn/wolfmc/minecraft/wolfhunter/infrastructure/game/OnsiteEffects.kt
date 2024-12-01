@@ -10,7 +10,7 @@ import org.bukkit.World
 import org.bukkit.entity.Player
 import org.bukkit.scoreboard.Team
 
-fun Player.isGamePlayer() = GameInstance.gamePlayers.containsKey(this.uniqueId)
+fun Player.isGamePlayer() = GameInstance.findGamePlayer(this) != null
 
 fun World.setBorder(size: Double) {
     worldBorder.setCenter(0.0, 0.0)

@@ -1,8 +1,9 @@
 package cn.wolfmc.minecraft.wolfhunter.model.component
 
-import cn.wolfmc.minecraft.wolfhunter.model.data.player.GamePlayer
+import cn.wolfmc.minecraft.wolfhunter.model.data.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
 import cn.wolfmc.minecraft.wolfhunter.model.event.StateChanged
+import org.bukkit.OfflinePlayer
 import taboolib.common.platform.function.runTask
 import java.util.*
 
@@ -15,11 +16,36 @@ object GameInstance {
             }
             field = value
         }
-    val gamePlayers = mutableMapOf<UUID, GamePlayer>()
-    val teams = mutableMapOf<UUID, GameTeam>()
+
+    // OfflinePlayer UUID -> GamePlayer
+    private val gamePlayers = mutableMapOf<UUID, GamePlayer>()
+
+    // GameTeam UUID -> GameTeam
+    private val teams = mutableMapOf<UUID, GameTeam>()
+
+    fun allGameTeams() = teams.values.toSet()
+
+    fun allGamePlayers() = gamePlayers.values.toSet()
+
+    fun findGamePlayer(offlinePlayer: OfflinePlayer) = gamePlayers[offlinePlayer.uniqueId]
 
     fun nextState() {
         state = GameState.entries[(state.ordinal + 1) % GameState.entries.size]
+    }
+
+    fun join(
+        player: OfflinePlayer,
+        team: GameTeam,
+    ) {
+        if (findGamePlayer(player) != null) leave(gamePlayers[player.uniqueId]!!)
+        team.join(player)
+        teams.putIfAbsent(team.uuid, team)
+        gamePlayers.putIfAbsent(player.uniqueId, GamePlayer(player, team))
+    }
+
+    fun leave(player: GamePlayer) {
+        player.team.leave(player)
+        gamePlayers.remove(player.uniqueId)
     }
 }
 

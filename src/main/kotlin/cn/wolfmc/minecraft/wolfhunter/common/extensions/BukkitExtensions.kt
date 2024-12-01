@@ -45,7 +45,6 @@ fun Runnable.runTaskLaterAsync(delay: Long) {
 fun Listener.unregister() {
     HandlerList.unregisterAll(this)
 }
-// typealias EventHandler<T> = Listener.(T) -> Unit
 
 class EventHandler<T : Event>(
     private val eventClass: KClass<T>,

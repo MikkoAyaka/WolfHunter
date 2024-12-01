@@ -1,11 +1,11 @@
 package cn.wolfmc.minecraft.wolfhunter.application.uhc
 
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.ReadyCounter
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
-import cn.wolfmc.minecraft.wolfhunter.model.data.player.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
 import cn.wolfmc.minecraft.wolfhunter.model.event.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
@@ -25,10 +25,10 @@ object UHCStartingStage : ScopeService {
     override fun enable() {
         // 队伍数量规划
         val teamAmount = scheduleTeamAmount()
-        // 初始化队伍
-        val teams = initTeams(GameInstance.gamePlayers.values.toList(), teamAmount).associateBy { it.uuid }
+        // 初始化队伍与玩家
+        initTeams(teamAmount)
         // 初始化队伍颜色
-        initTeamColors(teams.values.toList())
+        initTeamColors(GameInstance.allGameTeams().toList())
 
         // 计时开始
         readyCounter.enable()
@@ -62,7 +62,7 @@ object UHCStartingStage : ScopeService {
 
     // 根据玩家人数自动规划队伍数
     private fun scheduleTeamAmount(): Int {
-        val players = GameInstance.gamePlayers.size
+        val players = onlinePlayers().size
         if (players < 2) throw IllegalStateException("Require 2 players to start at least")
         val teamChoices = teamScheduleMap[min(players, 12)]!!
         var choice = teamChoices.random()
@@ -75,10 +75,8 @@ object UHCStartingStage : ScopeService {
     }
 
     // 初始化队伍并绑定玩家
-    private fun initTeams(
-        players: List<GamePlayer>,
-        teams: Int,
-    ): List<GameTeam> {
+    private fun initTeams(teams: Int) {
+        val players = onlinePlayers()
         val playerSize = players.size
         if (teams <= 0) throw IllegalArgumentException("队伍数必须大于0")
         if (playerSize < teams) throw IllegalArgumentException("玩家数不能少于队伍数")
@@ -91,7 +89,7 @@ object UHCStartingStage : ScopeService {
         val shuffledPlayers = players.shuffled()
 
         // 创建队伍列表
-        val gameTeams = List(teams) { GameTeam() }
+        val gameTeams = List(teams) { GameTeam("队伍 $it") }
 
         // 分配玩家到队伍
         var playerIndex = 0
@@ -100,12 +98,9 @@ object UHCStartingStage : ScopeService {
             val currentTeamSize = baseSize + if (teamIndex < extra) 1 else 0
             for (i in 0 until currentTeamSize) {
                 val player = shuffledPlayers[playerIndex++]
-                player.team = gameTeams[teamIndex] // 绑定玩家到队伍
+                GameInstance.join(player, gameTeams[teamIndex]) // 绑定玩家到队伍
             }
         }
-        GameInstance.teams.clear()
-        GameInstance.teams.putAll(gameTeams.associateBy { it.uuid })
-        return gameTeams
     }
 
     private fun initTeamColors(teams: List<GameTeam>) {

@@ -43,7 +43,7 @@ object UHCGameService : GameService() {
     override fun enable() {
         eventHandlerSet.registerAll()
         mechanism.forEach { it.enable() }
-        gameWait()
+        currentGame.state = GameState.WAITING
     }
 
     override fun disable() {
