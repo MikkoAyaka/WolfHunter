@@ -9,7 +9,9 @@ https://docs.qq.com/aio/DV2ZwVUVJd3Zqc3R2
 
 ## 协作规范
 Gitmoji 管理 commmit 信息  
-Ktlint 格式化代码
+Ktlint 格式化代码  
+运用 TabooLib 进行开发  
+运用 MiniMessage 设置文本样式与颜色
 ## TODO
 
 ### 通用

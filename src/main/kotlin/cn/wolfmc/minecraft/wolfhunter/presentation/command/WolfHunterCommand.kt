@@ -1,13 +1,12 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.command
 
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.openMenu
 import cn.wolfmc.minecraft.wolfhunter.presentation.item.ScaffoldBlock
-import cn.wolfmc.minecraft.wolfhunter.presentation.menu.mainMenu
-import cn.wolfmc.minecraft.wolfhunter.presentation.menu.testMenu
+import cn.wolfmc.minecraft.wolfhunter.presentation.menu.MainMenu
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.subCommand
+import taboolib.module.ui.openMenu
 
 @CommandHeader("wolfhunter", ["wh", "haw", "hw"])
 object WolfHunterCommand {
@@ -17,8 +16,7 @@ object WolfHunterCommand {
             dynamic {
                 execute<Player> { sender, _, arg ->
                     when (arg) {
-                        "main" -> sender.openMenu(mainMenu)
-                        "test" -> sender.openMenu(testMenu)
+                        "main" -> sender.openMenu(MainMenu.inventory)
                     }
                 }
             }

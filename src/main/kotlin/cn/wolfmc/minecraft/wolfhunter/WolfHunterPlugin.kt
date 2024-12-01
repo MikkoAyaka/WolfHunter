@@ -1,6 +1,5 @@
 package cn.wolfmc.minecraft.wolfhunter
 
-import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.gameModeUpdater
 import cn.wolfmc.minecraft.wolfhunter.presentation.listener.inventoryUpdater
@@ -25,7 +24,6 @@ object WolfHunterPlugin : Plugin() {
     }
 
     private fun initGlobalListener() {
-        MenuDSL.init(Contexts.plugin)
         gameModeUpdater.registerAll()
         protectionUpdater.registerAll()
         inventoryUpdater.register()

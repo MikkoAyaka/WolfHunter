@@ -3,7 +3,6 @@ package cn.wolfmc.minecraft.wolfhunter.common.extensions
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts.plugin
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
-import org.bukkit.command.CommandSender
 import org.bukkit.entity.Player
 import org.bukkit.event.*
 import org.bukkit.inventory.Inventory
@@ -38,13 +37,6 @@ fun Runnable.runTaskLater(delay: Long) {
 
 fun Runnable.runTaskLaterAsync(delay: Long) {
     Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, this, delay)
-}
-
-// 扩展函数：打开菜单
-fun CommandSender.openMenu(inventory: Inventory) {
-    if (this is Player) {
-        this.openInventory(inventory)
-    }
 }
 
 fun Listener.register() {
