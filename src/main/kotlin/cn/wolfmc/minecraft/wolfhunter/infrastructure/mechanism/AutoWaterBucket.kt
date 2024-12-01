@@ -24,7 +24,7 @@ object AutoWaterBucket : ScopeService {
 
     override fun enable() {
         listener =
-            subscribe<EntityDamageEvent> {
+            subscribe(EntityDamageEvent::class) {
                 if (it.entityType != EntityType.PLAYER) return@subscribe
                 when (it.cause) {
                     EntityDamageEvent.DamageCause.FALL, EntityDamageEvent.DamageCause.LAVA -> {

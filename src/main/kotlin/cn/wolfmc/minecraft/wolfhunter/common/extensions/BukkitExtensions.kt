@@ -1,6 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.common.extensions
 
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts.plugin
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.EventHandler
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.GameMode
@@ -10,6 +11,7 @@ import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import kotlin.reflect.KClass
 
 fun Player.giveItemSafely(item: ItemStack) {
     val leftover = inventory.addItem(item)
@@ -40,23 +42,33 @@ fun Runnable.runTaskLaterAsync(delay: Long) {
     Bukkit.getScheduler().runTaskLaterAsynchronously(plugin, this, delay)
 }
 
-fun Listener.register() {
-    Bukkit.getPluginManager().registerEvents(this, plugin)
-}
-
 fun Listener.unregister() {
     HandlerList.unregisterAll(this)
 }
+// typealias EventHandler<T> = Listener.(T) -> Unit
 
-inline fun <reified T : Event> subscribe(noinline block: Listener.(T) -> Unit): Listener {
+class EventHandler<T : Event>(
+    private val eventClass: KClass<T>,
+    val block: Listener.(T) -> Unit,
+) {
+    fun register(): Listener = subscribe(eventClass, block)
+}
+
+fun <T : Event> subscribe(
+    eventClass: KClass<T>,
+    block: Listener.(T) -> Unit,
+): Listener {
     val listener = object : Listener {}
     val executor = { _: Listener, e: Event ->
-        if (e is T) block(listener, e)
+        if (eventClass.isInstance(e)) {
+            @Suppress("UNCHECKED_CAST")
+            block(listener, e as T)
+        }
     }
     Bukkit
         .getPluginManager()
         .registerEvent(
-            T::class.java,
+            eventClass.java,
             listener,
             EventPriority.NORMAL,
             executor,

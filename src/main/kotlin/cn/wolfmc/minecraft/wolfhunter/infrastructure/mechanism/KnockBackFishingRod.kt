@@ -18,7 +18,7 @@ object KnockBackFishingRod : ScopeService {
 
     override fun enable() {
         listener =
-            subscribe<ProjectileHitEvent> {
+            subscribe(ProjectileHitEvent::class) {
                 if (it.entityType == EntityType.FISHING_HOOK && it.hitEntity != null) {
                     val fishHook = it.entity as FishHook
                     val shooter = fishHook.shooter as? Player ?: return@subscribe

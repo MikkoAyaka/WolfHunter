@@ -1,14 +1,14 @@
 package cn.wolfmc.minecraft.wolfhunter.model.service
 
+import cn.wolfmc.minecraft.wolfhunter.model.component.EventHandlerSet
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
-import cn.wolfmc.minecraft.wolfhunter.model.component.ListenerGroup
 import cn.wolfmc.minecraft.wolfhunter.model.data.player.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
 import java.util.*
 
 abstract class GameService : ScopeService {
-    val listenerGroup = ListenerGroup()
+    val eventHandlerSet = EventHandlerSet()
     private var currentGame: GameInstance = GameInstance
     protected var currentStateService: ScopeService? = null
     protected val mechanism: MutableSet<ScopeService> = mutableSetOf()

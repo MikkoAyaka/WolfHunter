@@ -17,8 +17,15 @@ object GameInstance {
         }
     val gamePlayers = mutableMapOf<UUID, GamePlayer>()
     val teams = mutableMapOf<UUID, GameTeam>()
+
+    fun nextState() {
+        state = GameState.entries[(state.ordinal + 1) % GameState.entries.size]
+    }
 }
 
+/**
+ * 顺序严格控制
+ */
 enum class GameState {
     WAITING,
     STARTING,

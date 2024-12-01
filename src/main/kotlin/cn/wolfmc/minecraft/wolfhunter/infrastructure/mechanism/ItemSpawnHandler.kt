@@ -32,7 +32,7 @@ object ItemSpawnHandler : ScopeService {
 
     override fun enable() {
         listener =
-            subscribe<ItemSpawnEvent> {
+            subscribe(ItemSpawnEvent::class) {
                 val item = it.entity.itemStack
                 if (item.type.isLog()) item.type = Material.OAK_LOG
                 if (item.type in map.keys) {

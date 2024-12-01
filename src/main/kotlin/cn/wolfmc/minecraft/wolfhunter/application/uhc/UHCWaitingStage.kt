@@ -5,13 +5,14 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setBorder
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setRespawnRadius
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.event.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.Bukkit
 import org.bukkit.Difficulty
 
 object UHCWaitingStage : ScopeService {
-    private val gameStarter: ScopeService = AutomaticGameStarter
+    private val gameStarter = AutomaticGameStarter
 
     override fun init() {
         gameStarter.init()
@@ -26,9 +27,10 @@ object UHCWaitingStage : ScopeService {
         // 计时开始
         gameStarter.enable()
         // 监听计时结束
-        subscribe<CountdownFinished> {
+        subscribe(CountdownFinished::class) {
             if (it.counter is AutomaticGameStarter) {
                 gameStarter.disable()
+                GameInstance.nextState()
                 unregister()
             }
         }

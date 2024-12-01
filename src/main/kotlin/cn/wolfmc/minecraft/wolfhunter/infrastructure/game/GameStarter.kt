@@ -1,16 +1,17 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.game
 
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.TBJob
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.cancel
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
 import cn.wolfmc.minecraft.wolfhunter.model.component.TimeCounter
 import cn.wolfmc.minecraft.wolfhunter.model.event.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import taboolib.expansion.chain
-import java.util.concurrent.CompletableFuture
 
 object AutomaticGameStarter : ScopeService, TimeCounter {
     override var counter = 600
-    override var future: CompletableFuture<*>? = null
+    override var future: TBJob? = null
 
     override fun init() {}
 
@@ -30,22 +31,36 @@ object AutomaticGameStarter : ScopeService, TimeCounter {
             }
     }
 
-    override fun disable() {}
+    override fun disable() {
+        future?.cancel()
+        future = null
+    }
 }
 
-object ReadyGameStarter : ScopeService, TimeCounter {
+/**
+ * 玩家准备完毕后，游戏即将开始的倒计时器
+ */
+object ReadyCounter : ScopeService, TimeCounter {
     override fun init() {
-        TODO("Not yet implemented")
     }
 
     override fun enable() {
-        TODO("Not yet implemented")
+        if (future != null) return
+        future =
+            chain {
+                while (true) {
+                    wait(20)
+                    if (counter-- <= 0) break
+                }
+                CountdownFinished(this@ReadyCounter).callEvent()
+            }
     }
 
     override fun disable() {
-        TODO("Not yet implemented")
+        future?.cancel()
+        future = null
     }
 
-    override var counter: Int = 600
-    override var future: CompletableFuture<*>? = null
+    override var counter: Int = 15
+    override var future: TBJob? = null
 }

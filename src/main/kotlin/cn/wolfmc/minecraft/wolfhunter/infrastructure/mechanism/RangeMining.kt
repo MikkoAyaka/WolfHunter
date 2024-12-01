@@ -20,7 +20,7 @@ object RangeMining : ScopeService {
 
     override fun enable() {
         listener =
-            subscribe<BlockBreakEvent> {
+            subscribe(BlockBreakEvent::class) {
                 if (it.player.isSneaking) return@subscribe
                 if (it.block is Container) return@subscribe
                 rangeMining(it.player, it.player.inventory.itemInMainHand, it.block)

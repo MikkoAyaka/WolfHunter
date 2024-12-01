@@ -1,9 +1,8 @@
 package cn.wolfmc.minecraft.wolfhunter.application.uhc
 
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.EventHandler
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.*
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
-import cn.wolfmc.minecraft.wolfhunter.model.component.plusAssign
 import cn.wolfmc.minecraft.wolfhunter.model.event.StateChanged
 import cn.wolfmc.minecraft.wolfhunter.model.service.GameService
 
@@ -22,14 +21,13 @@ object UHCGameService : GameService() {
                 KnockBackFishingRod,
                 Scaffold,
                 ItemSpawnHandler,
-                TeamSharedResource,
             ),
         )
         mechanism.forEach { it.init() }
 
         // 阶段变更
-        listenerGroup +=
-            subscribe<StateChanged> { e ->
+        eventHandlerSet +=
+            EventHandler(StateChanged::class) { e ->
                 currentStateService?.disable()
                 currentStateService =
                     when (e.to) {
@@ -43,13 +41,13 @@ object UHCGameService : GameService() {
     }
 
     override fun enable() {
-        listenerGroup.registerAll()
+        eventHandlerSet.registerAll()
         mechanism.forEach { it.enable() }
         gameWait()
     }
 
     override fun disable() {
-        listenerGroup.unregisterAll()
+        eventHandlerSet.unregisterAll()
         mechanism.forEach { it.disable() }
     }
 }

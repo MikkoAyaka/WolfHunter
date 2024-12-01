@@ -1,32 +1,31 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
-import cn.wolfmc.minecraft.wolfhunter.model.component.ListenerGroup
-import cn.wolfmc.minecraft.wolfhunter.model.component.plusAssign
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.EventHandler
+import cn.wolfmc.minecraft.wolfhunter.model.component.EventHandlerSet
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.event.inventory.FurnaceBurnEvent
 import org.bukkit.event.inventory.FurnaceStartSmeltEvent
 
 object FastFurnace : ScopeService {
-    private var listenerGroup = ListenerGroup()
+    private var eventHandlerSet = EventHandlerSet()
     private var speedMultiple = 4.0
 
     override fun init() {}
 
     override fun enable() {
-        listenerGroup +=
-            subscribe<FurnaceBurnEvent> {
+        eventHandlerSet +=
+            EventHandler(FurnaceBurnEvent::class) {
                 val originalBurnTime = it.burnTime
                 it.burnTime = (originalBurnTime / speedMultiple).toInt()
             }
-        listenerGroup +=
-            subscribe<FurnaceStartSmeltEvent> {
+        eventHandlerSet +=
+            EventHandler(FurnaceStartSmeltEvent::class) {
                 it.totalCookTime = (it.totalCookTime / speedMultiple).toInt()
             }
     }
 
     override fun disable() {
-        listenerGroup.unregisterAll()
-        listenerGroup.clear()
+        eventHandlerSet.unregisterAll()
+        eventHandlerSet.clear()
     }
 }

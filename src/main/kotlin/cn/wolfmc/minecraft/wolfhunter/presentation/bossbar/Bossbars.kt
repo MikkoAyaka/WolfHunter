@@ -1,9 +1,10 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.bossbar
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.register
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
+import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import cn.wolfmc.minecraft.wolfhunter.model.component.TimeCounter
 import net.kyori.adventure.bossbar.BossBar
 import net.kyori.adventure.bossbar.BossBar.Color
@@ -13,7 +14,7 @@ import org.bukkit.event.player.PlayerJoinEvent
 import taboolib.expansion.chain
 
 class NumberBossBar(
-    private val bar: BossBar,
+    val bar: BossBar,
     private val title: () -> String,
     private val min: Int = 0,
     private val max: Int = 100,
@@ -21,13 +22,13 @@ class NumberBossBar(
     val current: () -> Int,
 ) {
     init {
-        subscribe<PlayerJoinEvent> {
+        subscribe(PlayerJoinEvent::class) {
             if (it.player.visibleCondition()) {
                 it.player.showBossBar(bar)
             } else {
                 it.player.hideBossBar(bar)
             }
-        }.register()
+        }
         chain {
             while (true) {
                 wait(20)
@@ -66,6 +67,6 @@ fun gameStarterBossBar(
     { "<white>游戏即将在 <green>${timeCounter.counter}</green> 秒后开始 ...</white>" },
     0,
     max,
-) {
-    timeCounter.counter
-}
+    visibleCondition = { GameInstance.state == GameState.STARTING },
+    current = { timeCounter.counter },
+)
