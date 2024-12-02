@@ -1,7 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.common.extensions
 
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts.plugin
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.EventHandler
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.GameMode
@@ -77,9 +76,9 @@ fun <T : Event> subscribe(
     return listener
 }
 
-fun onlinePlayers() = Bukkit.getOnlinePlayers()
+fun onlinePlayers(): MutableCollection<out Player> = Bukkit.getOnlinePlayers()
 
-fun survivalPlayers() = Bukkit.getOnlinePlayers().filter { it.gameMode == GameMode.SURVIVAL }
+fun survivalPlayers() = onlinePlayers().filter { it.gameMode == GameMode.SURVIVAL }
 
 fun Player.nearbyPlayers(distance: Int) =
     onlinePlayers()

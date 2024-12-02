@@ -8,10 +8,12 @@
 https://docs.qq.com/aio/DV2ZwVUVJd3Zqc3R2
 
 ## 协作规范
-Gitmoji 管理 commmit 信息  
-Ktlint 格式化代码  
-运用 TabooLib 进行开发  
-运用 MiniMessage 设置文本样式与颜色
+
+- 使用 `Gitmoji` 管理 commit 信息  
+- 使用 `Ktlint` 格式化代码  
+- 使用 `TabooLib` 进行开发  
+- 使用 `MiniMessage` 设置文本样式与颜色
+
 ## TODO
 
 ### 通用
@@ -47,3 +49,4 @@ Ktlint 格式化代码
 - [ ] 指南针系统
 - [ ] 指令
 - [ ] Papi
+- [ ] 完整的i18n支持
