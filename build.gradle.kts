@@ -56,9 +56,6 @@ dependencies {
     compileOnly(fileTree("libs"))
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
-    compileOnly("org.jetbrains.exposed:exposed-core:0.56.0")
-    compileOnly("org.jetbrains.exposed:exposed-dao:0.56.0")
-    compileOnly("org.jetbrains.exposed:exposed-jdbc:0.56.0")
     compileOnly("org.xerial:sqlite-jdbc:3.47.0.0")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2") // JUnit 5 API
     testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.2") // JUnit 5 引擎

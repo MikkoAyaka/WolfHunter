@@ -3,17 +3,31 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler
 import cn.wolfmc.minecraft.wolfhunter.common.constants.surfaceVectors
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.model.data.SpecialItem.ScaffoldBlock
-import cn.wolfmc.minecraft.wolfhunter.presentation.item.scaffoldBlockTemplate
 import kotlinx.coroutines.delay
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.runTask
 import taboolib.expansion.chain
+import taboolib.platform.util.buildItem
 
 object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     // 激活自动效果的玩家
     private val activatedPlayers = mutableSetOf<Player>()
+
+    val template =
+        buildItem(Material.WHITE_WOOL) {
+            lore.addAll(
+                listOf(
+                    "",
+                    "  <gray>能够自动放置的辅助方块，需要手持使用，",
+                    "  <gray>放置该方块会消耗团队仓库或个人背包中的材料。",
+                    "",
+                    "  <green>左键 <gray>切换放置模式",
+                    "",
+                ).map { str -> str.miniMsg().legacy() },
+            )
+        }
 
     override fun buildSpecialItem(itemStack: ItemStack): ScaffoldBlock = ScaffoldBlock(itemStack)
 
@@ -63,15 +77,16 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     }
 
     fun giveItem(player: Player) {
-        val specialItem = initItem(scaffoldBlockTemplate.clone())
+        val specialItem = initItem(template.clone())
         player.giveItemSafely(specialItem.itemStack)
         updateItem(player, specialItem)
     }
 
-    fun updateItem(
-        player: Player,
+    override fun updateItem(
+        player: Player?,
         specialItem: ScaffoldBlock,
     ) {
+        if (player == null) return
         specialItem.itemStack.itemMeta =
             specialItem.itemStack.itemMeta.apply {
                 displayName(dynamicName(64, enable = activatedPlayers.contains(player)).miniMsg())

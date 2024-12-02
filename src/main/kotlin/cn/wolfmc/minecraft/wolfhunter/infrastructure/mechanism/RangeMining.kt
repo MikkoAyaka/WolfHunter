@@ -3,6 +3,7 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.nearbyBlocks
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
+import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.block.Block
 import org.bukkit.block.Container
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
+import taboolib.expansion.chain
 import kotlin.math.roundToInt
 
 object RangeMining : ScopeService {
@@ -46,6 +48,11 @@ object RangeMining : ScopeService {
             // 条件判断
             .filter { !it.isEmpty && it.type.hardness <= centerHardness && it !is Container }
             // 破坏
-            .forEach { it.breakNaturally(tool) }
+            .forEach {
+                it.breakNaturally(tool)
+                chain {
+                    GameEvent.RangeMining(player, tool, it).callEvent()
+                }
+            }
     }
 }
