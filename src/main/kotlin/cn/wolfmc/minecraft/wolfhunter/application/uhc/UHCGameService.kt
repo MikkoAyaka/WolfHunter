@@ -21,6 +21,7 @@ object UHCGameService : GameService() {
                 KnockBackFishingRod,
                 Scaffold,
                 ItemSpawnHandler,
+                HealthBooster,
             ),
         )
         mechanism.forEach { it.init() }
