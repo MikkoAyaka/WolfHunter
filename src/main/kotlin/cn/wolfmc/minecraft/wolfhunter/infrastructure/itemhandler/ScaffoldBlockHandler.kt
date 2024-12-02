@@ -1,7 +1,9 @@
-package cn.wolfmc.minecraft.wolfhunter.presentation.item
+package cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler
 
 import cn.wolfmc.minecraft.wolfhunter.common.constants.surfaceVectors
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
+import cn.wolfmc.minecraft.wolfhunter.model.data.SpecialItem.ScaffoldBlock
+import cn.wolfmc.minecraft.wolfhunter.presentation.item.scaffoldBlockTemplate
 import kotlinx.coroutines.delay
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -9,11 +11,14 @@ import org.bukkit.inventory.ItemStack
 import taboolib.common.platform.function.runTask
 import taboolib.expansion.chain
 
-object ScaffoldBlock {
+object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     // 激活自动效果的玩家
     private val activatedPlayers = mutableSetOf<Player>()
 
+    override fun buildSpecialItem(itemStack: ItemStack): ScaffoldBlock = ScaffoldBlock(itemStack)
+
     init {
+        // 自动搭路
         chain {
             val surfaces = surfaceVectors()
             // 不要上面
@@ -25,7 +30,11 @@ object ScaffoldBlock {
                     val block = placeLoc.block
                     if (!block.isPassable && !block.type.isAir) return@forEach
                     // 主手副手都没拿，不生效
-                    if (!isSimilar(p.inventory.itemInMainHand) && !isSimilar(p.inventory.itemInOffHand)) return@forEach
+                    if (!p.inventory.itemInMainHand.isSpecialItem(ScaffoldBlockHandler) &&
+                        !p.inventory.itemInOffHand.isSpecialItem(ScaffoldBlockHandler)
+                    ) {
+                        return@forEach
+                    }
                     // 没有可放置的接触面
                     if (surfaces.map { placeLoc.clone().add(it).block }.none { it.isSolid }) return@forEach
                     // TODO
@@ -45,16 +54,6 @@ object ScaffoldBlock {
         }
     }
 
-    private val descriptions =
-        listOf(
-            "",
-            "  <gray>能够自动放置的辅助方块，需要手持使用，",
-            "  <gray>放置该方块会消耗团队仓库或个人背包中的材料。",
-            "",
-            "  <green>左键 <gray>切换放置模式",
-            "",
-        )
-
     private fun dynamicName(
         count: Int,
         enable: Boolean,
@@ -63,51 +62,33 @@ object ScaffoldBlock {
         return "<reset><white>辅助方块 $mode (${count}个)</white>"
     }
 
-    private val templateItem: ItemStack =
-        itemStack {
-            displayName = dynamicName(1, enable = false)
-            material = Material.WHITE_WOOL
-            amount = 64
-            lore = descriptions
-        }
-
     fun giveItem(player: Player) {
-        player.giveItemSafely(templateItem)
+        val specialItem = initItem(scaffoldBlockTemplate.clone())
+        player.giveItemSafely(specialItem.itemStack)
+        updateItem(player, specialItem)
     }
 
     fun updateItem(
         player: Player,
-        scaffoldBlock: ItemStack,
+        specialItem: ScaffoldBlock,
     ) {
-        scaffoldBlock.itemMeta =
-            scaffoldBlock.itemMeta.apply {
+        specialItem.itemStack.itemMeta =
+            specialItem.itemStack.itemMeta.apply {
                 displayName(dynamicName(64, enable = activatedPlayers.contains(player)).miniMsg())
             }
         // TODO
-        scaffoldBlock.amount = 64
+        specialItem.itemStack.amount = 64
     }
 
     fun toggle(
         player: Player,
-        scaffoldBlock: ItemStack,
+        specialItem: ScaffoldBlock,
     ) {
         if (activatedPlayers.contains(player)) {
             activatedPlayers.remove(player)
         } else {
             activatedPlayers.add(player)
         }
-        updateItem(player, scaffoldBlock)
-    }
-
-    /**
-     * 特殊的比较方式
-     * 因为物品名称和数量都可能会变化
-     * 只能根据描述判断是否是该物品
-     */
-    fun isSimilar(itemStack: ItemStack): Boolean {
-        if (!itemStack.hasItemMeta()) return false
-        val itemLores = itemStack.lore()?.joinToString("\n") { it.plain() } ?: return false
-        val templateLores = templateItem.lore()?.joinToString("\n") { it.plain() } ?: return false
-        return itemLores == templateLores
+        updateItem(player, specialItem)
     }
 }

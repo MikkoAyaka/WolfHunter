@@ -1,10 +1,10 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.command
 
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler.ScaffoldBlockHandler
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
-import cn.wolfmc.minecraft.wolfhunter.presentation.item.ScaffoldBlock
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.MainMenu
 import org.bukkit.entity.Player
 import taboolib.common.platform.command.CommandBody
@@ -43,7 +43,7 @@ object WolfHunterCommand {
             }
             literal("scaffold-block") {
                 execute<Player> { sender, _, _ ->
-                    ScaffoldBlock.giveItem(sender)
+                    ScaffoldBlockHandler.giveItem(sender)
                 }
             }
             literal("game-start") {
