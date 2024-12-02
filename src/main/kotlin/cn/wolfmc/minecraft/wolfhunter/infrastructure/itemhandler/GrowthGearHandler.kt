@@ -10,7 +10,7 @@ import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
-    override fun buildSpecialItem(itemStack: ItemStack): GrowthGear = GrowthGear(itemStack)
+    override fun buildSpecialItem(itemStack: ItemStack): GrowthGear = GrowthGear(itemStack.type, itemStack.itemMeta)
 
     private val loreTemplate =
         """
@@ -24,28 +24,24 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
         """.trimMargin()
 
     override fun updateItem(
-        player: Player?,
+        player: Player,
         specialItem: GrowthGear,
     ) {
         val level = specialItem.getLevel()
         val levelEnum = GrowthGearLevel.entries.getOrNull(level) ?: throw IllegalArgumentException("Unsupported growth level: $level")
-        val material =
-            specialItem.itemStack.apply {
-                itemMeta =
-                    itemMeta.apply {
-                        // 修正材质
-                        val levelType = levelEnum.getMaterial(type)
-                        if (type != levelType) type = levelType
-                        // 更新名字
-                        displayName("${levelEnum.color}${specialItem.itemStack.displayName().plain()}".miniMsg())
-                        // 更新描述
-                        lore(dynamicLore(specialItem))
-                    }
-            }
+        specialItem.apply {
+            // 修正材质
+            val levelType = levelEnum.getMaterial(material)
+            if (material != levelType) material = levelType
+            // 更新名字
+            displayName("${levelEnum.color}${specialItem.displayName()!!.plain()}".miniMsg())
+            // 更新描述
+            lore(dynamicLore(specialItem))
+        }
     }
 
     private fun dynamicLore(specialItem: GrowthGear): List<Component> {
-        val material = specialItem.itemStack.type
+        val material = specialItem.material
         val level = specialItem.getLevel()
         val nextLevelEnum = GrowthGearLevel.entries.getOrNull(level + 1)
         val translationKey = nextLevelEnum?.getMaterial(material)?.translationKey()
@@ -55,18 +51,11 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
         return loreTemplate.format(nextLevelDesc, levelRange.first, progressBar, levelRange.last).lines().map { it.miniMsg() }
     }
 
-    fun updateItem(specialItem: GrowthGear) {
-        updateItem(null, specialItem)
-    }
-
     override fun initItem(itemStack: ItemStack): GrowthGear {
         val specialItem = super.initItem(itemStack)
         // 初始化物品的特殊属性
-        specialItem.itemStack.apply {
-            itemMeta =
-                itemMeta.apply {
-                    isUnbreakable = true
-                }
+        specialItem.apply {
+            isUnbreakable = true
         }
         return specialItem
     }

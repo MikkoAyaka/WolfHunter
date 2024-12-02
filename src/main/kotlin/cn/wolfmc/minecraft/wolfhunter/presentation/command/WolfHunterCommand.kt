@@ -1,17 +1,22 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.command
 
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.giveItemSafely
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler.ScaffoldBlockHandler
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.presentation.menu.MainMenu
+import org.bukkit.Material
 import org.bukkit.entity.Player
+import org.bukkit.event.player.PlayerInteractEvent
 import taboolib.common.platform.command.CommandBody
 import taboolib.common.platform.command.CommandHeader
 import taboolib.common.platform.command.subCommand
 import taboolib.common.platform.command.suggest
 import taboolib.module.ui.openMenu
+import taboolib.platform.util.buildItem
 
 @CommandHeader("wolfhunter", ["wh", "haw", "hw"])
 object WolfHunterCommand {
@@ -56,5 +61,19 @@ object WolfHunterCommand {
                     }
                 }
             }
+            literal("item-debug") {
+                execute<Player> { sender, context, argument ->
+                    sender.giveItemSafely(testItem)
+                    subscribe(PlayerInteractEvent::class) {
+                        println("${it.item == testItem}")
+                    }
+                }
+            }
         }
 }
+
+val testItem =
+    buildItem(Material.DIAMOND_ORE) {
+        this.name = "abab"
+        this.lore.add("114514")
+    }

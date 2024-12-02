@@ -17,7 +17,7 @@ object Scaffold : ScopeService {
                 EventHandler(BlockPlaceEvent::class) {
                     val item = it.itemInHand
                     val specialItem = ScaffoldBlockHandler.get(item) ?: return@EventHandler
-                    ScaffoldBlockHandler.updateItem(it.player, specialItem)
+                    ScaffoldBlockHandler.updateItem(it.player, specialItem, item)
                 }
             // 防止玩家乱丢
             this +=
@@ -32,7 +32,7 @@ object Scaffold : ScopeService {
                     if (!it.action.isLeftClick) return@EventHandler
                     val item = it.item ?: return@EventHandler
                     val specialItem = ScaffoldBlockHandler.get(item) ?: return@EventHandler
-                    ScaffoldBlockHandler.toggle(it.player, specialItem)
+                    ScaffoldBlockHandler.toggle(it.player, specialItem, item)
                 }
         }
     }

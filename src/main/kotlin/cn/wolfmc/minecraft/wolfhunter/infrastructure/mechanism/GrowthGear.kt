@@ -42,8 +42,9 @@ object GrowthGear : ScopeService {
                     if (!craftType.isArmor() && !craftType.isPickaxe() && !craftType.isAxe()) return@EventHandler
                     // 特殊物品发放
                     if (craftType in whitelistGears) {
-                        val specialItem = GrowthGearHandler.initItem(it.recipe.result)
-                        GrowthGearHandler.updateItem(specialItem)
+                        val itemStack = it.recipe.result
+                        val specialItem = GrowthGearHandler.initItem(itemStack)
+                        GrowthGearHandler.updateItem(it.whoClicked as Player, specialItem, itemStack)
                     } else {
                         // 禁止合成高阶装备
                         it.isCancelled = true
@@ -132,10 +133,10 @@ object GrowthGear : ScopeService {
      */
     private fun calcExp(
         player: Player,
-        specialItem: SpecialItem,
+        specialItem: SpecialItem.GrowthGear,
         block: Block,
     ): Int {
-        val type = specialItem.itemStack.type
+        val type = specialItem.material
         if (type.isPickaxe()) {
             if (block.type.isOre()) return oreExpMap[block.type]!!
             if (block.type.isStone()) return 1

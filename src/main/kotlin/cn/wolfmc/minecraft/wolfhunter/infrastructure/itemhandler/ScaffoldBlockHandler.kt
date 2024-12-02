@@ -15,8 +15,9 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     // 激活自动效果的玩家
     private val activatedPlayers = mutableSetOf<Player>()
 
-    val template =
+    private val template =
         buildItem(Material.WHITE_WOOL) {
+            amount = 64
             lore.addAll(
                 listOf(
                     "",
@@ -29,7 +30,7 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
             )
         }
 
-    override fun buildSpecialItem(itemStack: ItemStack): ScaffoldBlock = ScaffoldBlock(itemStack)
+    override fun buildSpecialItem(itemStack: ItemStack): ScaffoldBlock = ScaffoldBlock(itemStack.type, itemStack.amount, itemStack.itemMeta)
 
     init {
         // 自动搭路
@@ -77,33 +78,42 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     }
 
     fun giveItem(player: Player) {
-        val specialItem = initItem(template.clone())
-        player.giveItemSafely(specialItem.itemStack)
-        updateItem(player, specialItem)
+        val itemStack = template.clone()
+        val specialItem = initItem(itemStack)
+        updateItem(player, specialItem, itemStack)
+        player.giveItemSafely(itemStack)
     }
 
     override fun updateItem(
-        player: Player?,
+        player: Player,
         specialItem: ScaffoldBlock,
     ) {
-        if (player == null) return
-        specialItem.itemStack.itemMeta =
-            specialItem.itemStack.itemMeta.apply {
-                displayName(dynamicName(64, enable = activatedPlayers.contains(player)).miniMsg())
-            }
-        // TODO
-        specialItem.itemStack.amount = 64
+        specialItem.apply {
+            amount = 64
+            displayName(dynamicName(64, enable = activatedPlayers.contains(player)).miniMsg())
+        }
+    }
+
+    override fun updateItem(
+        player: Player,
+        specialItem: ScaffoldBlock,
+        latestItem: ItemStack,
+    ) {
+        super.updateItem(player, specialItem, latestItem)
+        latestItem.amount = specialItem.amount
+        latestItem.type = specialItem.material
     }
 
     fun toggle(
         player: Player,
         specialItem: ScaffoldBlock,
+        itemStack: ItemStack,
     ) {
         if (activatedPlayers.contains(player)) {
             activatedPlayers.remove(player)
         } else {
             activatedPlayers.add(player)
         }
-        updateItem(player, specialItem)
+        ScaffoldBlockHandler.updateItem(player, specialItem, itemStack)
     }
 }

@@ -19,24 +19,39 @@ abstract class SpecialItemHandler<T : SpecialItem> {
 
     open fun initItem(itemStack: ItemStack): T {
         val specialItem = buildSpecialItem(itemStack)
-        thisItems[specialItem.uuid] = specialItem
         // 刻录 UUID 到物品持久化容器中，方便读取
-        itemStack.itemMeta =
-            itemStack.itemMeta.apply {
-                persistentDataContainer.set(NamespacedKeys.UUID, PersistentDataType.STRING, specialItem.uuid.toString())
-            }
+        specialItem.apply {
+            persistentDataContainer.set(NamespacedKeys.UUID, PersistentDataType.STRING, specialItem.uuid.toString())
+        }
+        itemStack.itemMeta = specialItem.itemMeta
+        thisItems[specialItem.uuid] = specialItem
         return specialItem
     }
 
-    abstract fun updateItem(
-        player: Player?,
+    /**
+     * 除了更新元数据以外还会检查物品是否同步
+     */
+    open fun updateItem(
+        player: Player,
+        specialItem: T,
+        latestItem: ItemStack,
+    ) {
+        updateItem(player, specialItem)
+        latestItem.itemMeta = specialItem.itemMeta
+    }
+
+    /**
+     * 只更新元数据，不更新物品
+     */
+    protected abstract fun updateItem(
+        player: Player,
         specialItem: T,
     )
 
     fun has(item: ItemStack): Boolean = get(item) != null
 
     fun get(itemStack: ItemStack): T? {
-        val uuidStr = itemStack.itemMeta.persistentDataContainer.get(NamespacedKeys.UUID, PersistentDataType.STRING) ?: return null
+        val uuidStr = itemStack.itemMeta?.persistentDataContainer?.get(NamespacedKeys.UUID, PersistentDataType.STRING) ?: return null
         val uuid = UUID.fromString(uuidStr)
         return thisItems[uuid]
     }
