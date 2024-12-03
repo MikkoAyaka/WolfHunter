@@ -23,6 +23,7 @@ object UHCGameService : GameService() {
                 ItemSpawnHandler,
                 HealthBooster,
                 GrowthGear,
+                HurtGlow,
             ),
         )
         mechanism.forEach { it.init() }
