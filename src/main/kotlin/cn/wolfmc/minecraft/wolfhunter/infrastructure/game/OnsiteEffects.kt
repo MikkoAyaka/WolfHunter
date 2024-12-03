@@ -1,5 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.game
 
+import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import net.kyori.adventure.text.format.NamedTextColor
@@ -76,7 +77,7 @@ fun Player.isEnemy(another: Player): Boolean {
 }
 
 fun defaultScoreboardTeam(name: String) =
-    Bukkit.getScoreboardManager().mainScoreboard.registerNewTeam(name).apply {
+    Contexts.scoreboard.registerNewTeam(name).apply {
         this.color(NamedTextColor.WHITE) // 默认颜色
         this.setAllowFriendlyFire(false) // 禁止友伤
         this.setCanSeeFriendlyInvisibles(true) // 可以看到队友隐身

@@ -41,7 +41,7 @@ class WorldDevourer(
             chain {
                 while (topIndex > safeRange.last) {
                     kotlinx.coroutines.delay(topInterval)
-                    devourLayer(world, topIndex)
+                    for (top in topIndex..fromTop) devourLayer(world, top)
                     topIndex--
                 }
             }
@@ -51,7 +51,7 @@ class WorldDevourer(
             chain {
                 while (bottomIndex < safeRange.first) {
                     kotlinx.coroutines.delay(bottomInterval)
-                    devourLayer(world, bottomIndex)
+                    for (bottom in fromBottom..bottomIndex) devourLayer(world, bottom)
                     bottomIndex++
                 }
             }
@@ -72,7 +72,9 @@ class WorldDevourer(
         for (x in (cx - radius)..(cx + radius)) {
             for (z in (cz - radius)..(cz + radius)) {
                 val block = world.getBlockAt(x, y, z)
+                if (block.type.isAir) continue
                 runTask {
+                    block.world.playSound(block.location, block.blockSoundGroup.breakSound, 0.5f, 1f)
                     block.type = Material.AIR
                 }
             }

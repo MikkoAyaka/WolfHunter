@@ -20,7 +20,7 @@ enum class GrowthGearLevel(
     private val cache: MutableMap<String, Material> = mutableMapOf()
 
     fun getMaterial(template: Material): Material {
-        val args = template.name.split(' ').toMutableList()
+        val args = template.name.split('_').toMutableList()
         if (args.size < 2) {
             Contexts.logger.warning("Growth Gear do not support the material: ${template.name}")
             return template
@@ -29,7 +29,7 @@ enum class GrowthGearLevel(
         args[0] = this.materialPrefix
         val newMaterial = Material.getMaterial(args.joinToString(separator = "_"))
         if (newMaterial == null) {
-            Contexts.logger.warning("Growth Gear do not support material: ${template.name}")
+            Contexts.logger.warning("Growth Gear do not support the material: ${template.name}")
             return template
         }
         cache[args[1]] = newMaterial

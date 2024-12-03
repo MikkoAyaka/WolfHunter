@@ -9,7 +9,7 @@ object Contexts {
     val plugin by lazy { BukkitPlugin.getInstance() }
     lateinit var gameService: GameService
     val logger by lazy { plugin.logger }
-
+    val scoreboard = Bukkit.getScoreboardManager().newScoreboard
     val worldMain: World by lazy { Bukkit.getWorlds().first { it.environment == World.Environment.NORMAL } }
     val worldNether: World by lazy { Bukkit.getWorlds().first { it.environment == World.Environment.NETHER } }
     val worldTheEnd: World by lazy { Bukkit.getWorlds().first { it.environment == World.Environment.THE_END } }

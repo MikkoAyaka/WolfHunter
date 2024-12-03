@@ -52,7 +52,7 @@ object UHCRunningStage : ScopeService {
     private val worldDevourer =
         WorldDevourer(
             Location(worldMain, 0.0, 100.0, 0.0),
-            30,
+            10,
             worldMain.maxHeight,
             worldMain.minHeight,
             50..60,
@@ -63,19 +63,29 @@ object UHCRunningStage : ScopeService {
         borderTask =
             chain {
                 delay(1000 * 10)
-                onlinePlayers().forEach { it.sendMessage("<green>距离世界边界收缩还有 120 秒。".miniMsg().plain()) }
+                onlinePlayers().forEach { it.sendMessage("<green>距离世界边界收缩还有 120 秒。".miniMsg().legacy()) }
                 delay(1000 * 90)
-                onlinePlayers().forEach { it.sendMessage("<yellow>距离世界边界收缩还有 30 秒。".miniMsg().plain()) }
+                onlinePlayers().forEach { it.sendMessage("<yellow>距离世界边界收缩还有 30 秒。".miniMsg().legacy()) }
                 delay(1000 * 20)
-                onlinePlayers().forEach { it.sendMessage("<red>边界即将缩小，请做好撤离的准备。".miniMsg().plain()) }
+                onlinePlayers().forEach { it.sendMessage("<red>边界即将缩小，请做好撤离的准备。".miniMsg().legacy()) }
                 delay(1000 * 10)
                 runTask {
                     onlinePlayers().forEach { it.playSound(Sounds.THUNDER) }
-                    worldMain.worldBorder.setSize(50.0, 60)
+                    worldMain.worldBorder.setSize(50.0, 180)
                 }
-                delay(1000 * 60)
-                onlinePlayers().forEach { it.sendMessage("<red>虚空吞噬正从天空和地底步步逼近，小心脚下！".miniMsg().plain()) }
+                delay(1000 * 180)
+                onlinePlayers().forEach { it.sendMessage("<red>边界将进一步缩小，准备好战斗吧！".miniMsg().legacy()) }
+                delay(1000 * 90)
+                runTask {
+                    onlinePlayers().forEach { it.playSound(Sounds.THUNDER) }
+                    worldMain.worldBorder.setSize(10.0, 90)
+                }
+                delay(1000 * 90)
+                onlinePlayers().forEach { it.sendMessage("<red>虚空吞噬正从天空和地底步步逼近，小心脚下！".miniMsg().legacy()) }
                 worldDevourer.enable()
+                onlinePlayers().forEach {
+                    it.playSound(Sounds.WORLD_BREAK)
+                }
             }
     }
 }

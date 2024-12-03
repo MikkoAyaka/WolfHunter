@@ -12,7 +12,11 @@ import org.bukkit.block.Block
 import org.bukkit.entity.Player
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.entity.EntityDamageByEntityEvent
+import org.bukkit.event.entity.EntityDamageEvent
+import org.bukkit.event.entity.EntityPickupItemEvent
 import org.bukkit.event.inventory.CraftItemEvent
+import org.bukkit.event.player.PlayerInteractEvent
+import org.bukkit.inventory.ItemStack
 import taboolib.expansion.chain
 import taboolib.platform.util.attacker
 
@@ -27,24 +31,62 @@ object GrowthGear : ScopeService {
             Material.LEATHER_LEGGINGS,
             Material.LEATHER_BOOTS,
             Material.WOODEN_AXE,
-            Material.WOODEN_HOE,
+//            Material.WOODEN_HOE,
             Material.WOODEN_PICKAXE,
             Material.WOODEN_SWORD,
-            Material.WOODEN_SHOVEL,
+//            Material.WOODEN_SHOVEL,
         )
+
+    private fun tryUpdate(
+        player: Player,
+        itemStack: ItemStack?,
+    ) {
+        if (itemStack?.isSpecialItem(GrowthGearHandler) != true) return
+        val specialItem = GrowthGearHandler.get(itemStack)!!
+        GrowthGearHandler.updateItem(player, specialItem, itemStack)
+    }
+
+    private fun tryInit(
+        player: Player,
+        itemStack: ItemStack?,
+    ) {
+        if (itemStack == null) return
+        if (itemStack.type !in whitelistGears) return
+        if (itemStack.isSpecialItem(GrowthGearHandler)) return
+        val specialItem = GrowthGearHandler.initItem(itemStack)
+        GrowthGearHandler.updateItem(player, specialItem, itemStack)
+    }
 
     override fun init() {
         eventHandlers.apply {
+            // 交互时刷新特殊物品
+            this +=
+                EventHandler(PlayerInteractEvent::class) {
+                    tryUpdate(it.player, it.item)
+                }
+            // 受伤时刷新护甲
+            this +=
+                EventHandler(EntityDamageEvent::class) {
+                    val player = it.entity as? Player ?: return@EventHandler
+                    player.inventory.armorContents.forEach { armor ->
+                        tryUpdate(player, armor)
+                    }
+                }
+            // 玩家捡起无属性的初始物品
+            this +=
+                EventHandler(EntityPickupItemEvent::class) {
+                    val player = it.entity as? Player ?: return@EventHandler
+                    tryInit(player, it.item.itemStack)
+                }
+
             this +=
                 EventHandler(CraftItemEvent::class) {
-                    val craftType = it.recipe.result.type
+                    val craftType = it.currentItem?.type ?: return@EventHandler
                     // TODO 未来支持锄头和铲子
                     if (!craftType.isArmor() && !craftType.isPickaxe() && !craftType.isAxe()) return@EventHandler
                     // 特殊物品发放
                     if (craftType in whitelistGears) {
-                        val itemStack = it.recipe.result
-                        val specialItem = GrowthGearHandler.initItem(itemStack)
-                        GrowthGearHandler.updateItem(it.whoClicked as Player, specialItem, itemStack)
+                        tryInit(it.whoClicked as Player, it.currentItem)
                     } else {
                         // 禁止合成高阶装备
                         it.isCancelled = true

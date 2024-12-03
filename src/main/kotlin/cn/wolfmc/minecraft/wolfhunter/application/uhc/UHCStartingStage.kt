@@ -3,7 +3,6 @@ package cn.wolfmc.minecraft.wolfhunter.application.uhc
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
-import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.AutomaticGameStarter
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.ReadyCounter
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
@@ -24,7 +23,7 @@ object UHCStartingStage : ScopeService {
 
     override fun enable() {
         // 队伍数量规划
-        val teamAmount = scheduleTeamAmount()
+        val teamAmount = if (onlinePlayers().size >= 2) scheduleTeamAmount() else 1
         // 初始化队伍与玩家
         initTeams(teamAmount)
         // 初始化队伍颜色
@@ -34,7 +33,7 @@ object UHCStartingStage : ScopeService {
         readyCounter.enable()
         // 监听计时结束
         subscribe(CountdownFinished::class) {
-            if (it.counter is AutomaticGameStarter) {
+            if (it.counter is ReadyCounter) {
                 readyCounter.disable()
                 GameInstance.nextState()
                 unregister()

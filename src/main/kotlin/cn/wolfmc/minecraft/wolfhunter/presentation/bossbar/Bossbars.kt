@@ -1,6 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.bossbar
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
+import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
@@ -22,8 +23,16 @@ class NumberBossBar(
     val current: () -> Int,
 ) {
     init {
+        onlinePlayers().forEach {
+            if (it.visibleCondition()) {
+                it.showBossBar(bar)
+            } else {
+                it.hideBossBar(bar)
+            }
+        }
         subscribe(PlayerJoinEvent::class) {
             if (it.player.visibleCondition()) {
+                println("Show boss bar on join")
                 it.player.showBossBar(bar)
             } else {
                 it.player.hideBossBar(bar)
@@ -33,6 +42,7 @@ class NumberBossBar(
             while (true) {
                 wait(20)
                 updateProgress()
+                updateTitle()
             }
         }
     }

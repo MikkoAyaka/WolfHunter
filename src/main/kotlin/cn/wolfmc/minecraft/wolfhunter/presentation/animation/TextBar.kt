@@ -18,6 +18,6 @@ object TextBar {
         val filledPart = filled.toString().repeat(filledCount)
         val emptyPart = empty.toString().repeat(length - filledCount)
 
-        return "<gradient:green:red>$filledPart$emptyPart</gradient>"
+        return "<gradient:green:red>$filledPart</gradient><white>$emptyPart</white>"
     }
 }

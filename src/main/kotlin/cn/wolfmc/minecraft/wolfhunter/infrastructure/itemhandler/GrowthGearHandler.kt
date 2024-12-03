@@ -2,7 +2,6 @@ package cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler
 
 import cn.wolfmc.minecraft.wolfhunter.common.constants.GrowthGearLevel
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.plain
 import cn.wolfmc.minecraft.wolfhunter.model.data.SpecialItem.GrowthGear
 import cn.wolfmc.minecraft.wolfhunter.presentation.animation.TextBar
 import net.kyori.adventure.text.Component
@@ -20,6 +19,7 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
         |  
         |  <gray>武器主要通过 <gold>战斗</gold> 获取经验</gray>
         |  <gray>工具主要通过 <green>采集</green> 获取经验</gray>
+        |  <gray>护甲主要通过 <aqua>锻造</aqua> 获取经验(将铁锭拖拽到护甲以锻造)</gray>
         |  
         """.trimMargin()
 
@@ -34,7 +34,7 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
             val levelType = levelEnum.getMaterial(material)
             if (material != levelType) material = levelType
             // 更新名字
-            displayName("${levelEnum.color}${specialItem.displayName()!!.plain()}".miniMsg())
+            displayName("${levelEnum.color}<lang:${specialItem.material.translationKey()}>".miniMsg())
             // 更新描述
             lore(dynamicLore(specialItem))
         }
@@ -45,7 +45,7 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
         val level = specialItem.getLevel()
         val nextLevelEnum = GrowthGearLevel.entries.getOrNull(level + 1)
         val translationKey = nextLevelEnum?.getMaterial(material)?.translationKey()
-        val nextLevelDesc = if (translationKey == null) "<red>已达到最大等级" else "${nextLevelEnum.color}$translationKey"
+        val nextLevelDesc = if (translationKey == null) "<red>已达到最大等级" else "${nextLevelEnum.color}<lang:$translationKey>"
         val progressBar = TextBar.defaultStyle(specialItem.getLevelExpPercent(), 20)
         val levelRange = specialItem.getLevelExpRange()
         return loreTemplate.format(nextLevelDesc, levelRange.first, progressBar, levelRange.last).lines().map { it.miniMsg() }
@@ -55,6 +55,7 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
         val specialItem = super.initItem(itemStack)
         // 初始化物品的特殊属性
         specialItem.apply {
+            displayName("<lang:${itemStack.type.translationKey()}>".miniMsg())
             isUnbreakable = true
         }
         return specialItem
