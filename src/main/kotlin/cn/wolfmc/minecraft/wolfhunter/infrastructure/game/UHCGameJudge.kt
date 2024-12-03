@@ -7,6 +7,7 @@ import cn.wolfmc.minecraft.wolfhunter.model.data.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.presentation.sound.Sounds
+import org.bukkit.GameMode
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerJoinEvent
 import org.bukkit.event.player.PlayerQuitEvent
@@ -23,7 +24,14 @@ object UHCGameJudge : ScopeService {
         eventHandlerSet +=
             EventHandler(PlayerDeathEvent::class) { e ->
                 val gamePlayer = GameInstance.findGamePlayer(e.player) ?: return@EventHandler
+                e.isCancelled = true
                 playerOut(gamePlayer)
+                val world = e.player.world
+                e.player.inventory.forEach {
+                    world.dropItemNaturally(e.player.location, it)
+                }
+                e.player.inventory.clear()
+                gamePlayer.player?.gameMode = GameMode.SPECTATOR
             }
         eventHandlerSet +=
             EventHandler(GameEvent.GamePlayerOut::class) {

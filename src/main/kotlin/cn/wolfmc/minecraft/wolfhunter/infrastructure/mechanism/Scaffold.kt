@@ -6,6 +6,7 @@ import cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler.ScaffoldBlockHa
 import cn.wolfmc.minecraft.wolfhunter.model.component.EventHandlerSet
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.ItemSpawnEvent
 import org.bukkit.event.player.PlayerDropItemEvent
 import org.bukkit.event.player.PlayerInteractEvent
 
@@ -33,6 +34,11 @@ object Scaffold : ScopeService {
                     val item = it.item ?: return@EventHandler
                     val specialItem = ScaffoldBlockHandler.get(item) ?: return@EventHandler
                     ScaffoldBlockHandler.toggle(it.player, specialItem, item)
+                }
+            this +=
+                EventHandler(ItemSpawnEvent::class) {
+                    if (!it.entity.itemStack.isSpecialItem(ScaffoldBlockHandler)) return@EventHandler
+                    it.entity.remove()
                 }
         }
     }

@@ -14,6 +14,7 @@ import cn.wolfmc.minecraft.wolfhunter.presentation.sound.Sounds
 import kotlinx.coroutines.delay
 import org.bukkit.Difficulty
 import org.bukkit.Location
+import org.bukkit.potion.PotionEffectType
 import taboolib.common.platform.function.runTask
 import taboolib.expansion.chain
 
@@ -33,6 +34,18 @@ object UHCRunningStage : ScopeService {
                 it.playSound(Sounds.THUNDER)
                 it.playSound(Sounds.DRAGON_GROWL)
                 UHCKit.give(it)
+                it.addPotionEffect(
+                    PotionEffectType.DOLPHINS_GRACE
+                        .createEffect(20 * 30, 0)
+                        .withParticles(false)
+                        .withIcon(true),
+                )
+                it.addPotionEffect(
+                    PotionEffectType.WATER_BREATHING
+                        .createEffect(20 * 30, 0)
+                        .withParticles(false)
+                        .withIcon(true),
+                )
             }
             narrowBorder()
             worldMain.difficulty = Difficulty.HARD
