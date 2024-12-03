@@ -167,24 +167,24 @@ object GrowthGear : ScopeService {
 
     private val oreExpMap =
         mutableMapOf(
-            Material.COAL_ORE to 10,
-            Material.DEEPSLATE_COAL_ORE to 10,
-            Material.IRON_ORE to 50,
-            Material.DEEPSLATE_IRON_ORE to 50,
-            Material.COPPER_ORE to 10,
-            Material.DEEPSLATE_COPPER_ORE to 10,
-            Material.GOLD_ORE to 75,
-            Material.DEEPSLATE_GOLD_ORE to 75,
-            Material.REDSTONE_ORE to 50,
-            Material.DEEPSLATE_REDSTONE_ORE to 50,
-            Material.LAPIS_ORE to 50,
-            Material.DEEPSLATE_LAPIS_ORE to 50,
-            Material.EMERALD_ORE to 2000,
-            Material.DEEPSLATE_EMERALD_ORE to 2000,
-            Material.DIAMOND_ORE to 500,
-            Material.DEEPSLATE_DIAMOND_ORE to 500,
-            Material.NETHER_GOLD_ORE to 50,
-            Material.NETHER_QUARTZ_ORE to 80,
+            Material.COAL_ORE to 5,
+            Material.DEEPSLATE_COAL_ORE to 5,
+            Material.IRON_ORE to 20,
+            Material.DEEPSLATE_IRON_ORE to 20,
+            Material.COPPER_ORE to 5,
+            Material.DEEPSLATE_COPPER_ORE to 5,
+            Material.GOLD_ORE to 30,
+            Material.DEEPSLATE_GOLD_ORE to 30,
+            Material.REDSTONE_ORE to 20,
+            Material.DEEPSLATE_REDSTONE_ORE to 20,
+            Material.LAPIS_ORE to 20,
+            Material.DEEPSLATE_LAPIS_ORE to 20,
+            Material.EMERALD_ORE to 1000,
+            Material.DEEPSLATE_EMERALD_ORE to 1000,
+            Material.DIAMOND_ORE to 300,
+            Material.DEEPSLATE_DIAMOND_ORE to 300,
+            Material.NETHER_GOLD_ORE to 20,
+            Material.NETHER_QUARTZ_ORE to 30,
         )
 
     /**
@@ -200,7 +200,7 @@ object GrowthGear : ScopeService {
             if (block.type.isOre()) return oreExpMap[block.type]!!.toDouble()
             if (block.type.isStone()) return 1.0
         } else if (type.isAxe()) {
-            if (block.type.isLog()) return 8.0
+            if (block.type.isLog()) return 10.0
         }
         return 0.0
     }

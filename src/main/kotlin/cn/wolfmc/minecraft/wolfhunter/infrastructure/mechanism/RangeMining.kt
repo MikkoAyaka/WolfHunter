@@ -1,6 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.nearbyBlocks
+import cn.wolfmc.minecraft.wolfhunter.common.constants.surfaceVectors
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent
@@ -12,7 +12,6 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
-import kotlin.math.roundToInt
 
 object RangeMining : ScopeService {
     override fun init() {
@@ -38,13 +37,12 @@ object RangeMining : ScopeService {
         tool: ItemStack,
         block: Block,
     ) {
-        val direction = player.location.direction.normalize()
+//        val direction = player.location.direction.normalize()
         val centerMaterial = block.type
         val centerHardness = centerMaterial.hardness
-        block
-            .nearbyBlocks(2)
-            // 偏移
-            .map { it.getRelative(direction.x.roundToInt(), direction.y.roundToInt(), direction.z.roundToInt()) }
+        surfaceVectors()
+            // 获取相邻方块
+            .map { block.getRelative(it.blockX, it.blockY, it.blockZ) }
             // 条件判断
             .filter { !it.isEmpty && it.type.hardness <= centerHardness && it !is Container }
             // 破坏
