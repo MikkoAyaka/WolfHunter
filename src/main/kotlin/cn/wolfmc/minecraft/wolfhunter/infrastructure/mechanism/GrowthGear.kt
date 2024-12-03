@@ -1,5 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism
 
+import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
+import cn.wolfmc.minecraft.wolfhunter.application.uhc.UHCGameService
 import cn.wolfmc.minecraft.wolfhunter.common.constants.*
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler.GrowthGearHandler
@@ -22,6 +24,7 @@ import taboolib.platform.util.attacker
 
 object GrowthGear : ScopeService {
     private val eventHandlers = EventHandlerSet()
+    var expMultiple: Double = 1.0
 
     // 存储经验
     private val whitelistGears =
@@ -37,7 +40,7 @@ object GrowthGear : ScopeService {
 //            Material.WOODEN_SHOVEL,
         )
 
-    private fun tryUpdate(
+    private fun tryUpdateItem(
         player: Player,
         itemStack: ItemStack?,
     ) {
@@ -46,7 +49,7 @@ object GrowthGear : ScopeService {
         GrowthGearHandler.updateItem(player, specialItem, itemStack)
     }
 
-    private fun tryInit(
+    private fun tryInitItem(
         player: Player,
         itemStack: ItemStack?,
     ) {
@@ -58,28 +61,29 @@ object GrowthGear : ScopeService {
     }
 
     override fun init() {
+        if (Contexts.gameService == UHCGameService) expMultiple = 10.0
         eventHandlers.apply {
             // 交互时刷新特殊物品
             this +=
                 EventHandler(PlayerInteractEvent::class) {
-                    tryInit(it.player, it.item)
-                    tryUpdate(it.player, it.item)
+                    tryInitItem(it.player, it.item)
+                    tryUpdateItem(it.player, it.item)
                 }
             // 受伤时刷新护甲
             this +=
                 EventHandler(EntityDamageEvent::class) {
                     val player = it.entity as? Player ?: return@EventHandler
                     player.inventory.armorContents.forEach { armor ->
-                        tryInit(player, armor)
-                        tryUpdate(player, armor)
+                        tryInitItem(player, armor)
+                        tryUpdateItem(player, armor)
                     }
                 }
             // 玩家捡起无属性的初始物品
             this +=
                 EventHandler(EntityPickupItemEvent::class) {
                     val player = it.entity as? Player ?: return@EventHandler
-                    tryInit(player, it.item.itemStack)
-                    tryUpdate(player, it.item.itemStack)
+                    tryInitItem(player, it.item.itemStack)
+                    tryUpdateItem(player, it.item.itemStack)
                 }
 
             this +=
@@ -89,7 +93,7 @@ object GrowthGear : ScopeService {
                     if (!craftType.isArmor() && !craftType.isPickaxe() && !craftType.isAxe()) return@EventHandler
                     // 特殊物品发放
                     if (craftType in whitelistGears) {
-                        tryInit(it.whoClicked as Player, it.currentItem)
+                        tryInitItem(it.whoClicked as Player, it.currentItem)
                     } else {
                         // 禁止合成高阶装备
                         it.isCancelled = true

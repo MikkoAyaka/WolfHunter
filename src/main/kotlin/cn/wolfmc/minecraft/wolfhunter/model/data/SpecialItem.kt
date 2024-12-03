@@ -1,5 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.model.data
 
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.GrowthGear
 import org.bukkit.Material
 import org.bukkit.inventory.meta.ItemMeta
 import java.util.UUID
@@ -22,7 +23,8 @@ sealed class SpecialItem(
         private var exp = 0
 
         @Synchronized fun addExp(value: Int) {
-            exp += value
+            // TODO
+            exp += (value * cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.GrowthGear.expMultiple).toInt()
         }
 
         fun getExp() = exp
