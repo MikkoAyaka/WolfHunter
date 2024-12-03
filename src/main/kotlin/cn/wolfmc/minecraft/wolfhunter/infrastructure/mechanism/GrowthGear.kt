@@ -50,7 +50,7 @@ object GrowthGear : ScopeService {
         GrowthGearHandler.updateItem(player, specialItem, itemStack)
     }
 
-    private fun tryInitItem(
+    fun tryInitItem(
         player: Player,
         itemStack: ItemStack?,
     ) {
@@ -62,7 +62,7 @@ object GrowthGear : ScopeService {
     }
 
     override fun init() {
-        if (Contexts.gameService == UHCGameService) expMultiple = 5.0
+        if (Contexts.gameService == UHCGameService) expMultiple = 4.0
         eventHandlers.apply {
             // 交互时刷新特殊物品
             this +=
@@ -105,10 +105,10 @@ object GrowthGear : ScopeService {
                 EventHandler(BlockBreakEvent::class) {
                     val item = it.player.inventory.itemInMainHand
                     if (!item.isSpecialItem(GrowthGearHandler)) return@EventHandler
-                    val specialItem = GrowthGearHandler.get(item) ?: return@EventHandler
+                    val specialItem = GrowthGearHandler.get(item)!!
                     specialItem.addExp(calcExp(it.player, specialItem, it.block))
                     val exp = calcExp(it.player, specialItem, it.block)
-                    if (exp != 0) specialItem.addExp(exp)
+                    if (exp != 0.0) specialItem.addExp(exp)
                 }
             // 连锁采集经验
             this +=
@@ -117,7 +117,7 @@ object GrowthGear : ScopeService {
                     if (!item.isSpecialItem(GrowthGearHandler)) return@EventHandler
                     val specialItem = GrowthGearHandler.get(item) ?: return@EventHandler
                     val exp = calcExp(it.player, specialItem, it.block)
-                    if (exp != 0) specialItem.addExp(exp)
+                    if (exp != 0.0) specialItem.addExp(exp)
                 }
             // PVE / PVP 经验
             this +=
@@ -129,7 +129,7 @@ object GrowthGear : ScopeService {
                     val defender = it.entity
                     val finalDamage = it.finalDamage
                     val specialItem = GrowthGearHandler.get(weapon)!!
-                    val exp = if (defender is Player) (finalDamage * 20).toInt() else (finalDamage * 5).toInt()
+                    val exp = if (defender is Player) finalDamage * 20 else finalDamage * 5
                     specialItem.addExp(exp)
                 }
             // 装备锻造
@@ -138,7 +138,7 @@ object GrowthGear : ScopeService {
                     if (it.cursor?.type != Material.IRON_INGOT) return@EventHandler
                     if (it.currentItem?.isSpecialItem(GrowthGearHandler) != true) return@EventHandler
                     val specialItem = GrowthGearHandler.get(it.currentItem!!)!!
-                    specialItem.addExp(125 * it.cursor!!.amount)
+                    specialItem.addExp(125.0 * it.cursor!!.amount)
                     tryUpdateItem(it.whoClicked as Player, it.currentItem)
                 }
         }
@@ -154,7 +154,7 @@ object GrowthGear : ScopeService {
                 while (true) {
                     wait(20 * 60)
                     GrowthGearHandler.allItems().forEach {
-                        it.addExp(100)
+                        it.addExp(100.0)
                     }
                 }
             }
@@ -167,24 +167,24 @@ object GrowthGear : ScopeService {
 
     private val oreExpMap =
         mutableMapOf(
-            Material.COAL_ORE to 5,
-            Material.DEEPSLATE_COAL_ORE to 5,
-            Material.IRON_ORE to 20,
-            Material.DEEPSLATE_IRON_ORE to 20,
-            Material.COPPER_ORE to 5,
-            Material.DEEPSLATE_COPPER_ORE to 5,
-            Material.GOLD_ORE to 30,
-            Material.DEEPSLATE_GOLD_ORE to 30,
-            Material.REDSTONE_ORE to 30,
-            Material.DEEPSLATE_REDSTONE_ORE to 30,
-            Material.EMERALD_ORE to 500,
-            Material.DEEPSLATE_EMERALD_ORE to 500,
-            Material.LAPIS_ORE to 30,
-            Material.DEEPSLATE_LAPIS_ORE to 30,
-            Material.DIAMOND_ORE to 100,
-            Material.DEEPSLATE_DIAMOND_ORE to 100,
-            Material.NETHER_GOLD_ORE to 10,
-            Material.NETHER_QUARTZ_ORE to 5,
+            Material.COAL_ORE to 10,
+            Material.DEEPSLATE_COAL_ORE to 10,
+            Material.IRON_ORE to 50,
+            Material.DEEPSLATE_IRON_ORE to 50,
+            Material.COPPER_ORE to 10,
+            Material.DEEPSLATE_COPPER_ORE to 10,
+            Material.GOLD_ORE to 75,
+            Material.DEEPSLATE_GOLD_ORE to 75,
+            Material.REDSTONE_ORE to 50,
+            Material.DEEPSLATE_REDSTONE_ORE to 50,
+            Material.LAPIS_ORE to 50,
+            Material.DEEPSLATE_LAPIS_ORE to 50,
+            Material.EMERALD_ORE to 2000,
+            Material.DEEPSLATE_EMERALD_ORE to 2000,
+            Material.DIAMOND_ORE to 500,
+            Material.DEEPSLATE_DIAMOND_ORE to 500,
+            Material.NETHER_GOLD_ORE to 50,
+            Material.NETHER_QUARTZ_ORE to 80,
         )
 
     /**
@@ -194,14 +194,14 @@ object GrowthGear : ScopeService {
         player: Player,
         specialItem: SpecialItem.GrowthGear,
         block: Block,
-    ): Int {
+    ): Double {
         val type = specialItem.material
         if (type.isPickaxe()) {
-            if (block.type.isOre()) return oreExpMap[block.type]!!
-            if (block.type.isStone()) return 1
+            if (block.type.isOre()) return oreExpMap[block.type]!!.toDouble()
+            if (block.type.isStone()) return 1.0
         } else if (type.isAxe()) {
-            if (block.type.isLog()) return 5
+            if (block.type.isLog()) return 8.0
         }
-        return 0
+        return 0.0
     }
 }

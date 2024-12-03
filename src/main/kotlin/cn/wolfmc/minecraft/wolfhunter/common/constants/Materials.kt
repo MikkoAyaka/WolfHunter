@@ -156,6 +156,7 @@ private val STONE_MATERIAL =
         Material.COBBLESTONE,
         Material.DEEPSLATE,
         Material.COBBLED_DEEPSLATE,
+        Material.GRANITE,
     )
 
 fun Material.isLog() = this in LOG_MATERIAL

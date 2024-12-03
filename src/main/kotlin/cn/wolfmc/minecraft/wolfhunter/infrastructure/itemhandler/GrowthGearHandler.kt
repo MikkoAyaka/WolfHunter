@@ -40,6 +40,17 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
         }
     }
 
+    override fun updateItem(
+        player: Player,
+        specialItem: GrowthGear,
+        latestItem: ItemStack,
+    ) {
+        super.updateItem(player, specialItem, latestItem)
+        if (latestItem.type != specialItem.material) {
+            latestItem.type = specialItem.material
+        }
+    }
+
     private fun dynamicLore(specialItem: GrowthGear): List<Component> {
         val material = specialItem.material
         val level = specialItem.getLevel()

@@ -8,10 +8,10 @@ import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import org.bukkit.block.Block
 import org.bukkit.block.Container
 import org.bukkit.entity.Player
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.inventory.ItemStack
-import taboolib.expansion.chain
 import kotlin.math.roundToInt
 
 object RangeMining : ScopeService {
@@ -22,7 +22,7 @@ object RangeMining : ScopeService {
 
     override fun enable() {
         listener =
-            subscribe(BlockBreakEvent::class) {
+            subscribe(BlockBreakEvent::class, EventPriority.HIGHEST) {
                 if (it.player.isSneaking) return@subscribe
                 if (it.block is Container) return@subscribe
                 rangeMining(it.player, it.player.inventory.itemInMainHand, it.block)
@@ -49,10 +49,8 @@ object RangeMining : ScopeService {
             .filter { !it.isEmpty && it.type.hardness <= centerHardness && it !is Container }
             // 破坏
             .forEach {
+                GameEvent.RangeMining(player, tool, it).callEvent()
                 it.breakNaturally(tool)
-                chain {
-                    GameEvent.RangeMining(player, tool, it).callEvent()
-                }
             }
     }
 }

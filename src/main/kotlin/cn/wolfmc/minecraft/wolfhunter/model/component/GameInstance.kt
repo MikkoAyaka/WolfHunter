@@ -2,7 +2,6 @@ package cn.wolfmc.minecraft.wolfhunter.model.component
 
 import cn.wolfmc.minecraft.wolfhunter.model.data.GamePlayer
 import cn.wolfmc.minecraft.wolfhunter.model.data.GameTeam
-import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.StateChanged
 import org.bukkit.OfflinePlayer
 import taboolib.common.platform.function.runTask
@@ -47,7 +46,6 @@ object GameInstance {
     fun leave(player: GamePlayer) {
         player.team.leave(player)
         gamePlayers.remove(player.uniqueId)
-        GameEvent.GamePlayerOut(player).callEvent()
     }
 }
 

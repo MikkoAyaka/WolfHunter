@@ -1,6 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.kit
 
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler.ScaffoldBlockHandler
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.GrowthGear
 import org.bukkit.Material
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
@@ -22,6 +23,9 @@ object UHCKit {
     fun give(player: Player) {
         content.forEach { (index, item) ->
             player.inventory.setItem(index, item)
+        }
+        player.inventory.forEach {
+            GrowthGear.tryInitItem(player, it)
         }
         ScaffoldBlockHandler.giveItem(player)
     }

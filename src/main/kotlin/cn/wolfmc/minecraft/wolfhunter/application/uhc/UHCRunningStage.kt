@@ -57,7 +57,7 @@ object UHCRunningStage : ScopeService {
             10,
             worldMain.maxHeight,
             worldMain.minHeight,
-            50..60,
+            56..60,
             120,
         )
 

@@ -47,13 +47,15 @@ fun Listener.unregister() {
 
 class EventHandler<T : Event>(
     private val eventClass: KClass<T>,
-    val block: Listener.(T) -> Unit,
+    private val priority: EventPriority = EventPriority.NORMAL,
+    private val block: Listener.(T) -> Unit,
 ) {
-    fun register(): Listener = subscribe(eventClass, block)
+    fun register(): Listener = subscribe(eventClass, priority, block)
 }
 
 fun <T : Event> subscribe(
     eventClass: KClass<T>,
+    priority: EventPriority = EventPriority.NORMAL,
     block: Listener.(T) -> Unit,
 ): Listener {
     val listener = object : Listener {}
@@ -68,7 +70,7 @@ fun <T : Event> subscribe(
         .registerEvent(
             eventClass.java,
             listener,
-            EventPriority.NORMAL,
+            priority,
             executor,
             plugin,
             false,

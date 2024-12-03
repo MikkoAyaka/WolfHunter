@@ -22,9 +22,10 @@ sealed class SpecialItem(
     ) : SpecialItem(itemMeta) {
         private var exp = 0
 
-        @Synchronized fun addExp(value: Int) {
+        @Synchronized fun addExp(value: Double) {
             // TODO
-            exp += (value * cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.GrowthGear.expMultiple).toInt()
+            val multiple = cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.GrowthGear.expMultiple
+            exp += (value * multiple).toInt()
         }
 
         fun getExp() = exp
@@ -55,7 +56,7 @@ sealed class SpecialItem(
         }
 
         companion object {
-            private val levelUpRequireList = listOf(0, 1000, 3000, 6000, 10000)
+            private val levelUpRequireList = listOf(0, 1000, 4000, 10000, 20000)
         }
     }
 }

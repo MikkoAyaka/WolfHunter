@@ -10,6 +10,7 @@ import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.updateInvulnerable
 import cn.wolfmc.minecraft.wolfhunter.model.component.EventHandlerSet
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.StateChanged
 import org.bukkit.event.player.PlayerJoinEvent
+import org.bukkit.event.player.PlayerRespawnEvent
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 
@@ -23,6 +24,7 @@ object GlobalEventHandlerSet {
         eventHandlerSet.apply {
             // 游戏模式管理
             this += EventHandler(PlayerJoinEvent::class) { it.player.updateGameMode() }
+            this += EventHandler(PlayerRespawnEvent::class) { it.player.updateGameMode() }
             this += EventHandler(StateChanged::class) { onlinePlayers().forEach { it.updateGameMode() } }
             // 开局保护
             this += EventHandler(PlayerJoinEvent::class) { it.player.updateInvulnerable() }
