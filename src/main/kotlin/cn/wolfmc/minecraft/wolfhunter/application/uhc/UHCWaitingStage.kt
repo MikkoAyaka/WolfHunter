@@ -26,9 +26,12 @@ object UHCWaitingStage : ScopeService {
         bar.init()
         Bukkit.getWorlds().forEach {
             it.setRespawnRadius(24)
+            it.worldBorder.damageBuffer = 1.0
             it.setBorder(50.0)
             it.difficulty = Difficulty.PEACEFUL
             it.setGameRule(GameRule.ANNOUNCE_ADVANCEMENTS, false)
+            it.setGameRule(GameRule.SHOW_DEATH_MESSAGES, false)
+            it.setGameRule(GameRule.KEEP_INVENTORY, false)
         }
         // 计时开始
         gameStarter.enable()

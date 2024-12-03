@@ -38,9 +38,10 @@ object GameInstance {
         team: GameTeam,
     ) {
         if (findGamePlayer(player) != null) leave(gamePlayers[player.uniqueId]!!)
-        team.join(player)
+        val gamePlayer = GamePlayer(player, team)
+        team.join(gamePlayer)
         teams.putIfAbsent(team.uuid, team)
-        gamePlayers.putIfAbsent(player.uniqueId, GamePlayer(player, team))
+        gamePlayers.putIfAbsent(player.uniqueId, gamePlayer)
     }
 
     fun leave(player: GamePlayer) {

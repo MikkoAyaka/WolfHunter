@@ -9,6 +9,7 @@ import cn.wolfmc.minecraft.wolfhunter.model.component.EventHandlerSet
 import cn.wolfmc.minecraft.wolfhunter.model.data.SpecialItem
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
+import cn.wolfmc.minecraft.wolfhunter.presentation.sound.Sounds
 import org.bukkit.Material
 import org.bukkit.block.Block
 import org.bukkit.entity.Player
@@ -139,7 +140,11 @@ object GrowthGear : ScopeService {
                     if (it.currentItem?.isSpecialItem(GrowthGearHandler) != true) return@EventHandler
                     val specialItem = GrowthGearHandler.get(it.currentItem!!)!!
                     specialItem.addExp(125.0 * it.cursor!!.amount)
-                    tryUpdateItem(it.whoClicked as Player, it.currentItem)
+                    val player = it.whoClicked as Player
+                    player.setItemOnCursor(null)
+                    player.playSound(Sounds.BELL)
+                    tryUpdateItem(player, it.currentItem)
+                    it.isCancelled = true
                 }
         }
     }
@@ -195,7 +200,7 @@ object GrowthGear : ScopeService {
         specialItem: SpecialItem.GrowthGear,
         block: Block,
     ): Double {
-        val type = specialItem.material
+        val type = specialItem.type
         if (type.isPickaxe()) {
             if (block.type.isOre()) return oreExpMap[block.type]!!.toDouble()
             if (block.type.isStone()) return 1.0

@@ -5,7 +5,8 @@ import org.bukkit.Sound
 object Sounds {
     val DRAGON_GROWL = Sound.ENTITY_ENDER_DRAGON_GROWL.create(1f, 1f)
     val THUNDER = Sound.ENTITY_LIGHTNING_BOLT_THUNDER.create(1f, 1f)
-    val WORLD_BREAK = Sound.ENTITY_ZOMBIE_VILLAGER_CURE.create(0.7f, 0.5f)
+    val WORLD_BREAK = Sound.ENTITY_ZOMBIE_VILLAGER_CURE.create(0.5f, 0.5f)
+    val BELL = Sound.BLOCK_NOTE_BLOCK_BELL.create(0.8f, 1.2f)
 }
 
 fun Sound.create(

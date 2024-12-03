@@ -15,22 +15,20 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     // 激活自动效果的玩家
     private val activatedPlayers = mutableSetOf<Player>()
 
-    private val template =
-        buildItem(Material.WHITE_WOOL) {
-            amount = 64
-            lore.addAll(
-                listOf(
-                    "",
-                    "  <gray>能够自动放置的辅助方块，需要手持使用，",
-                    "  <gray>放置该方块会消耗团队仓库或个人背包中的材料。",
-                    "",
-                    "  <green>左键 <gray>切换放置模式",
-                    "",
-                ).map { str -> str.miniMsg().legacy() },
-            )
-        }
-
-    override fun buildSpecialItem(itemStack: ItemStack): ScaffoldBlock = ScaffoldBlock(itemStack.type, itemStack.amount, itemStack.itemMeta)
+    override fun buildSpecialItem(itemStack: ItemStack): ScaffoldBlock =
+        ScaffoldBlock(
+            itemStack.type,
+            itemStack.amount,
+            dynamicName(itemStack.amount, false),
+            listOf(
+                "",
+                "  <gray>能够自动放置的辅助方块，需要手持使用，",
+                "  <gray>放置该方块会消耗团队仓库或个人背包中的材料。",
+                "",
+                "  <green>左键 <gray>切换放置模式",
+                "",
+            ),
+        )
 
     init {
         // 自动搭路
@@ -78,7 +76,10 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     }
 
     fun giveItem(player: Player) {
-        val itemStack = template.clone()
+        val itemStack =
+            buildItem(Material.WHITE_WOOL) {
+                amount = 64
+            }
         val specialItem = initItem(itemStack)
         updateItem(player, specialItem, itemStack)
         player.giveItemSafely(itemStack)
@@ -90,7 +91,7 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     ) {
         specialItem.apply {
             amount = 64
-            displayName(dynamicName(64, enable = activatedPlayers.contains(player)).miniMsg())
+            name = dynamicName(64, enable = activatedPlayers.contains(player))
         }
     }
 
@@ -101,7 +102,7 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
     ) {
         super.updateItem(player, specialItem, latestItem)
         latestItem.amount = specialItem.amount
-        latestItem.type = specialItem.material
+        latestItem.type = specialItem.type
     }
 
     fun toggle(
@@ -114,6 +115,6 @@ object ScaffoldBlockHandler : SpecialItemHandler<ScaffoldBlock>() {
         } else {
             activatedPlayers.add(player)
         }
-        ScaffoldBlockHandler.updateItem(player, specialItem, itemStack)
+        updateItem(player, specialItem, itemStack)
     }
 }

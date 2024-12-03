@@ -1,15 +1,20 @@
 package cn.wolfmc.minecraft.wolfhunter.infrastructure.itemhandler
 
 import cn.wolfmc.minecraft.wolfhunter.common.constants.GrowthGearLevel
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
 import cn.wolfmc.minecraft.wolfhunter.model.data.SpecialItem.GrowthGear
 import cn.wolfmc.minecraft.wolfhunter.presentation.animation.TextBar
-import net.kyori.adventure.text.Component
 import org.bukkit.entity.Player
 import org.bukkit.inventory.ItemStack
 
 object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
-    override fun buildSpecialItem(itemStack: ItemStack): GrowthGear = GrowthGear(itemStack.type, itemStack.itemMeta)
+    override fun buildSpecialItem(itemStack: ItemStack): GrowthGear =
+        GrowthGear(
+            itemStack.type,
+            1,
+            @Suppress("ktlint:standard:max-line-length")
+            "<lang:${itemStack.type.translationKey()}>",
+            listOf(),
+        )
 
     private val loreTemplate =
         """
@@ -31,12 +36,12 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
         val levelEnum = GrowthGearLevel.entries.getOrNull(level) ?: throw IllegalArgumentException("Unsupported growth level: $level")
         specialItem.apply {
             // 修正材质
-            val levelType = levelEnum.getMaterial(material)
-            if (material != levelType) material = levelType
+            val levelType = levelEnum.getMaterial(type)
+            if (type != levelType) type = levelType
             // 更新名字
-            displayName("${levelEnum.color}<lang:${specialItem.material.translationKey()}>".miniMsg())
+            name = "${levelEnum.color}<lang:${specialItem.type.translationKey()}>"
             // 更新描述
-            lore(dynamicLore(specialItem))
+            lore = dynamicLore(specialItem)
         }
     }
 
@@ -46,29 +51,19 @@ object GrowthGearHandler : SpecialItemHandler<GrowthGear>() {
         latestItem: ItemStack,
     ) {
         super.updateItem(player, specialItem, latestItem)
-        if (latestItem.type != specialItem.material) {
-            latestItem.type = specialItem.material
+        if (latestItem.type != specialItem.type) {
+            latestItem.type = specialItem.type
         }
     }
 
-    private fun dynamicLore(specialItem: GrowthGear): List<Component> {
-        val material = specialItem.material
+    private fun dynamicLore(specialItem: GrowthGear): List<String> {
+        val material = specialItem.type
         val level = specialItem.getLevel()
         val nextLevelEnum = GrowthGearLevel.entries.getOrNull(level + 1)
         val translationKey = nextLevelEnum?.getMaterial(material)?.translationKey()
         val nextLevelDesc = if (translationKey == null) "<red>已达到最大等级" else "${nextLevelEnum.color}<lang:$translationKey>"
         val progressBar = TextBar.defaultStyle(specialItem.getLevelExpPercent(), 20)
         val levelRange = specialItem.getLevelExpRange()
-        return loreTemplate.format(nextLevelDesc, levelRange.first, progressBar, levelRange.last).lines().map { it.miniMsg() }
-    }
-
-    override fun initItem(itemStack: ItemStack): GrowthGear {
-        val specialItem = super.initItem(itemStack)
-        // 初始化物品的特殊属性
-        specialItem.apply {
-            displayName("<lang:${itemStack.type.translationKey()}>".miniMsg())
-            isUnbreakable = true
-        }
-        return specialItem
+        return loreTemplate.format(nextLevelDesc, levelRange.first, progressBar, levelRange.last).lines()
     }
 }

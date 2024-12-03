@@ -28,9 +28,6 @@ object UHCGameJudge : ScopeService {
         eventHandlerSet +=
             EventHandler(GameEvent.GamePlayerOut::class) {
                 // 只剩下一支队伍，游戏结束
-                GameInstance.allGameTeams().forEach {
-                    println("Team ${it.name} -> ${it.size()}")
-                }
                 if (GameInstance.allGameTeams().filter { it.size() > 0 }.size <= 1) GameInstance.nextState()
             }
         // 玩家离线挂起延时任务，指定时间不返场则判定淘汰

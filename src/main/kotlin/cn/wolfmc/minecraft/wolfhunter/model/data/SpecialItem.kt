@@ -1,25 +1,29 @@
 package cn.wolfmc.minecraft.wolfhunter.model.data
 
-import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.GrowthGear
 import org.bukkit.Material
-import org.bukkit.inventory.meta.ItemMeta
 import java.util.UUID
 
 sealed class SpecialItem(
-    val itemMeta: ItemMeta,
-) : ItemMeta by itemMeta {
-    val uuid = UUID.randomUUID()
+    var type: Material,
+    var amount: Int,
+    var name: String,
+    var lore: List<String>,
+) {
+    val uuid = UUID.randomUUID()!!
 
     class ScaffoldBlock(
-        var material: Material,
-        var amount: Int,
-        itemMeta: ItemMeta,
-    ) : SpecialItem(itemMeta)
+        material: Material,
+        amount: Int,
+        name: String,
+        lore: List<String>,
+    ) : SpecialItem(material, amount, name, lore)
 
     class GrowthGear(
-        var material: Material,
-        itemMeta: ItemMeta,
-    ) : SpecialItem(itemMeta) {
+        material: Material,
+        amount: Int,
+        name: String,
+        lore: List<String>,
+    ) : SpecialItem(material, amount, name, lore) {
         private var exp = 0
 
         @Synchronized fun addExp(value: Double) {
