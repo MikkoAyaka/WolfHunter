@@ -132,7 +132,8 @@ object GrowthGear : ScopeService {
                     val defender = it.entity
                     val finalDamage = it.finalDamage
                     val specialItem = GrowthGearHandler.get(weapon)!!
-                    val exp = if (defender is Player) finalDamage * 20 else finalDamage * 5
+                    var exp = if (defender is Player) finalDamage * 20 else finalDamage * 5
+                    if (weapon.type.isAxe()) exp *= 0.5
                     specialItem.addExp(exp)
                 }
             // 装备锻造

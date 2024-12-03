@@ -10,9 +10,7 @@ object FastFurnace : ScopeService {
     private var eventHandlerSet = EventHandlerSet()
     private var speedMultiple = 4.0
 
-    override fun init() {}
-
-    override fun enable() {
+    override fun init() {
         eventHandlerSet +=
             EventHandler(FurnaceBurnEvent::class) {
                 val originalBurnTime = it.burnTime
@@ -24,8 +22,11 @@ object FastFurnace : ScopeService {
             }
     }
 
+    override fun enable() {
+        eventHandlerSet.registerAll()
+    }
+
     override fun disable() {
         eventHandlerSet.unregisterAll()
-        eventHandlerSet.clear()
     }
 }

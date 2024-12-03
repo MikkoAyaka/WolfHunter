@@ -28,6 +28,7 @@ object UHCGameJudge : ScopeService {
                 playerOut(gamePlayer)
                 val world = e.player.world
                 e.player.inventory.forEach {
+                    if (it == null) return@forEach
                     world.dropItemNaturally(e.player.location, it)
                 }
                 e.player.inventory.clear()

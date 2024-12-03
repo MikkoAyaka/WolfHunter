@@ -46,6 +46,12 @@ object UHCRunningStage : ScopeService {
                         .withParticles(false)
                         .withIcon(true),
                 )
+                it.addPotionEffect(
+                    PotionEffectType.DAMAGE_RESISTANCE
+                        .createEffect(20 * 30, 2)
+                        .withParticles(false)
+                        .withIcon(true),
+                )
             }
             narrowBorder()
             worldMain.difficulty = Difficulty.HARD

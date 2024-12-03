@@ -29,9 +29,15 @@ object UHCStartingStage : ScopeService {
         val teamAmount = if (onlinePlayers().size >= 2) scheduleTeamAmount() else 1
         // 初始化队伍与玩家
         initTeams(teamAmount)
+        val teams = GameInstance.allGameTeams().toList()
         // 初始化队伍颜色
-        initTeamColors(GameInstance.allGameTeams().toList())
-
+        initTeamColors(teams)
+        // 队伍成员传送到一起
+        teams.forEach { team ->
+            val players = team.get()
+            val loc = players.mapNotNull { it.player }.randomOrNull()?.location ?: return@forEach
+            players.forEach { it.player?.teleportAsync(loc) }
+        }
         // 计时开始
         readyCounter.enable()
         // 监听计时结束
