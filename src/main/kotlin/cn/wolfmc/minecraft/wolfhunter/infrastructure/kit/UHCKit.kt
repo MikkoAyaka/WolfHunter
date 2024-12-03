@@ -12,7 +12,7 @@ object UHCKit {
             0 to ItemStack(Material.WOODEN_SWORD),
             1 to ItemStack(Material.WOODEN_AXE),
             2 to ItemStack(Material.WOODEN_PICKAXE),
-            3 to ItemStack(Material.BREAD, 8),
+            3 to ItemStack(Material.BREAD, 16),
             4 to ItemStack(Material.OAK_PLANKS, 32),
             39 to ItemStack(Material.LEATHER_HELMET),
             38 to ItemStack(Material.LEATHER_CHESTPLATE),

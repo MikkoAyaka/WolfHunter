@@ -92,9 +92,9 @@ object UHCRunningStage : ScopeService {
                 delay(1000 * 10)
                 runTask {
                     onlinePlayers().forEach { it.playSound(Sounds.THUNDER) }
-                    worldMain.worldBorder.setSize(50.0, 180)
+                    worldMain.worldBorder.setSize(50.0, 300)
                 }
-                delay(1000 * 180)
+                delay(1000 * 300)
                 onlinePlayers().forEach { it.sendMessage("<red>边界将进一步缩小，准备好战斗吧！".miniMsg().legacy()) }
                 delay(1000 * 90)
                 runTask {

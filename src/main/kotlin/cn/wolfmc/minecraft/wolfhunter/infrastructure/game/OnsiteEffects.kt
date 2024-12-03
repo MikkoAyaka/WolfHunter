@@ -5,6 +5,7 @@ import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import net.kyori.adventure.text.format.NamedTextColor
 import net.megavex.scoreboardlibrary.api.team.enums.NameTagVisibility
+import net.megavex.scoreboardlibrary.extra.kotlin.defaultDisplay
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.GameRule
@@ -79,7 +80,7 @@ fun Player.isEnemy(another: Player): Boolean {
 fun defaultScoreboardTeam(name: String) =
     Contexts.scoreboardTeamManager.createIfAbsent(name).defaultDisplay().apply {
         playerColor(NamedTextColor.BLACK)
-        friendlyFire(false)
+        friendlyFire(true)
         canSeeFriendlyInvisibles(true)
-        nameTagVisibility(NameTagVisibility.HIDE_FOR_OWN_TEAM)
+        nameTagVisibility(NameTagVisibility.HIDE_FOR_OTHER_TEAMS)
     }
