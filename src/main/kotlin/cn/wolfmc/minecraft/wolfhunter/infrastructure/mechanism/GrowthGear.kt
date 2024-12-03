@@ -62,6 +62,7 @@ object GrowthGear : ScopeService {
             // 交互时刷新特殊物品
             this +=
                 EventHandler(PlayerInteractEvent::class) {
+                    tryInit(it.player, it.item)
                     tryUpdate(it.player, it.item)
                 }
             // 受伤时刷新护甲
@@ -69,6 +70,7 @@ object GrowthGear : ScopeService {
                 EventHandler(EntityDamageEvent::class) {
                     val player = it.entity as? Player ?: return@EventHandler
                     player.inventory.armorContents.forEach { armor ->
+                        tryInit(player, armor)
                         tryUpdate(player, armor)
                     }
                 }
@@ -77,6 +79,7 @@ object GrowthGear : ScopeService {
                 EventHandler(EntityPickupItemEvent::class) {
                     val player = it.entity as? Player ?: return@EventHandler
                     tryInit(player, it.item.itemStack)
+                    tryUpdate(player, it.item.itemStack)
                 }
 
             this +=

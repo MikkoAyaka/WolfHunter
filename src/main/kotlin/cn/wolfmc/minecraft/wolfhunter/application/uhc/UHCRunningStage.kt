@@ -6,6 +6,7 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.UHCGameJudge
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.WorldDevourer
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setBorder
+import cn.wolfmc.minecraft.wolfhunter.infrastructure.kit.UHCKit
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.NoPortal
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.TeamSharedResource
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
@@ -31,6 +32,7 @@ object UHCRunningStage : ScopeService {
             onlinePlayers().forEach {
                 it.playSound(Sounds.THUNDER)
                 it.playSound(Sounds.DRAGON_GROWL)
+                UHCKit.give(it)
             }
             narrowBorder()
             worldMain.difficulty = Difficulty.HARD
