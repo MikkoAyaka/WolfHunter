@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.model.data.faction
+package cn.wolfmc.minecraft.wolfhunter.model.data
 
 enum class Force {
     Human,

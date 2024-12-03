@@ -4,12 +4,12 @@ import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameState
 import net.kyori.adventure.text.format.NamedTextColor
+import net.megavex.scoreboardlibrary.api.team.enums.NameTagVisibility
 import org.bukkit.Bukkit
 import org.bukkit.GameMode
 import org.bukkit.GameRule
 import org.bukkit.World
 import org.bukkit.entity.Player
-import org.bukkit.scoreboard.Team
 
 fun Player.isGamePlayer() = GameInstance.findGamePlayer(this) != null
 
@@ -77,9 +77,9 @@ fun Player.isEnemy(another: Player): Boolean {
 }
 
 fun defaultScoreboardTeam(name: String) =
-    Contexts.scoreboard.registerNewTeam(name).apply {
-        this.color(NamedTextColor.WHITE) // 默认颜色
-        this.setAllowFriendlyFire(false) // 禁止友伤
-        this.setCanSeeFriendlyInvisibles(true) // 可以看到队友隐身
-        this.setOption(Team.Option.NAME_TAG_VISIBILITY, Team.OptionStatus.FOR_OWN_TEAM) // 可以看到队友名牌
+    Contexts.scoreboardTeamManager.createIfAbsent(name).defaultDisplay().apply {
+        playerColor(NamedTextColor.BLACK)
+        friendlyFire(false)
+        canSeeFriendlyInvisibles(true)
+        nameTagVisibility(NameTagVisibility.HIDE_FOR_OWN_TEAM)
     }

@@ -22,17 +22,9 @@ class NumberBossBar(
     private val visibleCondition: Player.() -> Boolean = { true },
     val current: () -> Int,
 ) {
-    init {
-        onlinePlayers().forEach {
-            if (it.visibleCondition()) {
-                it.showBossBar(bar)
-            } else {
-                it.hideBossBar(bar)
-            }
-        }
+    fun init() {
         subscribe(PlayerJoinEvent::class) {
             if (it.player.visibleCondition()) {
-                println("Show boss bar on join")
                 it.player.showBossBar(bar)
             } else {
                 it.player.hideBossBar(bar)
@@ -40,9 +32,20 @@ class NumberBossBar(
         }
         chain {
             while (true) {
-                wait(20)
+                wait(4)
                 updateProgress()
                 updateTitle()
+                updatePlayers()
+            }
+        }
+    }
+
+    private fun updatePlayers() {
+        onlinePlayers().forEach {
+            if (it.visibleCondition()) {
+                it.showBossBar(bar)
+            } else {
+                it.hideBossBar(bar)
             }
         }
     }
@@ -73,10 +76,28 @@ fun gameStarterBossBar(
     timeCounter: TimeCounter,
     max: Int,
 ) = NumberBossBar(
-    bossBar(1f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_12),
-    { "<white>游戏即将在 <green>${timeCounter.counter}</green> 秒后开始 ...</white>" },
+    bossBar(1f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_20),
+    { "<white>游戏即将开始！</white><green>${timeCounter.counter}</green>" },
     0,
     max,
     visibleCondition = { GameInstance.state == GameState.STARTING },
+    current = { timeCounter.counter },
+)
+
+fun waitBossBar(
+    timeCounter: TimeCounter,
+    max: Int,
+) = NumberBossBar(
+    bossBar(1f, BossBar.Color.GREEN, BossBar.Overlay.NOTCHED_20),
+    {
+        if (timeCounter.counter == max) {
+            "<white>正在等待玩家加入，需要至少 4 人</white>"
+        } else {
+            "<white>正在等待玩家加入，游戏将在 <green>${timeCounter.counter}</green> 秒后开始</white>"
+        }
+    },
+    0,
+    max,
+    visibleCondition = { GameInstance.state == GameState.WAITING },
     current = { timeCounter.counter },
 )

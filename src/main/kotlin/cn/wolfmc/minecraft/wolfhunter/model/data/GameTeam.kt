@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.model.data.team
+package cn.wolfmc.minecraft.wolfhunter.model.data
 
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.defaultScoreboardTeam
 import cn.wolfmc.minecraft.wolfhunter.model.component.VirtualRepository
@@ -11,7 +11,7 @@ class GameTeam(
 ) {
     val uuid: UUID = UUID.randomUUID()
     val virtualRepository = VirtualRepository()
-    val scoreboardTeam = defaultScoreboardTeam(uuid.toString())
+    val scoreboardTeam = defaultScoreboardTeam(name)
 
     fun size() = members.size
 
@@ -27,12 +27,12 @@ class GameTeam(
 
     fun join(player: OfflinePlayer) {
         members.add(player)
-        scoreboardTeam.addPlayer(player)
+        scoreboardTeam.addEntry(player.name!!)
     }
 
     fun leave(player: OfflinePlayer) {
         members.remove(player)
-        scoreboardTeam.removePlayer(player)
+        scoreboardTeam.removeEntry(player.name!!)
     }
 
     fun contains(player: OfflinePlayer): Boolean = members.contains(player)

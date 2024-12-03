@@ -1,5 +1,6 @@
 package cn.wolfmc.minecraft.wolfhunter.presentation.listener
 
+import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.EventHandler
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.reset
@@ -28,6 +29,11 @@ object GlobalEventHandlerSet {
             this += EventHandler(StateChanged::class) { onlinePlayers().forEach { it.updateInvulnerable() } }
             // 背包更新
             this += EventHandler(PlayerJoinEvent::class) { if (shouldResetPlayerOnJoin(it.player)) it.player.reset() }
+            // 计分板队伍
+            this +=
+                EventHandler(PlayerJoinEvent::class) {
+                    Contexts.scoreboardTeamManager.addPlayer(it.player)
+                }
         }
     }
 

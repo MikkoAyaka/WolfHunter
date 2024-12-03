@@ -16,7 +16,6 @@ object AutomaticGameStarter : ScopeService, TimeCounter {
     override fun init() {}
 
     override fun enable() {
-        if (future != null) return
         future =
             chain {
                 while (true) {

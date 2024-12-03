@@ -49,7 +49,7 @@ repositories {
         name = "sonatype"
     }
 }
-
+val scoreboardLibraryVersion = "2.2.1"
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
     compileOnly(kotlin("stdlib"))
@@ -57,9 +57,9 @@ dependencies {
     compileOnly("ink.ptms.core:v12004:12004:mapped")
     compileOnly("ink.ptms.core:v12004:12004:universal")
     compileOnly("org.xerial:sqlite-jdbc:3.47.0.0")
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.7.2") // JUnit 5 API
-    testImplementation("org.junit.jupiter:junit-jupiter-engine:5.7.2") // JUnit 5 引擎
-    testImplementation("com.github.seeseemelk:MockBukkit-v1.18:2.85.2")
+
+    compileOnly("net.megavex:scoreboard-library-api:$scoreboardLibraryVersion")
+    compileOnly("net.megavex:scoreboard-library-extra-kotlin:$scoreboardLibraryVersion")
 }
 
 val targetJavaVersion = 17

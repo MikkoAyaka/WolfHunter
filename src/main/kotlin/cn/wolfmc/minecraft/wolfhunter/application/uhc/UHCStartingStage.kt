@@ -5,11 +5,12 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.subscribe
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.unregister
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.ReadyCounter
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
-import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
+import cn.wolfmc.minecraft.wolfhunter.model.data.GameTeam
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.presentation.bossbar.gameStarterBossBar
 import net.kyori.adventure.text.format.NamedTextColor
+import net.megavex.scoreboardlibrary.extra.kotlin.playerColor
 import kotlin.math.min
 
 object UHCStartingStage : ScopeService {
@@ -22,6 +23,8 @@ object UHCStartingStage : ScopeService {
     private val bar = gameStarterBossBar(readyCounter, 15)
 
     override fun enable() {
+        // 启用进度条
+        bar.init()
         // 队伍数量规划
         val teamAmount = if (onlinePlayers().size >= 2) scheduleTeamAmount() else 1
         // 初始化队伍与玩家
@@ -120,7 +123,7 @@ object UHCStartingStage : ScopeService {
                     11 -> NamedTextColor.DARK_PURPLE
                     else -> throw IllegalArgumentException("Illegal argument: index -> $index")
                 }
-            gameTeam.scoreboardTeam.color(color)
+            gameTeam.scoreboardTeam.playerColor(color)
         }
     }
 }

@@ -1,7 +1,7 @@
 package cn.wolfmc.minecraft.wolfhunter.model.component
 
 import cn.wolfmc.minecraft.wolfhunter.model.data.GamePlayer
-import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
+import cn.wolfmc.minecraft.wolfhunter.model.data.GameTeam
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.StateChanged
 import org.bukkit.OfflinePlayer

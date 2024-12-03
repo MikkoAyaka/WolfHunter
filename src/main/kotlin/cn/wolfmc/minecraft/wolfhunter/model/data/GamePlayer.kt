@@ -1,7 +1,5 @@
 package cn.wolfmc.minecraft.wolfhunter.model.data
 
-import cn.wolfmc.minecraft.wolfhunter.model.data.faction.Faction
-import cn.wolfmc.minecraft.wolfhunter.model.data.team.GameTeam
 import org.bukkit.OfflinePlayer
 
 /**
