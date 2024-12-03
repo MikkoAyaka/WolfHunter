@@ -17,6 +17,7 @@ import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.EntityPickupItemEvent
 import org.bukkit.event.inventory.CraftItemEvent
+import org.bukkit.event.inventory.InventoryClickEvent
 import org.bukkit.event.player.PlayerInteractEvent
 import org.bukkit.inventory.ItemStack
 import taboolib.expansion.chain
@@ -61,7 +62,7 @@ object GrowthGear : ScopeService {
     }
 
     override fun init() {
-        if (Contexts.gameService == UHCGameService) expMultiple = 10.0
+        if (Contexts.gameService == UHCGameService) expMultiple = 5.0
         eventHandlers.apply {
             // 交互时刷新特殊物品
             this +=
@@ -130,6 +131,15 @@ object GrowthGear : ScopeService {
                     val specialItem = GrowthGearHandler.get(weapon)!!
                     val exp = if (defender is Player) (finalDamage * 20).toInt() else (finalDamage * 5).toInt()
                     specialItem.addExp(exp)
+                }
+            // 装备锻造
+            this +=
+                EventHandler(InventoryClickEvent::class) {
+                    if (it.cursor?.type != Material.IRON_INGOT) return@EventHandler
+                    if (it.currentItem?.isSpecialItem(GrowthGearHandler) != true) return@EventHandler
+                    val specialItem = GrowthGearHandler.get(it.currentItem!!)!!
+                    specialItem.addExp(125 * it.cursor!!.amount)
+                    tryUpdateItem(it.whoClicked as Player, it.currentItem)
                 }
         }
     }
