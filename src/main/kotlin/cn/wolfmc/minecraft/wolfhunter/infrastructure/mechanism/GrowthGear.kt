@@ -28,7 +28,6 @@ object GrowthGear : ScopeService {
     private val eventHandlers = EventHandlerSet()
     var expMultiple: Double = 1.0
 
-    // 存储经验
     private val whitelistGears =
         listOf(
             Material.LEATHER_HELMET,
@@ -109,7 +108,10 @@ object GrowthGear : ScopeService {
                     val specialItem = GrowthGearHandler.get(item)!!
                     specialItem.addExp(calcExp(it.player, specialItem, it.block))
                     val exp = calcExp(it.player, specialItem, it.block)
-                    if (exp != 0.0) specialItem.addExp(exp)
+                    if (exp != 0.0) {
+                        specialItem.addExp(exp)
+                        it.player.playSound(Sounds.EXP_PICKUP)
+                    }
                 }
             // 连锁采集经验
             this +=
@@ -142,7 +144,7 @@ object GrowthGear : ScopeService {
                     specialItem.addExp(125.0 * it.cursor!!.amount)
                     val player = it.whoClicked as Player
                     player.setItemOnCursor(null)
-                    player.playSound(Sounds.BELL)
+                    player.playSound(Sounds.ANVIL_USE)
                     tryUpdateItem(player, it.currentItem)
                     it.isCancelled = true
                 }

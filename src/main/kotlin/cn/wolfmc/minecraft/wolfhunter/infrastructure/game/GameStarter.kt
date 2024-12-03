@@ -7,6 +7,8 @@ import cn.wolfmc.minecraft.wolfhunter.common.extensions.wait
 import cn.wolfmc.minecraft.wolfhunter.model.component.TimeCounter
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
+import cn.wolfmc.minecraft.wolfhunter.presentation.sound.Sounds
+import taboolib.common.platform.function.runTask
 import taboolib.expansion.chain
 
 object AutomaticGameStarter : ScopeService, TimeCounter {
@@ -49,6 +51,11 @@ object ReadyCounter : ScopeService, TimeCounter {
             chain {
                 while (true) {
                     wait(20)
+                    runTask {
+                        onlinePlayers().forEach {
+                            it.playSound(Sounds.PLING)
+                        }
+                    }
                     if (counter-- <= 0) break
                 }
                 CountdownFinished(this@ReadyCounter).callEvent()
