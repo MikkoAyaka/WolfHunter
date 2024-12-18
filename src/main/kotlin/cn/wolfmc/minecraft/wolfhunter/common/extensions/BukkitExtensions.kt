@@ -152,6 +152,6 @@ fun Player.targetPointer(target: Location): Char {
     var deltaYaw = this.targetYaw(target)
     if (deltaYaw < 0) deltaYaw += 360
     val slices = round(deltaYaw / 45).toInt()
-    val pointers = listOf('↑', '↖', '←', '↙', '↓', '↘', '→', '↗', '↑')
+    val pointers = listOf('↑', '↗', '→', '↘', '↓', '↙', '←', '↖', '↑')
     return pointers[slices]
 }

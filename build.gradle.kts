@@ -33,6 +33,9 @@ taboolib {
         contributors {
             name("MikkoAyaka")
         }
+        dependencies {
+            name("PlaceholderAPI")
+        }
     }
     version { taboolib = "6.2.1-f095116" }
 }

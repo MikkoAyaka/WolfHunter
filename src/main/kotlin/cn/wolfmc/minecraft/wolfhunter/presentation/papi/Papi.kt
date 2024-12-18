@@ -17,9 +17,9 @@ object Papi : PlaceholderExpansion {
             // 队伍总数
             "teams" -> "${GameInstance.allGameTeams().size}"
             // 玩家队伍名称
-            "team_name" -> "${player?.gamePlayer()?.team?.name}"
+            "team_name" -> player?.gamePlayer()?.team?.name ?: "<yellow>暂无</yellow>"
             // 玩家队伍剩余人数
-            "team_players" -> "${player?.gamePlayer()?.team?.size()}"
+            "team_players" -> "${player?.gamePlayer()?.team?.size() ?: 0}"
             // 世界中心指示器
             "center_pointer" -> "${player?.targetPointer(player.world.worldBorder.center)}"
             else -> "Unknown Papi: $args"
