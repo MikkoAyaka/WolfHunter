@@ -83,16 +83,17 @@ object UHCRunningStage : ScopeService {
         )
 
     private val progressCounter =
-        SimpleCounter(30, false).apply {
+        SimpleCounter(false).apply {
             this.init()
             this.enable()
         }
-    private val bar = progressBossBar(progressCounter.apply { counter = 130 }, 130)
+    private val bar = progressBossBar(progressCounter, 130)
 
     private fun narrowBorder() {
         borderTask =
             chain {
                 bar.apply {
+                    progressCounter.current.set(130)
                     this.init()
                     title = { "<green>边界稳定中..." }
                 }
@@ -104,7 +105,7 @@ object UHCRunningStage : ScopeService {
                 onlinePlayers().forEach { it.sendMessage("<red>边界即将缩小，请做好撤离的准备。".miniMsg().legacy()) }
                 delay(1000 * 10)
                 bar.apply {
-                    progressCounter.counter = 300
+                    progressCounter.current.set(300)
                     max = 300
                     title = { "<yellow>边界正在收缩..." }
                 }
@@ -114,14 +115,14 @@ object UHCRunningStage : ScopeService {
                 }
                 delay(1000 * 300)
                 bar.apply {
-                    progressCounter.counter = 90
+                    progressCounter.current.set(90)
                     max = 90
                     title = { "<green>边界稳定中..." }
                 }
                 onlinePlayers().forEach { it.sendMessage("<white>边界将进一步缩小，准备好战斗吧！".miniMsg().legacy()) }
                 delay(1000 * 90)
                 bar.apply {
-                    progressCounter.counter = 90
+                    progressCounter.current.set(90)
                     max = 90
                     title = { "<yellow>边界正在收缩..." }
                 }
@@ -131,7 +132,7 @@ object UHCRunningStage : ScopeService {
                 }
                 delay(1000 * 90)
                 bar.apply {
-                    progressCounter.counter = 300
+                    progressCounter.current.set(300)
                     max = 300
                     title = { "<red>世界开始坍塌！" }
                 }

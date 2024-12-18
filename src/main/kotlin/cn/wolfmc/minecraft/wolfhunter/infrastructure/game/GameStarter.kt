@@ -10,9 +10,10 @@ import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import cn.wolfmc.minecraft.wolfhunter.presentation.sound.Sounds
 import taboolib.common.platform.function.runTask
 import taboolib.expansion.chain
+import java.util.concurrent.atomic.AtomicInteger
 
 object AutomaticGameStarter : ScopeService, TimeCounter {
-    override var counter = 600
+    override val current = AtomicInteger(600)
     override var future: TBJob? = null
 
     override fun init() {}
@@ -23,10 +24,11 @@ object AutomaticGameStarter : ScopeService, TimeCounter {
                 while (true) {
                     wait(20)
                     val playerAmount = onlinePlayers().size
-                    if (playerAmount < 4) counter = 600 else counter--
-                    if (playerAmount >= 8 && counter > 300) counter = 300
-                    if (playerAmount >= 16 && counter > 60) counter = 60
-                    if (counter <= 0) break
+                    val cur = current.get()
+                    if (playerAmount < 4) current.set(600) else current.getAndDecrement()
+                    if (playerAmount >= 8 && cur > 300) current.set(300)
+                    if (playerAmount >= 16 && cur > 60) current.set(60)
+                    if (cur <= 0) break
                 }
                 CountdownFinished(this@AutomaticGameStarter).callEvent()
             }
@@ -56,7 +58,7 @@ object ReadyCounter : ScopeService, TimeCounter {
                             it.playSound(Sounds.PLING)
                         }
                     }
-                    if (counter-- <= 0) break
+                    if (current.getAndDecrement() <= 0) break
                 }
                 CountdownFinished(this@ReadyCounter).callEvent()
             }
@@ -67,6 +69,6 @@ object ReadyCounter : ScopeService, TimeCounter {
         future = null
     }
 
-    override var counter: Int = 15
+    override var current = AtomicInteger(15)
     override var future: TBJob? = null
 }

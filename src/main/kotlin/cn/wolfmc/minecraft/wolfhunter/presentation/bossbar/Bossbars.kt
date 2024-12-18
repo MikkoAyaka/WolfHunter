@@ -77,11 +77,11 @@ fun gameStarterBossBar(
     max: Int,
 ) = NumberBossBar(
     bossBar(1f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_20),
-    { "<white>游戏即将开始！</white><green>${timeCounter.counter}</green>" },
+    { "<white>游戏即将开始！</white><green>${timeCounter.current}</green>" },
     0,
     max,
     visibleCondition = { GameInstance.state == GameState.STARTING },
-    current = { timeCounter.counter },
+    current = { timeCounter.current.get() },
 )
 
 fun waitBossBar(
@@ -90,16 +90,16 @@ fun waitBossBar(
 ) = NumberBossBar(
     bossBar(1f, BossBar.Color.GREEN, BossBar.Overlay.NOTCHED_20),
     {
-        if (timeCounter.counter == max) {
+        if (timeCounter.current.get() == max) {
             "<white>正在等待玩家加入，需要至少 4 人</white>"
         } else {
-            "<white>正在等待玩家加入，游戏将在 <green>${timeCounter.counter}</green> 秒后开始</white>"
+            "<white>正在等待玩家加入，游戏将在 <green>${timeCounter.current}</green> 秒后开始</white>"
         }
     },
     0,
     max,
     visibleCondition = { GameInstance.state == GameState.WAITING },
-    current = { timeCounter.counter },
+    current = { timeCounter.current.get() },
 )
 
 fun progressBossBar(
@@ -111,5 +111,5 @@ fun progressBossBar(
     min = 0,
     max = max,
     visibleCondition = { GameInstance.state == GameState.RUNNING },
-    current = { timeCounter.counter },
+    current = { timeCounter.current.get() },
 )

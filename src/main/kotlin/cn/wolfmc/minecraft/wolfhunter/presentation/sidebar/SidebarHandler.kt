@@ -9,6 +9,7 @@ import org.bukkit.entity.Player
 import taboolib.common.platform.function.submit
 import taboolib.common.platform.service.PlatformExecutor
 import taboolib.expansion.chain
+import java.util.concurrent.ConcurrentHashMap
 
 object SidebarHandler : ScopeService {
     override fun init() {
@@ -17,7 +18,7 @@ object SidebarHandler : ScopeService {
     // 标题共享
     private val titleAnimation: SidebarAnimation<Component> = gradientAnimation("猎枪与獠牙")
 
-    private val sidebarMap = mutableMapOf<Player, UHCSidebar>()
+    private val sidebarMap = ConcurrentHashMap<Player, UHCSidebar>()
     private var mainJob: TBJob? = null
     private var titleJob: PlatformExecutor.PlatformTask? = null
 

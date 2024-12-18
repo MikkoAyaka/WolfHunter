@@ -7,12 +7,13 @@ import cn.wolfmc.minecraft.wolfhunter.model.component.TimeCounter
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
 import taboolib.expansion.chain
+import java.util.concurrent.atomic.AtomicInteger
 
 class SimpleCounter(
-    override var counter: Int,
-    val breakIfFinished: Boolean,
+    private val breakIfFinished: Boolean,
 ) : ScopeService,
     TimeCounter {
+    override val current: AtomicInteger = AtomicInteger(999)
     override var future: TBJob? = null
 
     override fun init() {
@@ -23,7 +24,7 @@ class SimpleCounter(
             chain {
                 while (true) {
                     wait(20)
-                    if (counter-- <= 0) {
+                    if (current.getAndDecrement() <= 0) {
                         if (breakIfFinished) break
                     }
                 }
