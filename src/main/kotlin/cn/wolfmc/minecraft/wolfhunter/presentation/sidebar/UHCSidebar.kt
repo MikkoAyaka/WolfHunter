@@ -18,14 +18,10 @@ class UHCSidebar(
             addPlayer(player)
         }
 
-    private var layoutCache = layout()
+    private val layoutCache = layout()
 
     fun update() {
         layoutCache.apply(sidebar)
-    }
-
-    fun refreshCache() {
-        layoutCache = layout()
     }
 
     private fun layout(): ComponentSidebarLayout {
@@ -34,13 +30,13 @@ class UHCSidebar(
             SidebarComponent
                 .builder()
                 .addBlankLine()
-                .addStaticLine { "<gray> 剩余队伍 <white>%wolfhunter_teams%</white> 支".replacePlaceholder(player).miniMsg() }
-                .addStaticLine {
+                .addDynamicLine { "<gray> 剩余队伍 <white>%wolfhunter_teams%</white> 支".replacePlaceholder(player).miniMsg() }
+                .addDynamicLine {
                     "<gray> 当前队伍 %wolfhunter_team_name% (剩余<white>%wolfhunter_team_players%</white>人)"
                         .replacePlaceholder(
                             player,
                         ).miniMsg()
-                }.addStaticLine { "<gray> 世界中心 <white>%wolfhunter_center_pointer%</white>".replacePlaceholder(player).miniMsg() }
+                }.addDynamicLine { "<gray> 世界中心 <white>%wolfhunter_center_pointer%</white>".replacePlaceholder(player).miniMsg() }
                 .addBlankLine()
                 .build()
         return ComponentSidebarLayout(title, lines)

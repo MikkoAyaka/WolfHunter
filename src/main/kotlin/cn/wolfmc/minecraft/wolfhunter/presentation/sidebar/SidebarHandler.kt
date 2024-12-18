@@ -27,8 +27,7 @@ object SidebarHandler : ScopeService {
                 while (true) {
                     wait(20)
                     onlinePlayers().forEach {
-                        val sidebar = sidebarMap.getOrPut(it) { UHCSidebar(it, titleAnimation) }
-                        sidebar.refreshCache()
+                        sidebarMap.getOrPut(it) { UHCSidebar(it, titleAnimation) }
                     }
                 }
             }
