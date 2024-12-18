@@ -16,9 +16,9 @@ import taboolib.expansion.chain
 
 class NumberBossBar(
     val bar: BossBar,
-    private val title: () -> String,
+    var title: () -> String,
     private val min: Int = 0,
-    private val max: Int = 100,
+    var max: Int = 100,
     private val visibleCondition: Player.() -> Boolean = { true },
     val current: () -> Int,
 ) {
@@ -99,5 +99,17 @@ fun waitBossBar(
     0,
     max,
     visibleCondition = { GameInstance.state == GameState.WAITING },
+    current = { timeCounter.counter },
+)
+
+fun progressBossBar(
+    timeCounter: TimeCounter,
+    max: Int,
+) = NumberBossBar(
+    bossBar(1f, BossBar.Color.WHITE, BossBar.Overlay.NOTCHED_20),
+    title = { "" },
+    min = 0,
+    max = max,
+    visibleCondition = { GameInstance.state == GameState.RUNNING },
     current = { timeCounter.counter },
 )
