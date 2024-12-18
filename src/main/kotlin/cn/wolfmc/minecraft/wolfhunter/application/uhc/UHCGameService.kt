@@ -41,6 +41,7 @@ object UHCGameService : GameService() {
                     }
                 currentStateService?.enable()
             }
+        GameEvent.ModeSelected(this).call()
     }
 
     override fun enable() {

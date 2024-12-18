@@ -45,7 +45,9 @@ object GameInstance {
     }
 
     fun leave(player: GamePlayer) {
-        player.team.leave(player)
+        val team = player.team
+        team.leave(player)
+        if (team.size() == 0) teams.remove(team.uuid)
         gamePlayers.remove(player.uniqueId)
     }
 }

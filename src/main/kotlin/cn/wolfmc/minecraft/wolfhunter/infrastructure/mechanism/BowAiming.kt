@@ -9,8 +9,6 @@ import org.bukkit.GameMode
 import org.bukkit.entity.Player
 import taboolib.common.platform.function.runTask
 import taboolib.expansion.chain
-import kotlin.math.acos
-import kotlin.math.sqrt
 
 object BowAiming : ScopeService {
     override fun init() {
@@ -46,20 +44,7 @@ object BowAiming : ScopeService {
                 .firstOrNull { player.hasLineOfSight(it) }
                 ?: return
 
-        val direction =
-            nearestVisibleEnemy.location
-                .subtract(player.location)
-                .toVector()
-                .normalize()
-        val cosTheta = direction.z / sqrt(direction.x * direction.x + direction.z * direction.z)
-        var angle: Float = Math.toDegrees(acos(cosTheta)).toFloat()
-        if (direction.x > 0) {
-            angle = -angle
-        }
-        val playerYaw = player.location.yaw
-        var deltaYaw = angle - playerYaw
-        if (deltaYaw < -180) deltaYaw += 360
-        if (deltaYaw > 180) deltaYaw -= 360
+        val deltaYaw = player.targetYaw(nearestVisibleEnemy.location)
         if (deltaYaw in -1.5..1.5) return
         val repeats = 20
         repeat(repeats) {

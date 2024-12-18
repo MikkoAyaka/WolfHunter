@@ -4,12 +4,16 @@ import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts.plugin
 import org.bukkit.Bukkit
 import org.bukkit.Color
 import org.bukkit.GameMode
+import org.bukkit.Location
 import org.bukkit.entity.Player
 import org.bukkit.event.*
 import org.bukkit.inventory.Inventory
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import kotlin.math.acos
+import kotlin.math.round
+import kotlin.math.sqrt
 import kotlin.reflect.KClass
 
 fun Player.giveItemSafely(item: ItemStack) {
@@ -125,3 +129,29 @@ infix fun Pair<Color, Color>.ofGradient(percent: Double): Color {
  * 转换为 MiniMessage API 的颜色格式，如 <#00FF35>
  */
 fun Color.toHexFormat(): String = "<#${this.toHex()}>"
+
+/**
+ * 计算玩家当前视角与目的地坐标之间的视角夹角
+ */
+fun Player.targetYaw(target: Location): Float {
+    if (this.world != target.world) return 0f
+    val direction = target.subtract(this.location).toVector().normalize()
+    val cosTheta = direction.z / sqrt(direction.x * direction.x + direction.z * direction.z)
+    var angle: Float = Math.toDegrees(acos(cosTheta)).toFloat()
+    if (direction.x > 0) {
+        angle = -angle
+    }
+    val playerYaw = this.location.yaw
+    var deltaYaw = angle - playerYaw
+    if (deltaYaw < -180) deltaYaw += 360
+    if (deltaYaw > 180) deltaYaw -= 360
+    return deltaYaw
+}
+
+fun Player.targetPointer(target: Location): Char {
+    var deltaYaw = this.targetYaw(target)
+    if (deltaYaw < 0) deltaYaw += 360
+    val slices = round(deltaYaw / 45).toInt()
+    val pointers = listOf('↑', '↖', '←', '↙', '↓', '↘', '→', '↗', '↑')
+    return pointers[slices]
+}
