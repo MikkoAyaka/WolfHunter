@@ -1,10 +1,49 @@
+import io.izzel.taboolib.gradle.*
+import org.jlleitschuh.gradle.ktlint.KtlintExtension
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
+
 plugins {
-    kotlin("jvm") version "2.1.0-RC2"
-    id("com.github.johnrengelman.shadow") version "8.1.1"
+    java
+    kotlin("jvm") version "2.1.0"
+    id("io.izzel.taboolib") version "2.0.22"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
+    id("xyz.jpenilla.run-paper") version "2.3.1"
+}
+
+taboolib {
+    env {
+        install(Bukkit)
+        install(BukkitUI)
+        install(BukkitUtil)
+        install(Basic)
+        install(BukkitHook)
+        install(MinecraftChat)
+        install(MinecraftEffect)
+        install(CommandHelper)
+        install(I18n)
+        install(Metrics)
+        install(Database)
+        install(IOC)
+        install(DatabasePlayer)
+        install(Ptc)
+        install(PtcObject)
+    }
+    description {
+        name = "WolfHunter"
+        contributors {
+            name("MikkoAyaka")
+            name("Eight_Eggs")
+            name("IceBlues7")
+        }
+        dependencies {
+            name("PlaceholderAPI")
+        }
+    }
+    version { taboolib = "6.2.1-f095116" }
 }
 
 group = "cn.wolfmc.minecraft.wolfhunter"
-version = "1.0"
+version = "1.1"
 
 repositories {
     mavenCentral()
@@ -15,30 +54,54 @@ repositories {
         name = "sonatype"
     }
 }
-
+val scoreboardLibraryVersion = "2.2.1"
 dependencies {
     compileOnly("io.papermc.paper:paper-api:1.18.2-R0.1-SNAPSHOT")
-    implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
-    implementation("org.jetbrains.exposed:exposed-core:0.56.0")
-    implementation("org.jetbrains.exposed:exposed-dao:0.56.0")
-    implementation("org.jetbrains.exposed:exposed-jdbc:0.56.0")
-    implementation("org.xerial:sqlite-jdbc:3.47.0.0")
+    compileOnly(kotlin("stdlib"))
+    compileOnly(fileTree("libs"))
+    compileOnly("ink.ptms.core:v12004:12004:mapped")
+    compileOnly("ink.ptms.core:v12004:12004:universal")
+    compileOnly("org.xerial:sqlite-jdbc:3.47.0.0")
+
+    compileOnly("net.megavex:scoreboard-library-api:$scoreboardLibraryVersion")
+    compileOnly("net.megavex:scoreboard-library-extra-kotlin:$scoreboardLibraryVersion")
 }
 
 val targetJavaVersion = 17
 kotlin {
     jvmToolchain(targetJavaVersion)
+    compilerOptions {
+        freeCompilerArgs = listOf("-Xjvm-default=all")
+    }
 }
 
-tasks.build {
-    dependsOn("shadowJar")
+tasks {
+    runServer {
+        dependsOn("clean")
+        minecraftVersion("1.18.2")
+    }
+    build {
+        dependsOn("jar")
+    }
+    processResources {
+        val props = mapOf("version" to version)
+        inputs.properties(props)
+        filteringCharset = "UTF-8"
+        filesMatching("plugin.yml") {
+            expand(props)
+        }
+    }
+    test {
+        useJUnitPlatform()
+        testLogging {
+            events("passed", "skipped", "failed")
+        }
+    }
 }
 
-tasks.processResources {
-    val props = mapOf("version" to version)
-    inputs.properties(props)
-    filteringCharset = "UTF-8"
-    filesMatching("paper-plugin.yml") {
-        expand(props)
+configure<KtlintExtension> {
+    reporters {
+        reporter(ReporterType.CHECKSTYLE)
+        reporter(ReporterType.JSON)
     }
 }

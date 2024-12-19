@@ -3,36 +3,36 @@ package cn.wolfmc.minecraft.wolfhunter.application
 import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
 import cn.wolfmc.minecraft.wolfhunter.application.config.Config
 import cn.wolfmc.minecraft.wolfhunter.application.uhc.UHCGameService
-import cn.wolfmc.minecraft.wolfhunter.domain.service.ScopeService
-import cn.wolfmc.minecraft.wolfhunter.domain.component.ListenerGroup
-import cn.wolfmc.minecraft.wolfhunter.presentation.command.registerCommands
-import cn.wolfmc.minecraft.wolfhunter.presentation.i18n.I18n
+import cn.wolfmc.minecraft.wolfhunter.common.constants.InitializeType
+import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
+import cn.wolfmc.minecraft.wolfhunter.presentation.ui.SidebarHandler
+import taboolib.common.LifeCycle
+import taboolib.common.platform.Awake
 
-object AppService: ScopeService {
-
-    private val listenerGroup = ListenerGroup()
-
+/**
+ * 游戏主流程管理服务
+ */
+object AppService : ScopeService {
+    @Awake(LifeCycle.ENABLE)
     override fun init() {
-        Contexts.logger = Contexts.plugin.logger
-        // 初始化配置
-        Config.init(Contexts.plugin)
-        Config.load()
-        I18n.initFiles()
-        I18n.loadLanguage("zh")
-        // 初始化服务(通过配置文件调整模式)
-        Contexts.gameService = UHCGameService
-        Contexts.gameService.init()
+        SidebarHandler.init()
+        when (Config.initializeType) {
+            InitializeType.ONLY_UHC -> Contexts.gameService = UHCGameService
+            // TODO
+            else -> Contexts.gameService = UHCGameService
+        }
     }
 
+    @Awake(LifeCycle.ACTIVE)
     override fun enable() {
-        registerCommands(Contexts.plugin)
+        SidebarHandler.enable()
+        Contexts.gameService.init()
         Contexts.gameService.enable()
-        listenerGroup.registerAll()
     }
 
+    @Awake(LifeCycle.DISABLE)
     override fun disable() {
-        listenerGroup.unregisterAll()
+        SidebarHandler.disable()
         Contexts.gameService.disable()
     }
-
 }

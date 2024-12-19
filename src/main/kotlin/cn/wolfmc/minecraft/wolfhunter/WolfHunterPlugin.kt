@@ -1,41 +1,28 @@
 package cn.wolfmc.minecraft.wolfhunter
 
-import cn.wolfmc.minecraft.wolfhunter.application.api.Contexts
-import cn.wolfmc.minecraft.wolfhunter.application.AppService
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.MenuDSL
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.PluginScope
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.logT
-import cn.wolfmc.minecraft.wolfhunter.common.extensions.register
-import cn.wolfmc.minecraft.wolfhunter.presentation.listener.gameModeUpdater
-import cn.wolfmc.minecraft.wolfhunter.presentation.listener.inventoryUpdater
-import org.bukkit.plugin.java.JavaPlugin
-import java.util.logging.Level
+import taboolib.common.env.RuntimeDependencies
+import taboolib.common.env.RuntimeDependency
+import taboolib.common.platform.Plugin
+import taboolib.common.platform.function.console
+import taboolib.module.lang.Language
+import taboolib.module.lang.sendLang
 
-class WolfHunterPlugin : JavaPlugin() {
-
-    init {
-        Contexts.plugin = this
-        PluginScope.start()
-    }
-
+@RuntimeDependencies(
+    RuntimeDependency(value = "net.megavex:scoreboard-library-api:2.2.1"),
+    RuntimeDependency(value = "net.megavex:scoreboard-library-modern:2.2.1"),
+    RuntimeDependency(value = "net.megavex:scoreboard-library-implementation:2.2.1"),
+    RuntimeDependency(value = "net.megavex:scoreboard-library-extra-kotlin:2.2.1"),
+)
+object WolfHunterPlugin : Plugin() {
     override fun onLoad() {
-        AppService.init()
+        Language.enableSimpleComponent = true
     }
 
     override fun onEnable() {
-        initGlobalListener()
-        AppService.enable()
-        logger.logT(Level.INFO,"plugin.enable")
+        console().sendLang("enable")
     }
-    
+
     override fun onDisable() {
-        AppService.disable()
-        PluginScope.stop()
-        logger.logT(Level.INFO,"plugin.disable")
+        console().sendLang("disable")
     }
-    private fun initGlobalListener() {
-        MenuDSL.init(this)
-        gameModeUpdater.registerAll()
-        inventoryUpdater.register()
-    }
-} 
+}
