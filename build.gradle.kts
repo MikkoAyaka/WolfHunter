@@ -32,6 +32,8 @@ taboolib {
         name = "WolfHunter"
         contributors {
             name("MikkoAyaka")
+            name("Eight_Eggs")
+            name("IceBlues7")
         }
         dependencies {
             name("PlaceholderAPI")

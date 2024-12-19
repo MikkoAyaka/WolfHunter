@@ -3,6 +3,9 @@
 ![开源协议](https://img.shields.io/github/license/MikkoAyaka/WolfHunter?style=for-the-badge)
 ![Last Commit](https://img.shields.io/github/last-commit/MikkoAyaka/WolfHunter?style=for-the-badge)
 
+## 贡献者
+MikkoAyaka、Eight_Eggs、IceBlues7
+
 ## 内容设计文档
 
 https://docs.qq.com/aio/DV2ZwVUVJd3Zqc3R2
