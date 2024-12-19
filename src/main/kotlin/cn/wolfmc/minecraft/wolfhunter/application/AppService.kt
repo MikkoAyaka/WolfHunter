@@ -5,7 +5,7 @@ import cn.wolfmc.minecraft.wolfhunter.application.config.Config
 import cn.wolfmc.minecraft.wolfhunter.application.uhc.UHCGameService
 import cn.wolfmc.minecraft.wolfhunter.common.constants.InitializeType
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
-import cn.wolfmc.minecraft.wolfhunter.presentation.sidebar.SidebarHandler
+import cn.wolfmc.minecraft.wolfhunter.presentation.ui.SidebarHandler
 import taboolib.common.LifeCycle
 import taboolib.common.platform.Awake
 
