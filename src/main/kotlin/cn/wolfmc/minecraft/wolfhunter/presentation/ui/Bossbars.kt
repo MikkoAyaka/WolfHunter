@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.presentation.bossbar
+package cn.wolfmc.minecraft.wolfhunter.presentation.ui
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.miniMsg
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.onlinePlayers
@@ -76,7 +76,7 @@ fun gameStarterBossBar(
     timeCounter: TimeCounter,
     max: Int,
 ) = NumberBossBar(
-    bossBar(1f, BossBar.Color.BLUE, BossBar.Overlay.NOTCHED_20),
+    bossBar(1f, Color.BLUE, Overlay.NOTCHED_20),
     { "<white>游戏即将开始！</white><green>${timeCounter.current}</green>" },
     0,
     max,
@@ -88,7 +88,7 @@ fun waitBossBar(
     timeCounter: TimeCounter,
     max: Int,
 ) = NumberBossBar(
-    bossBar(1f, BossBar.Color.GREEN, BossBar.Overlay.NOTCHED_20),
+    bossBar(1f, Color.GREEN, Overlay.NOTCHED_20),
     {
         if (timeCounter.current.get() == max) {
             "<white>正在等待玩家加入，需要至少 4 人</white>"
@@ -106,7 +106,7 @@ fun progressBossBar(
     timeCounter: TimeCounter,
     max: Int,
 ) = NumberBossBar(
-    bossBar(1f, BossBar.Color.WHITE, BossBar.Overlay.NOTCHED_20),
+    bossBar(1f, Color.WHITE, Overlay.NOTCHED_20),
     title = { "" },
     min = 0,
     max = max,

@@ -1,4 +1,4 @@
-package cn.wolfmc.minecraft.wolfhunter.presentation.sidebar
+package cn.wolfmc.minecraft.wolfhunter.presentation.ui
 
 import cn.wolfmc.minecraft.wolfhunter.common.extensions.*
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService

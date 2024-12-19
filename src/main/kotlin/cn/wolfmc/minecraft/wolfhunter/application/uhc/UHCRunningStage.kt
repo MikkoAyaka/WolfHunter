@@ -11,8 +11,8 @@ import cn.wolfmc.minecraft.wolfhunter.infrastructure.kit.UHCKit
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.NoPortal
 import cn.wolfmc.minecraft.wolfhunter.infrastructure.mechanism.TeamSharedResource
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
-import cn.wolfmc.minecraft.wolfhunter.presentation.bossbar.progressBossBar
 import cn.wolfmc.minecraft.wolfhunter.presentation.sound.Sounds
+import cn.wolfmc.minecraft.wolfhunter.presentation.ui.progressBossBar
 import kotlinx.coroutines.delay
 import org.bukkit.Difficulty
 import org.bukkit.Location

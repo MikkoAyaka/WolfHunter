@@ -8,9 +8,8 @@ import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.data.GameTeam
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
-import cn.wolfmc.minecraft.wolfhunter.presentation.bossbar.gameStarterBossBar
+import cn.wolfmc.minecraft.wolfhunter.presentation.ui.gameStarterBossBar
 import net.kyori.adventure.text.format.NamedTextColor
-import net.megavex.scoreboardlibrary.extra.kotlin.playerColor
 import kotlin.math.min
 
 object UHCStartingStage : ScopeService {

@@ -8,7 +8,7 @@ import cn.wolfmc.minecraft.wolfhunter.infrastructure.game.setRespawnRadius
 import cn.wolfmc.minecraft.wolfhunter.model.component.GameInstance
 import cn.wolfmc.minecraft.wolfhunter.model.event.GameEvent.CountdownFinished
 import cn.wolfmc.minecraft.wolfhunter.model.service.ScopeService
-import cn.wolfmc.minecraft.wolfhunter.presentation.bossbar.waitBossBar
+import cn.wolfmc.minecraft.wolfhunter.presentation.ui.waitBossBar
 import org.bukkit.Bukkit
 import org.bukkit.Difficulty
 import org.bukkit.GameRule
